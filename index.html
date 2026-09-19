@@ -1,0 +1,792 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
+  <title>H3AD-REF - Reference Library // H3AD-SEC</title>
+  <meta name="description"
+    content="H3AD-REF by H3AD-SEC - Guides, cheatsheets, references, and playbooks in one reference library. First up: a YARA rule-writing guide covering rule anatomy, string types, condition logic, and the mistakes that make rules noisy.">
+  <link rel="canonical" href="https://h3ad-sec.github.io/H3AD-REF/">
+
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="H3AD-SEC">
+  <meta property="og:url" content="https://h3ad-sec.github.io/H3AD-REF/">
+  <meta property="og:title" content="H3AD-REF - Reference Library">
+  <meta property="og:description" content="H3AD-REF by H3AD-SEC - Guides, cheatsheets, references, and playbooks in one reference library. First up: a YARA rule-writing guide covering rule anatomy, string types, condition logic, and the mistakes that make rules noisy.">
+  <meta property="og:image" content="https://raw.githubusercontent.com/h3ad-sec/h3ad-sec.github.io/main/logo-dark.png">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="H3AD-REF - Reference Library">
+  <meta name="twitter:description" content="H3AD-REF by H3AD-SEC - Guides, cheatsheets, references, and playbooks in one reference library. First up: a YARA rule-writing guide covering rule anatomy, string types, condition logic, and the mistakes that make rules noisy.">
+  <meta name="twitter:image" content="https://raw.githubusercontent.com/h3ad-sec/h3ad-sec.github.io/main/logo-dark.png">
+
+  <meta name="theme-color" content="#080c14">
+  <link rel="icon" href="https://h3ad-sec.github.io/fevicon.png?v=2026" type="image/png">
+  <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Exo+2:wght@300;400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    "name": "H3AD-REF - Reference Library // H3AD-SEC",
+    "description": "H3AD-REF by H3AD-SEC - Guides, cheatsheets, references, and playbooks in one reference library. First up: a YARA rule-writing guide covering rule anatomy, string types, condition logic, and the mistakes that make rules noisy.",
+    "url": "https://h3ad-sec.github.io/H3AD-REF/",
+    "isPartOf": {
+      "@type": "WebSite",
+      "name": "H3AD-SEC",
+      "url": "https://h3ad-sec.github.io"
+    }
+  }
+  </script>
+  <style>
+    :root {
+      --bg: #080c14; --panel: #0d1117; --panel-alt: #111827; --panel2: #111827;
+      --text: #e6edf3; --muted: #8b949e;
+      --accent: #00d4ff; --accent2: #3b82f6;
+      --primary: #00d4ff;
+      --primary-dim: rgba(0, 212, 255, 0.08);
+      --primary-glow: rgba(0, 212, 255, 0.18);
+      --status-live: #00d4ff; --status-partial: #f59e0b; --status-soon: #2d3748;
+      --red: #ff3b5c; --yellow: #ffd60a; --green: #00d4ff;
+      --nav-h: 48px;
+      --border: #1c2333;
+      --surface: #111827;
+      --text-dim: #a0aec0;
+      --border-dim: #161f2e;
+      --mono: 'Share Tech Mono', monospace;
+      --sans: 'Exo 2', sans-serif;
+      --ui: 'IBM Plex Sans', sans-serif;
+      --fs-xs: 11px; --fs-sm: 13px; --fs-base: 15px; --fs-md: 16px; --fs-lg: 18px;
+      --cat-guides: #00d4ff; --cat-cheatsheets: #f59e0b; --cat-references: #8b5cf6; --cat-playbooks: #14b8a6;
+    }
+
+    body.light {
+      --bg: #D3D7DC;
+      --panel: #DADDE1;
+      --panel-alt: #C9CDD2;
+      --panel2: #C9CDD2;
+      --text: #000000;
+      --muted: #2E343B;
+      --accent: #0A6EA8;
+      --accent2: #C2540E;
+      --border: #BBC0C6;
+      --primary: #0A6EA8;
+      --primary-dim: rgba(10, 110, 168, 0.07);
+      --primary-glow: rgba(10, 110, 168, 0.14);
+      --status-live: #0A6EA8;
+      --status-partial: #B45309;
+      --status-soon: #AEB4BB;
+      --red: #DC2626; --yellow: #B45309; --green: #059669;
+      --surface: #C9CDD2;
+      --text-dim: #2E343B;
+      --border-dim: #BBC0C6;
+      --cat-guides: #0A6EA8; --cat-cheatsheets: #B45309; --cat-references: #7c3aed; --cat-playbooks: #0d9488;
+      font-weight: 500;
+    }
+    body.light .hero-sub {
+      font-weight: 400;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Exo 2', sans-serif;
+      font-size: 14px;
+      line-height: 1.6;
+      overflow-x: hidden;
+      transition: background 0.3s, color 0.3s;
+      display: flex;
+      flex-direction: column;
+      min-height: 100dvh;
+    }
+
+    body::before { content: ''; position: fixed; inset: 0;
+      background: radial-gradient(ellipse 80% 45% at 50% 0%, rgba(0,212,255,0.055) 0%, transparent 100%), radial-gradient(ellipse 50% 35% at 5% 100%, rgba(88,166,255,0.04) 0%, transparent 100%);
+      pointer-events: none; z-index: 0; }
+    body.light::before { background: radial-gradient(ellipse 80% 45% at 50% 0%, rgba(2,132,199,0.05) 0%, transparent 100%), radial-gradient(ellipse 50% 35% at 5% 100%, rgba(37,99,235,0.03) 0%, transparent 100%); }
+
+    a { color: inherit; text-decoration: none; }
+
+    .nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 50;
+      background: rgba(8, 12, 18, 0.9);
+      border-bottom: 1px solid var(--border);
+      height: var(--nav-h);
+      display: flex; align-items: center; padding: 0 1.25rem;
+      backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+    }
+    body.light .nav { background: rgba(211, 215, 220, 0.9); }
+
+    .nav-brand { flex-shrink: 0; margin-right: 1rem; }
+    .nav-brand img { height: 22px; display: block; }
+
+    .nav-links {
+      position: absolute; left: 50%; transform: translateX(-50%);
+      display: flex; align-items: center; gap: 2px; overflow: visible;
+    }
+    .nav-links a {
+      font-family: 'Exo 2', sans-serif; font-weight: 500; font-size: 0.68rem;
+      color: var(--muted); padding: 5px 9px; border-radius: 4px; border: 1px solid transparent;
+      white-space: nowrap; transition: color 0.15s, border-color 0.15s, background 0.15s; flex-shrink: 0;
+    }
+    .nav-links a:hover { color: var(--accent); border-color: var(--border); background: var(--primary-dim); }
+    body.light .nav-links a:hover { background: var(--primary-dim); }
+    .nav-links a.nav-current { color: var(--accent); border-color: var(--accent); background: var(--primary-dim); }
+    .nav-links a:last-child { border: 1px solid var(--border); }
+
+    .nav-divider { width: 1px; height: 16px; background: var(--border); margin: 0 6px; flex-shrink: 0; opacity: 0.6; }
+    .nav-item { position: relative; display: flex; align-items: center; }
+    .nav-dropdown { display: none; position: absolute; top: 100%; left: 0; min-width: 120px; padding-top: 6px; z-index: 100; }
+    .nav-dropdown-inner { background: var(--panel); border: 1px solid var(--border); border-radius: 4px; overflow: hidden; }
+    .nav-item:hover .nav-dropdown { display: block; }
+    .nav-links .nav-dropdown a {
+      display: block; padding: 7px 12px; font-size: 0.65rem; color: var(--muted);
+      border: none; border-left: 2px solid transparent; border-radius: 0; transition: 0.15s;
+    }
+    .nav-links .nav-dropdown a:hover { color: var(--accent); border-left-color: var(--accent); background: var(--primary-dim); }
+
+    .theme-toggle { margin-left: auto; flex-shrink: 0; cursor: pointer; padding-left: 1rem; }
+    .toggle-track { width: 42px; height: 22px; background: var(--border); border-radius: 50px; position: relative; transition: background 0.3s; }
+    .toggle-thumb { width: 14px; height: 14px; background: var(--accent); border-radius: 50%; position: absolute; top: 4px; left: 4px; transition: transform 0.3s; box-shadow: 0 0 8px var(--accent); }
+    body.light .toggle-thumb { transform: translateX(20px); }
+
+    .hamburger { display: none; flex-direction: column; justify-content: center; gap: 4px; cursor: pointer; padding: 6px; margin-right: 8px; flex-shrink: 0; }
+    .hamburger span { display: block; width: 18px; height: 2px; background: var(--muted); border-radius: 2px; transition: 0.2s; }
+
+    .nav-drawer {
+      display: none; position: fixed; top: var(--nav-h); left: 0; width: min(300px, 86vw);
+      background: var(--panel); border-right: 1px solid var(--border); border-bottom: 1px solid var(--border);
+      box-shadow: 6px 0 28px rgba(0, 0, 0, 0.35); z-index: 49; padding: 0.75rem 1rem 1rem;
+      flex-direction: column; gap: 2px; max-height: calc(100vh - var(--nav-h)); overflow-y: auto;
+    }
+    .nav-drawer.open { display: flex; }
+    .nav-drawer a { font-family: var(--ui); font-size: 0.75rem; color: var(--text-dim); padding: 8px 10px; border-radius: 4px; border-left: 2px solid transparent; transition: 0.15s; }
+    .nav-drawer a:hover { color: var(--accent); border-left-color: var(--accent); background: var(--primary-dim); }
+    .nav-drawer a.nav-current { color: var(--accent); border-left-color: var(--accent); }
+    .drawer-sub { padding-left: 1.8rem !important; font-size: 0.7rem !important; opacity: 0.8; }
+
+    main { flex: 1 0 auto; position: relative; z-index: 1; }
+    .page { max-width: 1080px; margin: 0 auto; padding: calc(var(--nav-h) + 3rem) 2rem 5rem; }
+    .hero { padding: 0.5rem 0 1.6rem; }
+    .hero-title { font-family: var(--sans); font-weight: 700; font-size: clamp(22px, 4vw, 34px); color: var(--text); line-height: 1.25; margin-bottom: 10px; }
+    .hero-title span { color: var(--accent); }
+    .hero-sub { font-family: var(--ui); font-size: var(--fs-sm); color: var(--muted); max-width: 660px; line-height: 1.6; margin-bottom: 0; }
+
+    .hero-banner { display: flex; justify-content: center; align-items: baseline; gap: 2px; font-family: var(--sans); font-weight: 700; font-size: clamp(26px, 5vw, 42px); letter-spacing: 4px; }
+    .hero-banner-tagline { text-align: center; font-family: var(--sans); font-size: var(--fs-xs); color: var(--muted); letter-spacing: 2px; text-transform: uppercase; margin-top: -6px; }
+    .hero-banner-by { text-align: center; font-family: var(--ui); font-weight: 600; font-size: var(--fs-sm); color: var(--accent); letter-spacing: 1px; margin-bottom: 18px; }
+    .hero-intro { display: flex; flex-direction: column; align-items: center; text-align: center; max-width: 700px; margin: 0 auto; }
+    .hero-intro .hero-title, .hero-intro .hero-sub { margin-left: auto; margin-right: auto; }
+
+    a:focus-visible, button:focus-visible, [tabindex]:focus-visible { outline: 2px solid var(--primary); outline-offset: 2px; border-radius: 3px; }
+
+    /* ── Category tabs (PROMPTVAULT-style pill coloring, ARTIFEKTX-style view switch) ── */
+    .hr-tabs { display: flex; gap: 4px; flex-wrap: wrap; padding-bottom: 16px; border-bottom: 1px solid var(--border-dim); margin-bottom: 26px; }
+    .hr-tab { font-family: var(--mono); font-size: 11px; letter-spacing: 0.08em; background: transparent; color: var(--muted);
+      border: 1px solid var(--border); border-radius: 5px; padding: 8px 16px; cursor: pointer; transition: all 0.15s; white-space: nowrap; }
+    .hr-tab:hover { color: var(--text-dim); }
+    .hr-tab.tab-guides.active { color: var(--cat-guides); border-color: var(--cat-guides); background: color-mix(in srgb, var(--cat-guides) 10%, transparent); }
+    .hr-tab.tab-cheatsheets.active { color: var(--cat-cheatsheets); border-color: var(--cat-cheatsheets); background: color-mix(in srgb, var(--cat-cheatsheets) 10%, transparent); }
+    .hr-tab.tab-references.active { color: var(--cat-references); border-color: var(--cat-references); background: color-mix(in srgb, var(--cat-references) 10%, transparent); }
+    .hr-tab.tab-playbooks.active { color: var(--cat-playbooks); border-color: var(--cat-playbooks); background: color-mix(in srgb, var(--cat-playbooks) 10%, transparent); }
+
+    .hr-view[hidden] { display: none !important; }
+
+    /* ── Guide picker (shows only when >1 guide exists per category) ── */
+    .hr-guide-picker { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 28px; }
+    .hr-guide-pick { background: var(--panel); border: 1px solid var(--border); border-radius: 8px; padding: 14px 18px;
+      cursor: pointer; transition: border-color 0.15s; text-align: left; flex: 1 1 240px; max-width: 320px; }
+    .hr-guide-pick:hover { border-color: var(--accent); }
+    .hr-guide-pick.active { border-color: var(--accent); background: var(--primary-dim); }
+    .hr-guide-pick-title { font-family: 'Exo 2', sans-serif; font-weight: 600; font-size: 14px; color: var(--text); margin-bottom: 4px; }
+    .hr-guide-pick-tagline { font-family: var(--ui); font-size: 12px; color: var(--muted); line-height: 1.5; }
+
+    /* ── Guide toolbar: search + section jump ── */
+    .hr-toolbar { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 14px; margin-bottom: 8px; }
+    .hr-search-input { flex: 1 1 auto; max-width: 300px; background: var(--panel); border: 1px solid var(--border); border-radius: 6px;
+      padding: 8px 12px; font-family: 'Exo 2', sans-serif; font-size: 13px; color: var(--text); }
+    .hr-search-input::placeholder { color: var(--muted); opacity: 0.7; }
+    .hr-search-input:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-color: var(--accent); }
+    .hr-toc { display: flex; flex-wrap: wrap; gap: 6px; }
+    .hr-toc-pill { font-family: var(--mono); font-size: 10px; letter-spacing: 0.08em; background: transparent; color: var(--muted);
+      border: 1px solid var(--border); border-radius: 20px; padding: 6px 13px; cursor: pointer; transition: all 0.15s; white-space: nowrap; }
+    .hr-toc-pill:hover { color: var(--accent); border-color: var(--accent); background: var(--primary-dim); }
+    .hr-count { font-family: var(--mono); font-size: 10px; color: var(--muted); white-space: nowrap; margin-left: auto; }
+    .hr-count span { color: var(--accent); }
+
+    /* ── Empty-state panel for not-yet-built categories ── */
+    .hr-empty-panel { text-align: center; padding: 70px 20px; border: 1px dashed var(--border); border-radius: 10px; }
+    .hr-empty-title { font-family: var(--mono); font-size: 14px; letter-spacing: 0.1em; color: var(--text); margin-bottom: 8px; }
+    .hr-empty-desc { font-size: 12.5px; color: var(--muted); max-width: 360px; margin: 0 auto; line-height: 1.6; }
+
+    /* ── ADPATH-derived content components (rescoped to #hr-guide, values verbatim, renamed prefix) ── */
+    #hr-guide {
+      --bg-card: #111827; --bg-card-hover: #1a2332; --border: #1e2d3d; --border-active: #2563eb;
+      --text: #e2e8f0; --text-dim: #94a3b8; --text-bright: #f8fafc;
+      --blue: #3b82f6; --cyan: #06b6d4; --green: #10b981; --orange: #f59e0b; --red: #ef4444;
+      --purple: #8b5cf6; --pink: #ec4899; --teal: #14b8a6; --yellow: #eab308; --rose: #f43f5e; --indigo: #6366f1;
+    }
+    body.light #hr-guide {
+      --bg-card: #ffffff; --bg-card-hover: #f1f5f9; --border: #e2e8f0; --border-active: #2563eb;
+      --text: #0f172a; --text-dim: #475569; --text-bright: #020617;
+      --blue: #2563eb; --cyan: #0891b2; --green: #059669; --orange: #c2410c; --red: #dc2626;
+      --purple: #7c3aed; --pink: #db2777; --teal: #0d9488; --yellow: #a16207; --rose: #e11d48; --indigo: #4f46e5;
+    }
+
+    #hr-guide .separator { height: 1px; background: linear-gradient(90deg, transparent, var(--border), transparent); margin: 44px 0; }
+
+    #hr-guide .section-header { margin-top: 48px; margin-bottom: 26px; }
+    #hr-guide .section-header:first-of-type { margin-top: 6px; }
+    #hr-guide .section-header h2 { font-family: 'Exo 2', sans-serif; font-size: 21px; font-weight: 600; color: var(--text-bright);
+      padding-bottom: 12px; border-bottom: 1px solid var(--border); }
+    #hr-guide .section-header h2 span { color: var(--cyan); }
+    #hr-guide .section-header h2 .red { color: var(--red); }
+    #hr-guide .section-header h2 .green { color: var(--green); }
+    #hr-guide .section-header h2 .orange { color: var(--orange); }
+    #hr-guide .section-header h2 .purple { color: var(--purple); }
+    #hr-guide .section-header h2 .teal { color: var(--teal); }
+    #hr-guide .section-desc { font-size: 13px; color: var(--text-dim); margin-top: 8px; line-height: 1.6; }
+
+    #hr-guide .data-flow-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 10px; padding: 24px; margin-top: 18px; }
+    #hr-guide .data-flow-card h4 { font-family: 'Exo 2', sans-serif; font-size: 15.5px; font-weight: 600; color: var(--text-bright); margin-bottom: 12px; }
+    #hr-guide .data-flow-card pre { font-family: 'Share Tech Mono', monospace; font-size: 12.5px; line-height: 1.75; color: var(--text-dim);
+      overflow-x: auto; white-space: pre; }
+    #hr-guide .data-flow-card pre .comment { color: #4a6a4a; }
+    #hr-guide .data-flow-card pre .key { color: var(--cyan); }
+    #hr-guide .data-flow-card pre .val { color: var(--orange); }
+    #hr-guide .data-flow-card pre .type { color: var(--purple); }
+    #hr-guide .data-flow-card pre .danger { color: var(--red); }
+
+    #hr-guide .details-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 18px; margin-top: 22px; }
+    @media(max-width:768px) { #hr-guide .details-grid { grid-template-columns: 1fr; } }
+
+    #hr-guide .detail-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 10px; padding: 20px; transition: border-color 0.2s; }
+    #hr-guide .detail-card:hover { border-color: var(--border-active); }
+    #hr-guide .detail-card.hr-hidden { display: none; }
+    #hr-guide .detail-card h3 { font-family: 'Exo 2', sans-serif; font-size: 16.5px; font-weight: 600; color: var(--text-bright); margin-bottom: 4px; }
+    #hr-guide .detail-card .card-sub { font-family: 'Exo 2', sans-serif; font-size: 13.5px; color: var(--text-dim); margin-bottom: 11px; letter-spacing: 0.2px; }
+    #hr-guide .detail-card .card-body { font-family: 'Exo 2', sans-serif; font-size: 14px; color: var(--text-dim); line-height: 1.7; }
+    #hr-guide .detail-card .card-body strong { color: var(--text); font-weight: 500; }
+    #hr-guide .detail-card .card-body code, #hr-guide .card-list li code { font-family: 'Share Tech Mono', monospace; font-size: 11.5px;
+      background: rgba(6, 182, 212, 0.08); color: var(--cyan); padding: 2px 6px; border-radius: 3px; }
+    #hr-guide .card-list { list-style: none; padding: 0; margin-top: 8px; }
+    #hr-guide .card-list li { font-family: 'Exo 2', sans-serif; font-size: 14px; color: var(--text-dim); padding: 4px 0 4px 16px;
+      position: relative; line-height: 1.6; }
+    #hr-guide .card-list li:before { content: '\203A'; position: absolute; left: 0; color: var(--cyan); font-weight: 700; }
+
+    #hr-guide .tag { font-family: 'Share Tech Mono', monospace; font-size: 10px; font-weight: 600; text-transform: uppercase;
+      letter-spacing: 1px; padding: 3px 8px; border-radius: 4px; display: inline-block; margin-bottom: 8px; margin-right: 4px; }
+    #hr-guide .tag.strings { background: rgba(6, 182, 212, .15); color: var(--cyan); }
+    #hr-guide .tag.condition { background: rgba(245, 158, 11, .15); color: var(--orange); }
+    #hr-guide .tag.practice { background: rgba(16, 185, 129, .15); color: var(--green); }
+    #hr-guide .tag.pitfall { background: rgba(239, 68, 68, .15); color: var(--red); }
+
+    #hr-guide .detail-card.border-red { border-left: 3px solid var(--red); }
+    #hr-guide .detail-card.border-blue { border-left: 3px solid var(--blue); }
+    #hr-guide .detail-card.border-cyan { border-left: 3px solid var(--cyan); }
+    #hr-guide .detail-card.border-green { border-left: 3px solid var(--green); }
+    #hr-guide .detail-card.border-orange { border-left: 3px solid var(--orange); }
+    #hr-guide .detail-card.border-purple { border-left: 3px solid var(--purple); }
+    #hr-guide .detail-card.border-teal { border-left: 3px solid var(--teal); }
+    #hr-guide .detail-card.border-rose { border-left: 3px solid var(--rose); }
+
+    .back-link { margin-top: 3rem; }
+    .back-link a { color: var(--muted); font-size: 0.72rem; border-bottom: 1px solid var(--border-dim); transition: color 0.15s, border-color 0.15s; }
+    .back-link a:hover { color: var(--accent); border-color: var(--accent); }
+
+    footer {
+      flex-shrink: 0;
+      position: relative; z-index: 1;
+      border-top: 1px solid var(--border-dim);
+      padding: 1.5rem 2.5rem;
+      display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem 1.5rem;
+    }
+    @media (max-width: 860px) {
+      footer { flex-direction: column; justify-content: center; align-items: center; text-align: center; gap: 0.6rem; }
+      .footer-credit-row { justify-content: center; }
+    }
+    .footer-left { color: var(--muted); font-family: var(--ui); font-size: var(--fs-xs); letter-spacing: 0.06em; }
+    .footer-credit-row { display:flex; align-items:center; justify-content:center; gap:10px; flex-wrap:wrap; }
+    .footer-credit-pill { display:inline-flex; flex-wrap:nowrap; align-items:center; gap:6px; padding:4px 12px; border:1px solid var(--border); border-radius:999px; text-decoration:none; font-family:'Exo 2',sans-serif; font-weight:500; font-size:var(--fs-xs); white-space:nowrap; color: var(--muted); transition:border-color .15s; }
+    .footer-credit-pill:hover { border-color:var(--accent); }
+    .footer-credit-pill .credit-tool { font-weight:700; letter-spacing:2px; color: var(--text); }
+    .footer-credit-pill .credit-by { color:var(--muted); }
+    .footer-credit-pill .credit-name { color:var(--accent); font-weight:700; letter-spacing:.5px; }
+    .footer-right { color: var(--muted); font-family: var(--ui); font-size: var(--fs-xs); letter-spacing: 0.12em; text-transform: uppercase; opacity: 0.85; }
+
+    /* Nav pill */
+    .xv-nav-pill{display:flex;flex-direction:column;align-items:flex-start;gap:1px;margin-left:10px;padding-left:10px;border-left:1px solid var(--border);white-space:nowrap;flex-shrink:0;text-decoration:none;}
+    .xv-pill-name{font-family:'Exo 2',sans-serif;font-weight:700;font-size:13px;letter-spacing:4px;line-height:1;}
+    .xv-pill-accent{color:var(--accent);}
+    .xv-pill-text{color:var(--text);}
+    .xv-pill-tagline{font-family:'Exo 2',sans-serif;font-weight:400;font-size:8px;color:var(--muted);letter-spacing:1.5px;}
+
+    ::-webkit-scrollbar { width: 3px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+
+    body.nav-compact .nav-links { display: none; }
+    body.nav-compact .hamburger { display: flex; }
+
+    @media(max-width:1000px) { .xv-nav-pill { opacity: 1; transform: none; pointer-events: auto; transition: none; } }
+
+    @media(max-width:768px) {
+      .page { padding-left: 1.25rem; padding-right: 1.25rem; }
+      .hero-title { font-size: clamp(1.4rem, 4vw, 2.2rem); }
+    }
+    @media(max-width:640px) {
+      .nav-links { display: none; }
+      .hamburger { display: flex; }
+      .page { padding: calc(var(--nav-h) + 1rem) 1.1rem 3.5rem; }
+      footer { padding: 1.2rem 1.25rem; }
+    }
+    @media(max-width:480px) {
+      .page { padding: calc(var(--nav-h) + 0.75rem) 0.9rem 3rem; }
+      .hero-sub { font-size: 0.82rem; }
+      .hero-title { font-size: clamp(1.2rem, 7vw, 1.8rem); white-space: normal; }
+      .nav-brand { margin-right: 0.6rem; }
+      .xv-pill-tagline { display: none; }
+      .xv-nav-pill { margin-left: 6px; padding-left: 6px; }
+      #hr-guide .data-flow-card, #hr-guide .detail-card { padding: 15px; }
+    }
+    @media(max-width:360px) {
+      .page { padding: calc(var(--nav-h) + 0.5rem) 0.75rem 2.5rem; }
+      .hero-sub { font-size: 0.78rem; }
+    }
+  </style>
+</head>
+
+<body>
+  <nav class="nav">
+    <div class="hamburger" id="hamburger" onclick="toggleDrawer()"><span></span><span></span><span></span></div>
+    <div class="nav-brand"><a href="https://h3ad-sec.github.io/"><img id="logoImg"
+          src="https://h3ad-sec.github.io/logo-dark.png" alt="H3AD-SEC"></a></div>
+    <a class="xv-nav-pill" href="#" style="text-decoration:none">
+      <span class="xv-pill-name"><span class="xv-pill-accent">H3AD-</span><span class="xv-pill-text">REF</span></span>
+      <span class="xv-pill-tagline">Reference & Cheatsheets.</span>
+    </a>
+    <div class="nav-links">
+      <div class="nav-divider"></div>
+      <a href="https://h3ad-sec.github.io/H3AD/">H3AD</a>
+      <div class="nav-divider"></div>
+      <div class="nav-item">
+        <a href="https://h3ad-sec.github.io/H3AD-X/">H3AD-X</a>
+        <div class="nav-dropdown"><div class="nav-dropdown-inner">
+          <a href="https://h3ad-sec.github.io/IOC-VERDIKT/" target="_blank" rel="noopener">IOC-VERDIKT</a>
+          <a href="https://h3ad-sec.github.io/PARSE-X/" target="_blank" rel="noopener">PARSE-X</a>
+          <a href="https://h3ad-sec.github.io/DNSCOPE/" target="_blank" rel="noopener">DNSCOPE</a>
+          <a href="https://h3ad-sec.github.io/X-VERDIKT/" target="_blank" rel="noopener">X-VERDIKT</a>
+          <a href="https://h3ad-sec.github.io/MAILSCOPE/" target="_blank" rel="noopener">MAILSCOPE</a>
+          <a href="https://h3ad-sec.github.io/INFRA-SCOPE/" target="_blank" rel="noopener">INFRA-SCOPE</a>
+        </div></div>
+      </div>
+      <div class="nav-item">
+        <a href="https://h3ad-sec.github.io/H3AD-AI/">H3AD-AI</a>
+        <div class="nav-dropdown"><div class="nav-dropdown-inner">
+          <a href="https://h3ad-sec.github.io/PROMPTVAULT/" target="_blank" rel="noopener">PROMPTVAULT</a>
+        </div></div>
+      </div>
+      <div class="nav-item">
+        <a href="https://h3ad-sec.github.io/H3AD-DETECT/">H3AD-DETECT</a>
+        <div class="nav-dropdown"><div class="nav-dropdown-inner">
+          <a href="https://h3ad-sec.github.io/TRACERULES/" target="_blank" rel="noopener">TRACERULES</a>
+        </div></div>
+      </div>
+      <div class="nav-item">
+        <a href="https://h3ad-sec.github.io/H3AD-HUNT/">H3AD-HUNT</a>
+        <div class="nav-dropdown"><div class="nav-dropdown-inner">
+          <a href="https://h3ad-sec.github.io/HYPOS/" target="_blank" rel="noopener">HYPOS</a>
+          <a href="https://h3ad-sec.github.io/PIVEX/" target="_blank" rel="noopener">PIVEX</a>
+          <a href="https://h3ad-sec.github.io/TRACEPULSE/" target="_blank" rel="noopener">TRACEPULSE</a>
+          <a href="https://h3ad-sec.github.io/LOLBIN-R/" target="_blank" rel="noopener">LOLBIN-R</a>
+          <a href="https://h3ad-sec.github.io/TTPHUNT/" target="_blank" rel="noopener">TTPHUNT</a>
+          <a href="https://h3ad-sec.github.io/ADPATH/" target="_blank" rel="noopener">ADPATH</a>
+        </div></div>
+      </div>
+      <div class="nav-item">
+        <a href="https://h3ad-sec.github.io/H3AD-OPS/">H3AD-OPS</a>
+        <div class="nav-dropdown"><div class="nav-dropdown-inner">
+          <a href="https://h3ad-sec.github.io/QUICKTRACE/" target="_blank" rel="noopener">QUICKTRACE</a>
+          <a href="https://h3ad-sec.github.io/PHISHOPS/" target="_blank" rel="noopener">PHISHOPS</a>
+        </div></div>
+      </div>
+      <div class="nav-item">
+        <a href="https://h3ad-sec.github.io/H3AD-DF/">H3AD-DF</a>
+        <div class="nav-dropdown"><div class="nav-dropdown-inner">
+          <a href="https://h3ad-sec.github.io/ARTIFEKTX/" target="_blank" rel="noopener">ARTIFEKTX</a>
+          <a href="https://h3ad-sec.github.io/CHRONIFY/" target="_blank" rel="noopener">CHRONIFY</a>
+          <a href="https://h3ad-sec.github.io/WIN-EVT/" target="_blank" rel="noopener">WIN-EVT</a>
+        </div></div>
+      </div>
+      <a href="https://h3ad-sec.github.io/H3AD-IR/">H3AD-IR</a>
+      <a href="https://h3ad-sec.github.io/H3AD-REF/" class="nav-current">H3AD-REF</a>
+      <div class="nav-item">
+        <a href="https://h3ad-sec.github.io/H3AD-LEARN/">H3AD-LEARN</a>
+        <div class="nav-dropdown"><div class="nav-dropdown-inner">
+          <a href="https://h3ad-sec.github.io/H3AD-LEARN/fundamentals/" target="_blank" rel="noopener">FUNDAMENTALS</a>
+          <a href="https://h3ad-sec.github.io/H3AD-LEARN/networking/" target="_blank" rel="noopener">NETWORKING</a>
+          <a href="https://h3ad-sec.github.io/H3AD-LEARN/windows/" target="_blank" rel="noopener">WINDOWS</a>
+          <a href="https://h3ad-sec.github.io/H3AD-LEARN/threat-hunting/" target="_blank" rel="noopener">THREAT HUNTING</a>
+          <a href="https://h3ad-sec.github.io/H3AD-LEARN/lolbas/" target="_blank" rel="noopener">LOLBAS</a>
+          <a href="https://h3ad-sec.github.io/H3AD-LEARN/threat-intel/" target="_blank" rel="noopener">THREAT INTEL</a>
+          <a href="https://h3ad-sec.github.io/H3AD-LEARN/cloud-security/" target="_blank" rel="noopener">CLOUD SECURITY</a>
+          <a href="https://h3ad-sec.github.io/H3AD-LEARN/malware-analysis/" target="_blank" rel="noopener">MALWARE ANALYSIS</a>
+          <a href="https://h3ad-sec.github.io/H3AD-LEARN/soc-operations/" target="_blank" rel="noopener">SOC OPERATIONS</a>
+          <a href="https://h3ad-sec.github.io/H3AD-LEARN/detection-engineering/" target="_blank" rel="noopener">DETECTION ENGINEERING</a>
+          <a href="https://h3ad-sec.github.io/H3AD-LEARN/incident-response/" target="_blank" rel="noopener">INCIDENT RESPONSE</a>
+          <a href="https://h3ad-sec.github.io/H3AD-LEARN/digital-forensics/" target="_blank" rel="noopener">DIGITAL FORENSICS</a>
+          <a href="https://h3ad-sec.github.io/H3AD-LEARN/linux/" target="_blank" rel="noopener">LINUX</a>
+          <a href="https://h3ad-sec.github.io/H3AD-LEARN/interview-prep/" target="_blank" rel="noopener">INTERVIEW PREP</a>
+        </div></div>
+      </div>
+      <div class="nav-divider"></div>
+      <a href="mailto:h3adsec@gmail.com">CONTACT</a>
+    </div>
+    <div class="theme-toggle" onclick="toggleTheme()">
+      <div class="toggle-track"><div class="toggle-thumb"></div></div>
+    </div>
+  </nav>
+  <div class="nav-drawer" id="navDrawer">
+    <a href="https://h3ad-sec.github.io/H3AD/" onclick="closeDrawer()">H3AD</a>
+    <a href="https://h3ad-sec.github.io/H3AD-X/" onclick="closeDrawer()">H3AD-X</a>
+    <a href="https://h3ad-sec.github.io/IOC-VERDIKT/" target="_blank" rel="noopener" onclick="closeDrawer()" class="drawer-sub">↳ IOC-VERDIKT ↗</a>
+    <a href="https://h3ad-sec.github.io/PARSE-X/" target="_blank" rel="noopener" onclick="closeDrawer()" class="drawer-sub">↳ PARSE-X ↗</a>
+    <a href="https://h3ad-sec.github.io/DNSCOPE/" target="_blank" rel="noopener" onclick="closeDrawer()" class="drawer-sub">↳ DNSCOPE ↗</a>
+    <a href="https://h3ad-sec.github.io/X-VERDIKT/" target="_blank" rel="noopener" onclick="closeDrawer()" class="drawer-sub">↳ X-VERDIKT ↗</a>
+    <a href="https://h3ad-sec.github.io/MAILSCOPE/" target="_blank" rel="noopener" onclick="closeDrawer()" class="drawer-sub">↳ MAILSCOPE ↗</a>
+    <a href="https://h3ad-sec.github.io/INFRA-SCOPE/" target="_blank" rel="noopener" onclick="closeDrawer()" class="drawer-sub">↳ INFRA-SCOPE ↗</a>
+    <a href="https://h3ad-sec.github.io/H3AD-AI/" onclick="closeDrawer()">H3AD-AI</a>
+    <a href="https://h3ad-sec.github.io/PROMPTVAULT/" target="_blank" rel="noopener" onclick="closeDrawer()" class="drawer-sub">↳ PROMPTVAULT ↗</a>
+    <a href="https://h3ad-sec.github.io/H3AD-DETECT/" onclick="closeDrawer()">H3AD-DETECT</a>
+    <a href="https://h3ad-sec.github.io/TRACERULES/" target="_blank" rel="noopener" onclick="closeDrawer()" class="drawer-sub">↳ TRACERULES ↗</a>
+    <a href="https://h3ad-sec.github.io/H3AD-HUNT/" onclick="closeDrawer()">H3AD-HUNT</a>
+    <a href="https://h3ad-sec.github.io/HYPOS/" target="_blank" rel="noopener" onclick="closeDrawer()" class="drawer-sub">↳ HYPOS ↗</a>
+    <a href="https://h3ad-sec.github.io/PIVEX/" target="_blank" rel="noopener" onclick="closeDrawer()" class="drawer-sub">↳ PIVEX ↗</a>
+    <a href="https://h3ad-sec.github.io/TRACEPULSE/" target="_blank" rel="noopener" onclick="closeDrawer()" class="drawer-sub">↳ TRACEPULSE ↗</a>
+    <a href="https://h3ad-sec.github.io/LOLBIN-R/" target="_blank" rel="noopener" onclick="closeDrawer()" class="drawer-sub">↳ LOLBIN-R ↗</a>
+    <a href="https://h3ad-sec.github.io/TTPHUNT/" target="_blank" rel="noopener" onclick="closeDrawer()" class="drawer-sub">↳ TTPHUNT ↗</a>
+    <a href="https://h3ad-sec.github.io/ADPATH/" target="_blank" rel="noopener" onclick="closeDrawer()" class="drawer-sub">↳ ADPATH ↗</a>
+    <a href="https://h3ad-sec.github.io/H3AD-OPS/" onclick="closeDrawer()">H3AD-OPS</a>
+    <a href="https://h3ad-sec.github.io/QUICKTRACE/" target="_blank" rel="noopener" onclick="closeDrawer()" class="drawer-sub">↳ QUICKTRACE ↗</a>
+    <a href="https://h3ad-sec.github.io/PHISHOPS/" target="_blank" rel="noopener" onclick="closeDrawer()" class="drawer-sub">↳ PHISHOPS ↗</a>
+    <a href="https://h3ad-sec.github.io/H3AD-DF/" onclick="closeDrawer()">H3AD-DF</a>
+    <a href="https://h3ad-sec.github.io/ARTIFEKTX/" target="_blank" rel="noopener" onclick="closeDrawer()" class="drawer-sub">↳ ARTIFEKTX ↗</a>
+    <a href="https://h3ad-sec.github.io/CHRONIFY/" target="_blank" rel="noopener" onclick="closeDrawer()" class="drawer-sub">↳ CHRONIFY ↗</a>
+    <a href="https://h3ad-sec.github.io/WIN-EVT/" target="_blank" rel="noopener" onclick="closeDrawer()" class="drawer-sub">↳ WIN-EVT ↗</a>
+    <a href="https://h3ad-sec.github.io/H3AD-IR/" onclick="closeDrawer()">H3AD-IR</a>
+    <a href="https://h3ad-sec.github.io/H3AD-REF/" onclick="closeDrawer()" class="nav-current">H3AD-REF</a>
+    <a href="https://h3ad-sec.github.io/H3AD-LEARN/" onclick="closeDrawer()">H3AD-LEARN</a>
+    <a href="https://h3ad-sec.github.io/H3AD-LEARN/fundamentals/" target="_blank" rel="noopener" onclick="closeDrawer()" class="drawer-sub">↳ FUNDAMENTALS ↗</a>
+    <a href="https://h3ad-sec.github.io/H3AD-LEARN/networking/" target="_blank" rel="noopener" onclick="closeDrawer()" class="drawer-sub">↳ NETWORKING ↗</a>
+    <a href="https://h3ad-sec.github.io/H3AD-LEARN/windows/" target="_blank" rel="noopener" onclick="closeDrawer()" class="drawer-sub">↳ WINDOWS ↗</a>
+    <a href="https://h3ad-sec.github.io/H3AD-LEARN/threat-hunting/" target="_blank" rel="noopener" onclick="closeDrawer()" class="drawer-sub">↳ THREAT HUNTING ↗</a>
+    <a href="https://h3ad-sec.github.io/H3AD-LEARN/lolbas/" target="_blank" rel="noopener" onclick="closeDrawer()" class="drawer-sub">↳ LOLBAS ↗</a>
+    <a href="https://h3ad-sec.github.io/H3AD-LEARN/threat-intel/" target="_blank" rel="noopener" onclick="closeDrawer()" class="drawer-sub">↳ THREAT INTEL ↗</a>
+    <a href="https://h3ad-sec.github.io/H3AD-LEARN/cloud-security/" target="_blank" rel="noopener" onclick="closeDrawer()" class="drawer-sub">↳ CLOUD SECURITY ↗</a>
+    <a href="https://h3ad-sec.github.io/H3AD-LEARN/malware-analysis/" target="_blank" rel="noopener" onclick="closeDrawer()" class="drawer-sub">↳ MALWARE ANALYSIS ↗</a>
+    <a href="https://h3ad-sec.github.io/H3AD-LEARN/soc-operations/" target="_blank" rel="noopener" onclick="closeDrawer()" class="drawer-sub">↳ SOC OPERATIONS ↗</a>
+    <a href="https://h3ad-sec.github.io/H3AD-LEARN/detection-engineering/" target="_blank" rel="noopener" onclick="closeDrawer()" class="drawer-sub">↳ DETECTION ENGINEERING ↗</a>
+    <a href="https://h3ad-sec.github.io/H3AD-LEARN/incident-response/" target="_blank" rel="noopener" onclick="closeDrawer()" class="drawer-sub">↳ INCIDENT RESPONSE ↗</a>
+    <a href="https://h3ad-sec.github.io/H3AD-LEARN/digital-forensics/" target="_blank" rel="noopener" onclick="closeDrawer()" class="drawer-sub">↳ DIGITAL FORENSICS ↗</a>
+    <a href="https://h3ad-sec.github.io/H3AD-LEARN/linux/" target="_blank" rel="noopener" onclick="closeDrawer()" class="drawer-sub">↳ LINUX ↗</a>
+    <a href="https://h3ad-sec.github.io/H3AD-LEARN/interview-prep/" target="_blank" rel="noopener" onclick="closeDrawer()" class="drawer-sub">↳ INTERVIEW PREP ↗</a>
+    <a href="mailto:h3adsec@gmail.com" onclick="closeDrawer()">CONTACT</a>
+  </div>
+  <main>
+    <div class="page">
+      <section class="hero">
+        <div class="hero-banner"><span class="xv-pill-accent">H3AD</span><span class="xv-pill-text">-REF</span></div>
+        <div class="hero-banner-tagline">REFERENCE & CHEATSHEET MODULE</div>
+        <div class="hero-banner-by">by H3AD</div>
+        <div class="hero-intro">
+          <h1 class="hero-title">Reference Material.<br><span>Not A Course.</span></h1>
+          <p class="hero-sub">Guides, cheatsheets, references, and playbooks for the moment you need one fact fast. H3AD-LEARN teaches a topic end to end; H3AD-REF just answers the question and gets out of your way. First up under Guides: writing YARA rules that hunt instead of just making noise.</p>
+        </div>
+      </section>
+
+      <div class="hr-tabs" id="hrTabs" role="tablist">
+        <button class="hr-tab tab-guides" data-cat="guides" onclick="hrSetCategory('guides')">GUIDES</button>
+        <button class="hr-tab tab-cheatsheets" data-cat="cheatsheets" onclick="hrSetCategory('cheatsheets')">CHEATSHEETS</button>
+        <button class="hr-tab tab-references" data-cat="references" onclick="hrSetCategory('references')">REFERENCES</button>
+        <button class="hr-tab tab-playbooks" data-cat="playbooks" onclick="hrSetCategory('playbooks')">PLAYBOOKS</button>
+      </div>
+
+      <div class="hr-view" id="hrViewGuides">
+        <div class="hr-guide-picker" id="hrGuidePicker" hidden></div>
+        <div class="hr-toolbar">
+          <input class="hr-search-input" id="hrSearch" type="text" placeholder="Search this guide... ( / )" oninput="hrFilter()" autocomplete="off" spellcheck="false" />
+          <div class="hr-toc" id="hrToc"></div>
+          <div class="hr-count" id="hrCount"></div>
+        </div>
+        <div id="hr-guide"></div>
+      </div>
+
+      <div class="hr-view" id="hrViewCheatsheets" hidden>
+        <div class="hr-empty-panel">
+          <div class="hr-empty-title">CHEATSHEETS — MORE COMING</div>
+          <div class="hr-empty-desc">Quick-lookup syntax and command cheatsheets land here. Nothing published yet.</div>
+        </div>
+      </div>
+
+      <div class="hr-view" id="hrViewReferences" hidden>
+        <div class="hr-empty-panel">
+          <div class="hr-empty-title">REFERENCES — MORE COMING</div>
+          <div class="hr-empty-desc">Field/schema/API references land here. Nothing published yet.</div>
+        </div>
+      </div>
+
+      <div class="hr-view" id="hrViewPlaybooks" hidden>
+        <div class="hr-empty-panel">
+          <div class="hr-empty-title">PLAYBOOKS — MORE COMING</div>
+          <div class="hr-empty-desc">Step-by-step process docs land here. Nothing published yet.</div>
+        </div>
+      </div>
+
+      <div class="back-link"><a href="https://h3ad-sec.github.io/">← Back to H3AD-SEC Platform</a></div>
+    </div>
+  </main>
+  <footer>
+    <span class="footer-left">H3AD-SEC © 2026 &nbsp;|&nbsp; H3AD-REF</span>
+    <span class="footer-right">Cheatsheets. Guides. Process Docs.</span>
+    <div class="footer-credit-row">
+      <a class="footer-credit-pill" href="https://www.linkedin.com/in/hrushikesh-badgujar/" target="_blank" rel="noopener" title="Connect on LinkedIn">
+        <span class="credit-tool"><span class="xv-pill-accent">H3AD</span><span class="xv-pill-text">-REF</span></span>
+        <span class="credit-by">created by</span>
+        <span class="credit-name">H3AD</span>
+      </a>
+    </div>
+  </footer>
+  <script>
+    function toggleDrawer() { document.getElementById('navDrawer').classList.toggle('open'); } function closeDrawer() { document.getElementById('navDrawer').classList.remove('open'); }
+    document.addEventListener('click', e => { const d = document.getElementById('navDrawer'), h = document.getElementById('hamburger'); if (d.classList.contains('open') && !d.contains(e.target) && !h.contains(e.target)) closeDrawer(); });
+    function setLogo(t) { const el = document.getElementById('logoImg'); if (el) el.src = t === 'light' ? 'https://h3ad-sec.github.io/logo-light.png' : 'https://h3ad-sec.github.io/logo-dark.png'; }
+    function toggleTheme() { document.body.classList.toggle('light'); const t = document.body.classList.contains('light') ? 'light' : 'dark'; localStorage.setItem('h3ad-theme', t); setLogo(t); }
+    const saved = localStorage.getItem('h3ad-theme'); if (saved === 'light') { document.body.classList.add('light'); setLogo('light'); } else setLogo('dark');
+    (function(){var pill=document.getElementById('xv-nav-pill'),links=document.querySelector('.nav-links'),toggle=document.querySelector('.theme-toggle'),G=20;function check(){if(!links)return;document.body.classList.remove('nav-compact');links.style.visibility='hidden';var lr=links.getBoundingClientRect(),pr=pill?pill.getBoundingClientRect().right:60,tl=toggle?toggle.getBoundingClientRect().left:window.innerWidth-60;links.style.visibility='';document.body.classList.toggle('nav-compact',(pr+G>lr.left)||(lr.right+G>tl));}check();window.addEventListener('resize',check);})();
+
+    /* ══════════════════════════════════════════════════════════════
+       GUIDES data model — adding a second guide (e.g. Sigma) later is
+       a new entry in this array, not a UI rebuild. Each guide has an
+       id/title/tagline and an ordered list of sections; each section
+       is either a "flow" (one data-flow-card, for structural
+       walkthroughs) or a "grid" (a details-grid of detail-cards, for
+       one-item-per-card breakdowns like string types or pitfalls).
+       ══════════════════════════════════════════════════════════════ */
+    var GUIDES = [
+      {
+        id: 'yara-rule-writing',
+        title: 'YARA Rule Writing',
+        tagline: 'Rule anatomy, string and condition syntax, and the habits that keep a rule from becoming noise.',
+        sections: [
+          {
+            id: 'anatomy', heading: 'Rule <span>Anatomy</span>',
+            desc: 'Four sections, one of them required. Get the shape right and the rest of YARA is just vocabulary.',
+            type: 'flow', flowTitle: 'The Four Sections, In Order',
+            flowHtml: '<span class="key">1. import (optional)</span>\n<span class="val">import &quot;pe&quot;;</span>  or  <span class="val">import &quot;math&quot;;</span>\n├── Placed at the top of the file, outside any rule body\n└── Unlocks module functions like <span class="danger">pe.imports()</span> and <span class="danger">math.entropy()</span> for use in condition:\n    <span class="comment">// only needed if condition: actually calls a module function</span>\n\n<span class="key">2. meta:</span>\n<span class="val">key = &quot;value&quot;</span> pairs, free text\n├── Never evaluated, documentation only, not matching logic\n├── author, date, description are conventional\n└── <span class="danger">reference</span> should map to a sample hash, CVE, or ATT&amp;CK ID\n    <span class="comment">// a rule with no reference is unmaintainable once someone else has to triage its hits</span>\n\n<span class="key">3. strings:</span>\n<span class="val">$name = pattern</span>, one per line\n├── Text:  <span class="val">$s1 = &quot;powershell&quot; nocase</span>\n├── Hex:   <span class="val">$hex1 = { 46 72 6F 6D 42 61 73 65 36 34 }</span>\n└── Regex: <span class="val">$r1 = /-enc(odedcommand)?/i</span>\n    <span class="comment">// referenced by name ($s1, $hex1, ...) from inside condition:</span>\n\n<span class="key">4. condition:</span> <span class="danger">required</span>\nThe boolean expression that decides whether the rule fires\n├── Can reference strings ($s1), counts (#s1), offsets (@s1), file properties, module functions\n└── The only section YARA actually requires\n    <span class="comment">// a rule with no strings: can still match on file checks alone, e.g. filesize and uint16(0)</span>'
+          },
+          {
+            id: 'strings', heading: 'String <span class="orange">Types</span>',
+            desc: "A string's type decides how it searches and what it costs at scan time. Pick lazy and pay for it on every file.",
+            type: 'grid', cards: [
+              { border: 'orange', tag: 'STRINGS', tagClass: 'strings', title: 'Text Strings', sub: "Modifiers change how a plain string matches, not just what it matches",
+                body: '<ul class="card-list">'
+                  + '<li><code>nocase</code> — case-insensitive match</li>'
+                  + "<li><code>wide</code> — match UTF-16LE, needed for Windows API strings and PowerShell's in-memory text</li>"
+                  + '<li><code>ascii</code> — match single-byte ASCII (the default; pair with <code>wide</code> to catch both encodings of the same string)</li>'
+                  + "<li><code>fullword</code> — match can't be flanked by another word character, cuts false positives on short strings</li>"
+                  + "<li><code>xor</code> — matches the string XOR'd against a single byte, useful for lightly-obfuscated payloads</li>"
+                  + '<li><code>$s2 = "cmd.exe" wide ascii fullword</code> — catches both text encodings as a whole word, not a substring</li>'
+                  + '</ul>' },
+              { border: 'cyan', tag: 'STRINGS', tagClass: 'strings', title: 'Hex Strings', sub: 'Byte-exact matching with wildcards for the parts that vary',
+                body: '<ul class="card-list">'
+                  + '<li><code>??</code> — wildcard byte, matches anything at that position</li>'
+                  + '<li><code>[0-4]</code> — jump range, allows 0 to 4 unknown bytes between two fixed byte groups</li>'
+                  + '<li><code>{ 46 72 6F 6D 42 61 73 65 36 34 }</code> — matches the ASCII bytes for "FromBase64"</li>'
+                  + '<li><code>{ E8 ?? ?? ?? ?? 5D C3 }</code> — a CALL instruction with an unknown 4-byte offset, followed by a fixed epilogue</li>'
+                  + '</ul>' },
+              { border: 'purple', tag: 'STRINGS', tagClass: 'strings', title: 'Regex Strings', sub: 'The most expressive string type, and the slowest one YARA evaluates',
+                body: "Use <code>$r = /pattern/</code> only when a text or hex string genuinely can't express what you're matching. An unanchored pattern with nested quantifiers can cause catastrophic backtracking on a large file, since a regex string is checked at every byte offset, not once. Anchor with <code>^</code>/<code>$</code> or bound the length where you can, before shipping a regex string into a rule that scans a whole file share." }
+            ]
+          },
+          {
+            id: 'conditions', heading: 'Condition <span class="purple">Operators</span>',
+            desc: 'condition: is the only line that decides a match. Everything else in the rule just gives it vocabulary to work with.',
+            type: 'grid', cards: [
+              { border: 'orange', tag: 'CONDITION', tagClass: 'condition', title: 'Boolean Logic', sub: 'The connective tissue between every other check in the rule',
+                body: '<ul class="card-list">'
+                  + '<li><code>and</code> / <code>or</code> / <code>not</code> — combine string matches and other conditions</li>'
+                  + '<li><code>$s1 and ($s2 or $s3) and not $s4</code> — parentheses group sub-conditions exactly like any other boolean expression</li>'
+                  + '</ul>' },
+              { border: 'cyan', tag: 'CONDITION', tagClass: 'condition', title: 'Counting', sub: 'Match on how many strings hit, not just whether they did',
+                body: '<ul class="card-list">'
+                  + '<li><code>2 of ($s1,$s2,$s3)</code> — at least 2 of the listed strings matched</li>'
+                  + '<li><code>any of them</code> / <code>all of them</code> — shorthand over every <code>$</code>string defined in the rule</li>'
+                  + '<li><code>#s1 &gt; 3</code> — string $s1 matched more than 3 times in the file</li>'
+                  + '</ul>' },
+              { border: 'purple', tag: 'CONDITION', tagClass: 'condition', title: 'Positional', sub: 'Where a match happens can matter as much as whether it happens',
+                body: '<ul class="card-list">'
+                  + '<li><code>$a at 0</code> — string $a matches at offset 0, the start of the file</li>'
+                  + '<li><code>$a in (0..1024)</code> — string $a matches somewhere in the first 1024 bytes</li>'
+                  + '</ul>' },
+              { border: 'teal', tag: 'CONDITION', tagClass: 'condition', title: 'File Checks', sub: "Test the file's shape before you ever look at its content",
+                body: '<ul class="card-list">'
+                  + "<li><code>filesize &gt; 100KB</code> — reject anything too small to be a real sample of what you're hunting</li>"
+                  + '<li><code>uint16(0) == 0x5A4D</code> — first two bytes read as little-endian uint16 equal <code>MZ</code>, the PE header magic</li>'
+                  + '</ul>' },
+              { border: 'rose', tag: 'CONDITION', tagClass: 'condition', title: 'Module Functions', sub: "Requires an <code>import</code> at the top of the file; unlocks checks plain strings can't do",
+                body: '<ul class="card-list">'
+                  + '<li><code>pe.imports("kernel32.dll", "CreateProcessW")</code> — flags a specific imported API by DLL and function name</li>'
+                  + '<li><code>math.entropy(0, filesize) &gt; 7.0</code> — flags high-entropy content typical of packed or encrypted data</li>'
+                  + '</ul>' }
+            ]
+          },
+          {
+            id: 'practices', heading: 'Best <span class="green">Practices</span>',
+            desc: 'The difference between a rule that hunts and a rule that pages someone at 3am for nothing.',
+            type: 'grid', cards: [
+              { border: 'green', tag: 'PRACTICE', tagClass: 'practice', title: 'Fullword + Nocase', sub: 'Two modifiers, most of your false-positive reduction',
+                body: 'Add <code>fullword</code> and <code>nocase</code> to plaintext strings by default. Fullword stops a short string from matching as a substring of something longer; nocase stops case variations from slipping past a rule that only checked one spelling.' },
+              { border: 'cyan', tag: 'PRACTICE', tagClass: 'practice', title: 'Anchor On Structure', sub: 'A string match alone is an opinion, not evidence',
+                body: "Pair string matches with <code>filesize</code>, <code>uint16(0)</code>, or a <code>pe.*</code> check so the rule tests the file's shape, not only its content. Two rules that share the same strings but differ on structure checks will have very different false-positive rates in production." },
+              { border: 'purple', tag: 'PRACTICE', tagClass: 'practice', title: 'Use Private Rules', sub: 'Reusable sub-conditions that never fire on their own',
+                body: 'Declare a <code>private rule</code> for a shared building block, like "looks like a PE" or "has a suspicious PowerShell flag," and reference it from other rules as a condition term. It never appears in scan output by itself, only through whatever rule calls it.' },
+              { border: 'orange', tag: 'PRACTICE', tagClass: 'practice', title: 'One Rule, One Hypothesis', sub: "Don't merge unrelated families to save a rule slot",
+                body: "OR-ing together strings from two different malware families into one rule saves a line of YARA and costs an analyst a triage step every time it fires, because the hit no longer tells them which family they're looking at." },
+              { border: 'teal', tag: 'PRACTICE', tagClass: 'practice', title: 'Test Against Clean Files', sub: 'The sample that wrote the rule is not the sample that will break it',
+                body: 'Run every new rule against a corpus of known-clean files before it ships, not just the malicious sample it was written from. A rule that has only ever seen the one sample it targets will false-positive the first time it meets ordinary software.' },
+              { border: 'rose', tag: 'PRACTICE', tagClass: 'practice', title: 'Pair Entropy With Strings', sub: 'High entropy alone describes most compressed files on a system',
+                body: '<code>math.entropy(0, filesize) &gt; 7.0</code> flags packed or encrypted content, but on its own it also flags routine zip archives, images, and installers. Pair it with a small, specific string set so the entropy check narrows a real hit instead of carrying the rule by itself.' }
+            ]
+          },
+          {
+            id: 'pitfalls', heading: 'Common <span class="red">Pitfalls</span>',
+            desc: "Small mistakes that don't show up until the rule is already deployed, and already wrong.",
+            type: 'grid', cards: [
+              { border: 'red', tag: 'PITFALL', tagClass: 'pitfall', title: 'Forgetting Wide', sub: "The string is there. Your rule just can't see it.",
+                body: 'Windows API strings and PowerShell\'s in-memory text are UTF-16LE, not ASCII. A plain <code>$s = "powershell"</code> string will silently never match either one; add <code>wide</code>, or <code>wide ascii</code> to catch both encodings.' },
+              { border: 'rose', tag: 'PITFALL', tagClass: 'pitfall', title: 'Unanchored Regex', sub: 'One bad pattern can pin a CPU core for the whole scan',
+                body: "A pattern like <code>/.*a.*b.*c/</code> against a large file can trigger catastrophic backtracking well before it ever reaches a verdict. Anchor with <code>^</code>/<code>$</code>, or switch to a text or hex string if the pattern doesn't actually need regex." },
+              { border: 'orange', tag: 'PITFALL', tagClass: 'pitfall', title: 'Missing meta.reference', sub: 'A rule with no source becomes unmaintainable the moment someone else inherits it',
+                body: 'Every rule should link back to what it was written from: a sample hash, an ATT&amp;CK ID, a report URL. Without <code>meta.reference</code>, the next analyst triaging a hit has to reverse-engineer why the rule exists before deciding whether it still should.' }
+            ]
+          },
+          {
+            id: 'example', heading: 'Full <span class="teal">Example</span>',
+            desc: 'Every clause from the sections above, in one rule, doing real work.',
+            type: 'flow', flowTitle: 'Suspicious_PowerShell_EncodedCommand',
+            flowHtml: '<span class="key">rule Suspicious_PowerShell_EncodedCommand</span>\n{\n    <span class="val">meta:</span>\n        author = &quot;your_name&quot;\n        date = &quot;2026-09-20&quot;\n        description = &quot;Detects base64-encoded PowerShell execution&quot;\n        reference = &quot;T1059.001&quot;\n\n    <span class="val">strings:</span>\n        $s1 = &quot;powershell&quot; nocase\n        $s2 = &quot;-EncodedCommand&quot; nocase\n        $s3 = &quot;-enc&quot; nocase\n        $hex1 = { 46 72 6F 6D 42 61 73 65 36 34 }\n\n    <span class="val">condition:</span>\n        $s1 and ($s2 or $s3) and $hex1\n}\n\n<span class="comment">// $hex1 decodes to the ASCII string &quot;FromBase64&quot; — pairing it with the plaintext flags means the\n// rule needs both the command-line indicator and the decode-side evidence before it fires.\n// meta.reference maps the hit straight to ATT&amp;CK T1059.001 for triage.</span>'
+          }
+        ]
+      }
+    ];
+
+    function hrRenderCard(c) {
+      return '<div class="detail-card border-' + c.border + '"><span class="tag ' + c.tagClass + '">' + c.tag + '</span>'
+        + '<h3>' + c.title + '</h3><div class="card-sub">' + c.sub + '</div><div class="card-body">' + c.body + '</div></div>';
+    }
+    function hrRenderSection(sec) {
+      var html = '<div class="section-header" id="hr-sec-' + sec.id + '"><h2>' + sec.heading + '</h2><p class="section-desc">' + sec.desc + '</p></div>';
+      if (sec.type === 'flow') {
+        html += '<div class="data-flow-card"><h4>' + sec.flowTitle + '</h4><pre>' + sec.flowHtml + '</pre></div>';
+      } else if (sec.type === 'grid') {
+        html += '<div class="details-grid">' + sec.cards.map(hrRenderCard).join('') + '</div>';
+      }
+      return html;
+    }
+    function hrRenderGuide(guide) {
+      var out = guide.sections.map(function (sec, i) {
+        return hrRenderSection(sec) + (i < guide.sections.length - 1 ? '<div class="separator"></div>' : '');
+      }).join('');
+      document.getElementById('hr-guide').innerHTML = out;
+      document.getElementById('hrToc').innerHTML = guide.sections.map(function (sec) {
+        var label = sec.heading.replace(/<[^>]+>/g, '').toUpperCase();
+        return '<button class="hr-toc-pill" onclick="hrJump(\'hr-sec-' + sec.id + '\')">' + label + '</button>';
+      }).join('');
+      hrCards = null;
+      hrFilter();
+    }
+
+    var hrActiveGuideId = null;
+    var hrCards = null;
+
+    function hrSelectGuide(id) {
+      hrActiveGuideId = id;
+      var guide = GUIDES.filter(function (g) { return g.id === id; })[0];
+      if (!guide) return;
+      document.querySelectorAll('.hr-guide-pick').forEach(function (el) {
+        el.classList.toggle('active', el.dataset.guide === id);
+      });
+      var search = document.getElementById('hrSearch');
+      if (search) search.value = '';
+      hrRenderGuide(guide);
+    }
+
+    function hrInitGuides() {
+      var picker = document.getElementById('hrGuidePicker');
+      if (GUIDES.length > 1) {
+        picker.hidden = false;
+        picker.innerHTML = GUIDES.map(function (g) {
+          return '<button class="hr-guide-pick" data-guide="' + g.id + '" onclick="hrSelectGuide(\'' + g.id + '\')">'
+            + '<div class="hr-guide-pick-title">' + g.title + '</div>'
+            + '<div class="hr-guide-pick-tagline">' + g.tagline + '</div></button>';
+        }).join('');
+      } else {
+        picker.hidden = true;
+        picker.innerHTML = '';
+      }
+      if (GUIDES.length) hrSelectGuide(GUIDES[0].id);
+    }
+
+    function hrJump(id) {
+      var el = document.getElementById(id);
+      if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+
+    function hrFilter() {
+      if (!hrCards) hrCards = Array.prototype.slice.call(document.querySelectorAll('#hr-guide .detail-card'));
+      var term = (document.getElementById('hrSearch').value || '').toLowerCase().trim();
+      var shown = 0;
+      hrCards.forEach(function (card) {
+        var hay = card.textContent.toLowerCase();
+        var match = !term || hay.indexOf(term) !== -1;
+        card.classList.toggle('hr-hidden', !match);
+        if (match) shown++;
+      });
+      var count = document.getElementById('hrCount');
+      count.innerHTML = term ? ('<span>' + shown + '</span> of ' + hrCards.length + ' cards') : '';
+      document.querySelectorAll('#hr-guide .details-grid').forEach(function (grid) {
+        var visible = Array.prototype.slice.call(grid.querySelectorAll('.detail-card')).some(function (c) { return !c.classList.contains('hr-hidden'); });
+        grid.style.display = (term && !visible) ? 'none' : '';
+      });
+    }
+
+    document.addEventListener('keydown', function (e) {
+      if (e.key === '/' && document.activeElement.tagName !== 'INPUT' && document.activeElement.tagName !== 'TEXTAREA') {
+        var search = document.getElementById('hrSearch');
+        if (search && hrCurrentCategory === 'guides') { e.preventDefault(); search.focus(); }
+      }
+    });
+
+    /* ── Top-level category tabs ── */
+    var hrCurrentCategory = 'guides';
+    var HR_VIEWS = { guides: 'hrViewGuides', cheatsheets: 'hrViewCheatsheets', references: 'hrViewReferences', playbooks: 'hrViewPlaybooks' };
+    function hrSetCategory(cat) {
+      hrCurrentCategory = cat;
+      Object.keys(HR_VIEWS).forEach(function (name) {
+        document.getElementById(HR_VIEWS[name]).hidden = (name !== cat);
+      });
+      document.querySelectorAll('.hr-tab').forEach(function (t) { t.classList.toggle('active', t.dataset.cat === cat); });
+    }
+
+    hrSetCategory('guides');
+    hrInitGuides();
+  </script>
+</body>
+
+</html>
