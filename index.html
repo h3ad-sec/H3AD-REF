@@ -198,103 +198,23 @@
 
     .hr-view[hidden] { display: none !important; }
 
-    /* ── Guide picker (shows only when >1 guide exists per category) ── */
-    .hr-guide-picker { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 28px; }
-    .hr-guide-pick { background: var(--panel); border: 1px solid var(--border); border-radius: 8px; padding: 14px 18px;
-      cursor: pointer; transition: border-color 0.15s; text-align: left; flex: 1 1 240px; max-width: 320px; }
-    .hr-guide-pick:hover { border-color: var(--accent); }
-    .hr-guide-pick.active { border-color: var(--accent); background: var(--primary-dim); }
-    .hr-guide-pick-title { font-family: 'Exo 2', sans-serif; font-weight: 600; font-size: 14px; color: var(--text); margin-bottom: 4px; }
-    .hr-guide-pick-tagline { font-family: var(--ui); font-size: 12px; color: var(--muted); line-height: 1.5; }
+    /* ── Landing card grid (one per tab) ── */
+    .hr-card-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; }
+    .hr-card { background: var(--panel); border: 1px solid var(--border); border-radius: 8px; padding: 20px;
+      transition: border-color 0.15s, background 0.15s; text-decoration: none; display: flex; flex-direction: column; gap: 8px; }
+    a.hr-card:hover { border-color: var(--accent); background: var(--primary-dim); }
+    .hr-card-top { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+    .hr-card-title { font-family: 'Exo 2', sans-serif; font-weight: 600; font-size: 15px; color: var(--text); }
+    .hr-card-desc { font-family: var(--ui); font-size: 12.5px; color: var(--muted); line-height: 1.6; }
+    .hr-card-badge { font-family: var(--mono); font-size: 9px; letter-spacing: 0.14em; padding: 3px 8px; border-radius: 2px;
+      font-weight: 600; text-transform: uppercase; white-space: nowrap; }
+    .hr-card-badge.live { background: rgba(0, 212, 255, 0.12); color: var(--accent); border: 1px solid rgba(0, 212, 255, 0.25); }
+    .hr-card-badge.soon { background: rgba(148, 163, 184, 0.1); color: var(--muted); border: 1px solid var(--border); }
+    .hr-card.hr-card-disabled { opacity: 0.55; cursor: default; pointer-events: none; border-style: dashed; }
 
-    /* ── Guide toolbar: search + section jump ── */
-    .hr-toolbar { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 14px; margin-bottom: 8px; }
-    .hr-search-input { flex: 1 1 auto; max-width: 300px; background: var(--panel); border: 1px solid var(--border); border-radius: 6px;
-      padding: 8px 12px; font-family: 'Exo 2', sans-serif; font-size: 13px; color: var(--text); }
-    .hr-search-input::placeholder { color: var(--muted); opacity: 0.7; }
-    .hr-search-input:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-color: var(--accent); }
-    .hr-toc { display: flex; flex-wrap: wrap; gap: 6px; }
-    .hr-toc-pill { font-family: var(--mono); font-size: 10px; letter-spacing: 0.08em; background: transparent; color: var(--muted);
-      border: 1px solid var(--border); border-radius: 20px; padding: 6px 13px; cursor: pointer; transition: all 0.15s; white-space: nowrap; }
-    .hr-toc-pill:hover { color: var(--accent); border-color: var(--accent); background: var(--primary-dim); }
-    .hr-count { font-family: var(--mono); font-size: 10px; color: var(--muted); white-space: nowrap; margin-left: auto; }
-    .hr-count span { color: var(--accent); }
-
-    /* ── Empty-state panel for not-yet-built categories ── */
-    .hr-empty-panel { text-align: center; padding: 70px 20px; border: 1px dashed var(--border); border-radius: 10px; }
-    .hr-empty-title { font-family: var(--mono); font-size: 14px; letter-spacing: 0.1em; color: var(--text); margin-bottom: 8px; }
+    .hr-empty-panel { text-align: center; padding: 60px 20px; border: 1px dashed var(--border); border-radius: 10px; }
+    .hr-empty-title { font-family: var(--mono); font-size: 13px; letter-spacing: 0.1em; color: var(--text); margin-bottom: 8px; }
     .hr-empty-desc { font-size: 12.5px; color: var(--muted); max-width: 360px; margin: 0 auto; line-height: 1.6; }
-
-    /* ── ADPATH-derived content components (rescoped to #hr-guide, values verbatim, renamed prefix) ── */
-    #hr-guide {
-      --bg-card: #111827; --bg-card-hover: #1a2332; --border: #1e2d3d; --border-active: #2563eb;
-      --text: #e2e8f0; --text-dim: #94a3b8; --text-bright: #f8fafc;
-      --blue: #3b82f6; --cyan: #06b6d4; --green: #10b981; --orange: #f59e0b; --red: #ef4444;
-      --purple: #8b5cf6; --pink: #ec4899; --teal: #14b8a6; --yellow: #eab308; --rose: #f43f5e; --indigo: #6366f1;
-    }
-    body.light #hr-guide {
-      --bg-card: #ffffff; --bg-card-hover: #f1f5f9; --border: #e2e8f0; --border-active: #2563eb;
-      --text: #0f172a; --text-dim: #475569; --text-bright: #020617;
-      --blue: #2563eb; --cyan: #0891b2; --green: #059669; --orange: #c2410c; --red: #dc2626;
-      --purple: #7c3aed; --pink: #db2777; --teal: #0d9488; --yellow: #a16207; --rose: #e11d48; --indigo: #4f46e5;
-    }
-
-    #hr-guide .separator { height: 1px; background: linear-gradient(90deg, transparent, var(--border), transparent); margin: 44px 0; }
-
-    #hr-guide .section-header { margin-top: 48px; margin-bottom: 26px; }
-    #hr-guide .section-header:first-of-type { margin-top: 6px; }
-    #hr-guide .section-header h2 { font-family: 'Exo 2', sans-serif; font-size: 21px; font-weight: 600; color: var(--text-bright);
-      padding-bottom: 12px; border-bottom: 1px solid var(--border); }
-    #hr-guide .section-header h2 span { color: var(--cyan); }
-    #hr-guide .section-header h2 .red { color: var(--red); }
-    #hr-guide .section-header h2 .green { color: var(--green); }
-    #hr-guide .section-header h2 .orange { color: var(--orange); }
-    #hr-guide .section-header h2 .purple { color: var(--purple); }
-    #hr-guide .section-header h2 .teal { color: var(--teal); }
-    #hr-guide .section-desc { font-size: 13px; color: var(--text-dim); margin-top: 8px; line-height: 1.6; }
-
-    #hr-guide .data-flow-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 10px; padding: 24px; margin-top: 18px; }
-    #hr-guide .data-flow-card h4 { font-family: 'Exo 2', sans-serif; font-size: 15.5px; font-weight: 600; color: var(--text-bright); margin-bottom: 12px; }
-    #hr-guide .data-flow-card pre { font-family: 'Share Tech Mono', monospace; font-size: 12.5px; line-height: 1.75; color: var(--text-dim);
-      overflow-x: auto; white-space: pre; }
-    #hr-guide .data-flow-card pre .comment { color: #4a6a4a; }
-    #hr-guide .data-flow-card pre .key { color: var(--cyan); }
-    #hr-guide .data-flow-card pre .val { color: var(--orange); }
-    #hr-guide .data-flow-card pre .type { color: var(--purple); }
-    #hr-guide .data-flow-card pre .danger { color: var(--red); }
-
-    #hr-guide .details-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 18px; margin-top: 22px; }
-    @media(max-width:768px) { #hr-guide .details-grid { grid-template-columns: 1fr; } }
-
-    #hr-guide .detail-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 10px; padding: 20px; transition: border-color 0.2s; }
-    #hr-guide .detail-card:hover { border-color: var(--border-active); }
-    #hr-guide .detail-card.hr-hidden { display: none; }
-    #hr-guide .detail-card h3 { font-family: 'Exo 2', sans-serif; font-size: 16.5px; font-weight: 600; color: var(--text-bright); margin-bottom: 4px; }
-    #hr-guide .detail-card .card-sub { font-family: 'Exo 2', sans-serif; font-size: 13.5px; color: var(--text-dim); margin-bottom: 11px; letter-spacing: 0.2px; }
-    #hr-guide .detail-card .card-body { font-family: 'Exo 2', sans-serif; font-size: 14px; color: var(--text-dim); line-height: 1.7; }
-    #hr-guide .detail-card .card-body strong { color: var(--text); font-weight: 500; }
-    #hr-guide .detail-card .card-body code, #hr-guide .card-list li code { font-family: 'Share Tech Mono', monospace; font-size: 11.5px;
-      background: rgba(6, 182, 212, 0.08); color: var(--cyan); padding: 2px 6px; border-radius: 3px; }
-    #hr-guide .card-list { list-style: none; padding: 0; margin-top: 8px; }
-    #hr-guide .card-list li { font-family: 'Exo 2', sans-serif; font-size: 14px; color: var(--text-dim); padding: 4px 0 4px 16px;
-      position: relative; line-height: 1.6; }
-    #hr-guide .card-list li:before { content: '\203A'; position: absolute; left: 0; color: var(--cyan); font-weight: 700; }
-
-    #hr-guide .tag { font-family: 'Share Tech Mono', monospace; font-size: 10px; font-weight: 600; text-transform: uppercase;
-      letter-spacing: 1px; padding: 3px 8px; border-radius: 4px; display: inline-block; margin-bottom: 8px; margin-right: 4px; }
-    #hr-guide .tag.strings { background: rgba(6, 182, 212, .15); color: var(--cyan); }
-    #hr-guide .tag.condition { background: rgba(245, 158, 11, .15); color: var(--orange); }
-    #hr-guide .tag.practice { background: rgba(16, 185, 129, .15); color: var(--green); }
-    #hr-guide .tag.pitfall { background: rgba(239, 68, 68, .15); color: var(--red); }
-
-    #hr-guide .detail-card.border-red { border-left: 3px solid var(--red); }
-    #hr-guide .detail-card.border-blue { border-left: 3px solid var(--blue); }
-    #hr-guide .detail-card.border-cyan { border-left: 3px solid var(--cyan); }
-    #hr-guide .detail-card.border-green { border-left: 3px solid var(--green); }
-    #hr-guide .detail-card.border-orange { border-left: 3px solid var(--orange); }
-    #hr-guide .detail-card.border-purple { border-left: 3px solid var(--purple); }
-    #hr-guide .detail-card.border-teal { border-left: 3px solid var(--teal); }
-    #hr-guide .detail-card.border-rose { border-left: 3px solid var(--rose); }
 
     .back-link { margin-top: 3rem; }
     .back-link a { color: var(--muted); font-size: 0.72rem; border-bottom: 1px solid var(--border-dim); transition: color 0.15s, border-color 0.15s; }
@@ -353,7 +273,6 @@
       .nav-brand { margin-right: 0.6rem; }
       .xv-pill-tagline { display: none; }
       .xv-nav-pill { margin-left: 6px; padding-left: 6px; }
-      #hr-guide .data-flow-card, #hr-guide .detail-card { padding: 15px; }
     }
     @media(max-width:360px) {
       .page { padding: calc(var(--nav-h) + 0.5rem) 0.75rem 2.5rem; }
@@ -518,26 +437,49 @@
       </div>
 
       <div class="hr-view" id="hrViewGuides">
-        <div class="hr-guide-picker" id="hrGuidePicker" hidden></div>
-        <div class="hr-toolbar">
-          <input class="hr-search-input" id="hrSearch" type="text" placeholder="Search this guide... ( / )" oninput="hrFilter()" autocomplete="off" spellcheck="false" />
-          <div class="hr-toc" id="hrToc"></div>
-          <div class="hr-count" id="hrCount"></div>
+        <div class="hr-card-grid">
+          <a class="hr-card" href="guides/yara-rule-writing.html">
+            <div class="hr-card-top"><span class="hr-card-title">YARA Rule Writing</span><span class="hr-card-badge live">LIVE</span></div>
+            <div class="hr-card-desc">Rule anatomy, string and condition syntax, and the habits that keep a rule from becoming noise.</div>
+          </a>
+          <div class="hr-card hr-card-disabled">
+            <div class="hr-card-top"><span class="hr-card-title">Sigma Rule Writing</span><span class="hr-card-badge soon">SOON</span></div>
+            <div class="hr-card-desc">Detection block syntax, condition logic, correlation rules, and backend-conversion gotchas.</div>
+          </div>
+          <div class="hr-card hr-card-disabled">
+            <div class="hr-card-top"><span class="hr-card-title">Regex For Log Parsing</span><span class="hr-card-badge soon">SOON</span></div>
+            <div class="hr-card-desc">Anchors, extraction patterns, greedy-vs-lazy quantifiers, and engine differences that break parsers.</div>
+          </div>
         </div>
-        <div id="hr-guide"></div>
       </div>
 
       <div class="hr-view" id="hrViewCheatsheets" hidden>
-        <div class="hr-empty-panel">
-          <div class="hr-empty-title">CHEATSHEETS — MORE COMING</div>
-          <div class="hr-empty-desc">Quick-lookup syntax and command cheatsheets land here. Nothing published yet.</div>
+        <div class="hr-card-grid">
+          <div class="hr-card hr-card-disabled">
+            <div class="hr-card-top"><span class="hr-card-title">Wireshark Display Filters</span><span class="hr-card-badge soon">SOON</span></div>
+            <div class="hr-card-desc">Filter syntax basics plus scenario-grouped filters for spoofing, tunneling, beaconing, and cleartext creds.</div>
+          </div>
+          <div class="hr-card hr-card-disabled">
+            <div class="hr-card-top"><span class="hr-card-title">tcpdump Command Reference</span><span class="hr-card-badge soon">SOON</span></div>
+            <div class="hr-card-desc">Basic syntax, BPF capture filters, common one-liners, and output flags.</div>
+          </div>
+          <div class="hr-card hr-card-disabled">
+            <div class="hr-card-top"><span class="hr-card-title">Volatility3 Commands</span><span class="hr-card-badge soon">SOON</span></div>
+            <div class="hr-card-desc">Plugin reference for process, network, injection, credential, filesystem, and command-history analysis.</div>
+          </div>
         </div>
       </div>
 
       <div class="hr-view" id="hrViewReferences" hidden>
-        <div class="hr-empty-panel">
-          <div class="hr-empty-title">REFERENCES — MORE COMING</div>
-          <div class="hr-empty-desc">Field/schema/API references land here. Nothing published yet.</div>
+        <div class="hr-card-grid">
+          <div class="hr-card hr-card-disabled">
+            <div class="hr-card-top"><span class="hr-card-title">Protocol & Port Reference</span><span class="hr-card-badge soon">SOON</span></div>
+            <div class="hr-card-desc">Common ports and services with a SOC-relevance note on which ones signal lateral movement.</div>
+          </div>
+          <div class="hr-card hr-card-disabled">
+            <div class="hr-card-top"><span class="hr-card-title">Packet Structure Reference</span><span class="hr-card-badge soon">SOON</span></div>
+            <div class="hr-card-desc">Ethernet, IP, TCP, and UDP header field layout, byte by byte.</div>
+          </div>
         </div>
       </div>
 
@@ -570,222 +512,15 @@
     const saved = localStorage.getItem('h3ad-theme'); if (saved === 'light') { document.body.classList.add('light'); setLogo('light'); } else setLogo('dark');
     (function(){var pill=document.getElementById('xv-nav-pill'),links=document.querySelector('.nav-links'),toggle=document.querySelector('.theme-toggle'),G=20;function check(){if(!links)return;document.body.classList.remove('nav-compact');links.style.visibility='hidden';var lr=links.getBoundingClientRect(),pr=pill?pill.getBoundingClientRect().right:60,tl=toggle?toggle.getBoundingClientRect().left:window.innerWidth-60;links.style.visibility='';document.body.classList.toggle('nav-compact',(pr+G>lr.left)||(lr.right+G>tl));}check();window.addEventListener('resize',check);})();
 
-    /* ══════════════════════════════════════════════════════════════
-       GUIDES data model — adding a second guide (e.g. Sigma) later is
-       a new entry in this array, not a UI rebuild. Each guide has an
-       id/title/tagline and an ordered list of sections; each section
-       is either a "flow" (one data-flow-card, for structural
-       walkthroughs) or a "grid" (a details-grid of detail-cards, for
-       one-item-per-card breakdowns like string types or pitfalls).
-       ══════════════════════════════════════════════════════════════ */
-    var GUIDES = [
-      {
-        id: 'yara-rule-writing',
-        title: 'YARA Rule Writing',
-        tagline: 'Rule anatomy, string and condition syntax, and the habits that keep a rule from becoming noise.',
-        sections: [
-          {
-            id: 'anatomy', heading: 'Rule <span>Anatomy</span>',
-            desc: 'Four sections, one of them required. Get the shape right and the rest of YARA is just vocabulary.',
-            type: 'flow', flowTitle: 'The Four Sections, In Order',
-            flowHtml: '<span class="key">1. import (optional)</span>\n<span class="val">import &quot;pe&quot;;</span>  or  <span class="val">import &quot;math&quot;;</span>\n├── Placed at the top of the file, outside any rule body\n└── Unlocks module functions like <span class="danger">pe.imports()</span> and <span class="danger">math.entropy()</span> for use in condition:\n    <span class="comment">// only needed if condition: actually calls a module function</span>\n\n<span class="key">2. meta:</span>\n<span class="val">key = &quot;value&quot;</span> pairs, free text\n├── Never evaluated, documentation only, not matching logic\n├── author, date, description are conventional\n└── <span class="danger">reference</span> should map to a sample hash, CVE, or ATT&amp;CK ID\n    <span class="comment">// a rule with no reference is unmaintainable once someone else has to triage its hits</span>\n\n<span class="key">3. strings:</span>\n<span class="val">$name = pattern</span>, one per line\n├── Text:  <span class="val">$s1 = &quot;powershell&quot; nocase</span>\n├── Hex:   <span class="val">$hex1 = { 46 72 6F 6D 42 61 73 65 36 34 }</span>\n└── Regex: <span class="val">$r1 = /-enc(odedcommand)?/i</span>\n    <span class="comment">// referenced by name ($s1, $hex1, ...) from inside condition:</span>\n\n<span class="key">4. condition:</span> <span class="danger">required</span>\nThe boolean expression that decides whether the rule fires\n├── Can reference strings ($s1), counts (#s1), offsets (@s1), file properties, module functions\n└── The only section YARA actually requires\n    <span class="comment">// a rule with no strings: can still match on file checks alone, e.g. filesize and uint16(0)</span>'
-          },
-          {
-            id: 'strings', heading: 'String <span class="orange">Types</span>',
-            desc: "A string's type decides how it searches and what it costs at scan time. Pick lazy and pay for it on every file.",
-            type: 'grid', cards: [
-              { border: 'orange', tag: 'STRINGS', tagClass: 'strings', title: 'Text Strings', sub: "Modifiers change how a plain string matches, not just what it matches",
-                body: '<ul class="card-list">'
-                  + '<li><code>nocase</code> — case-insensitive match</li>'
-                  + "<li><code>wide</code> — match UTF-16LE, needed for Windows API strings and PowerShell's in-memory text</li>"
-                  + '<li><code>ascii</code> — match single-byte ASCII (the default; pair with <code>wide</code> to catch both encodings of the same string)</li>'
-                  + "<li><code>fullword</code> — match can't be flanked by another word character, cuts false positives on short strings</li>"
-                  + "<li><code>xor</code> — matches the string XOR'd against a single byte, useful for lightly-obfuscated payloads</li>"
-                  + '<li><code>$s2 = "cmd.exe" wide ascii fullword</code> — catches both text encodings as a whole word, not a substring</li>'
-                  + '</ul>' },
-              { border: 'cyan', tag: 'STRINGS', tagClass: 'strings', title: 'Hex Strings', sub: 'Byte-exact matching with wildcards for the parts that vary',
-                body: '<ul class="card-list">'
-                  + '<li><code>??</code> — wildcard byte, matches anything at that position</li>'
-                  + '<li><code>[0-4]</code> — jump range, allows 0 to 4 unknown bytes between two fixed byte groups</li>'
-                  + '<li><code>{ 46 72 6F 6D 42 61 73 65 36 34 }</code> — matches the ASCII bytes for "FromBase64"</li>'
-                  + '<li><code>{ E8 ?? ?? ?? ?? 5D C3 }</code> — a CALL instruction with an unknown 4-byte offset, followed by a fixed epilogue</li>'
-                  + '</ul>' },
-              { border: 'purple', tag: 'STRINGS', tagClass: 'strings', title: 'Regex Strings', sub: 'The most expressive string type, and the slowest one YARA evaluates',
-                body: "Use <code>$r = /pattern/</code> only when a text or hex string genuinely can't express what you're matching. An unanchored pattern with nested quantifiers can cause catastrophic backtracking on a large file, since a regex string is checked at every byte offset, not once. Anchor with <code>^</code>/<code>$</code> or bound the length where you can, before shipping a regex string into a rule that scans a whole file share." }
-            ]
-          },
-          {
-            id: 'conditions', heading: 'Condition <span class="purple">Operators</span>',
-            desc: 'condition: is the only line that decides a match. Everything else in the rule just gives it vocabulary to work with.',
-            type: 'grid', cards: [
-              { border: 'orange', tag: 'CONDITION', tagClass: 'condition', title: 'Boolean Logic', sub: 'The connective tissue between every other check in the rule',
-                body: '<ul class="card-list">'
-                  + '<li><code>and</code> / <code>or</code> / <code>not</code> — combine string matches and other conditions</li>'
-                  + '<li><code>$s1 and ($s2 or $s3) and not $s4</code> — parentheses group sub-conditions exactly like any other boolean expression</li>'
-                  + '</ul>' },
-              { border: 'cyan', tag: 'CONDITION', tagClass: 'condition', title: 'Counting', sub: 'Match on how many strings hit, not just whether they did',
-                body: '<ul class="card-list">'
-                  + '<li><code>2 of ($s1,$s2,$s3)</code> — at least 2 of the listed strings matched</li>'
-                  + '<li><code>any of them</code> / <code>all of them</code> — shorthand over every <code>$</code>string defined in the rule</li>'
-                  + '<li><code>#s1 &gt; 3</code> — string $s1 matched more than 3 times in the file</li>'
-                  + '</ul>' },
-              { border: 'purple', tag: 'CONDITION', tagClass: 'condition', title: 'Positional', sub: 'Where a match happens can matter as much as whether it happens',
-                body: '<ul class="card-list">'
-                  + '<li><code>$a at 0</code> — string $a matches at offset 0, the start of the file</li>'
-                  + '<li><code>$a in (0..1024)</code> — string $a matches somewhere in the first 1024 bytes</li>'
-                  + '</ul>' },
-              { border: 'teal', tag: 'CONDITION', tagClass: 'condition', title: 'File Checks', sub: "Test the file's shape before you ever look at its content",
-                body: '<ul class="card-list">'
-                  + "<li><code>filesize &gt; 100KB</code> — reject anything too small to be a real sample of what you're hunting</li>"
-                  + '<li><code>uint16(0) == 0x5A4D</code> — first two bytes read as little-endian uint16 equal <code>MZ</code>, the PE header magic</li>'
-                  + '</ul>' },
-              { border: 'rose', tag: 'CONDITION', tagClass: 'condition', title: 'Module Functions', sub: "Requires an <code>import</code> at the top of the file; unlocks checks plain strings can't do",
-                body: '<ul class="card-list">'
-                  + '<li><code>pe.imports("kernel32.dll", "CreateProcessW")</code> — flags a specific imported API by DLL and function name</li>'
-                  + '<li><code>math.entropy(0, filesize) &gt; 7.0</code> — flags high-entropy content typical of packed or encrypted data</li>'
-                  + '</ul>' }
-            ]
-          },
-          {
-            id: 'practices', heading: 'Best <span class="green">Practices</span>',
-            desc: 'The difference between a rule that hunts and a rule that pages someone at 3am for nothing.',
-            type: 'grid', cards: [
-              { border: 'green', tag: 'PRACTICE', tagClass: 'practice', title: 'Fullword + Nocase', sub: 'Two modifiers, most of your false-positive reduction',
-                body: 'Add <code>fullword</code> and <code>nocase</code> to plaintext strings by default. Fullword stops a short string from matching as a substring of something longer; nocase stops case variations from slipping past a rule that only checked one spelling.' },
-              { border: 'cyan', tag: 'PRACTICE', tagClass: 'practice', title: 'Anchor On Structure', sub: 'A string match alone is an opinion, not evidence',
-                body: "Pair string matches with <code>filesize</code>, <code>uint16(0)</code>, or a <code>pe.*</code> check so the rule tests the file's shape, not only its content. Two rules that share the same strings but differ on structure checks will have very different false-positive rates in production." },
-              { border: 'purple', tag: 'PRACTICE', tagClass: 'practice', title: 'Use Private Rules', sub: 'Reusable sub-conditions that never fire on their own',
-                body: 'Declare a <code>private rule</code> for a shared building block, like "looks like a PE" or "has a suspicious PowerShell flag," and reference it from other rules as a condition term. It never appears in scan output by itself, only through whatever rule calls it.' },
-              { border: 'orange', tag: 'PRACTICE', tagClass: 'practice', title: 'One Rule, One Hypothesis', sub: "Don't merge unrelated families to save a rule slot",
-                body: "OR-ing together strings from two different malware families into one rule saves a line of YARA and costs an analyst a triage step every time it fires, because the hit no longer tells them which family they're looking at." },
-              { border: 'teal', tag: 'PRACTICE', tagClass: 'practice', title: 'Test Against Clean Files', sub: 'The sample that wrote the rule is not the sample that will break it',
-                body: 'Run every new rule against a corpus of known-clean files before it ships, not just the malicious sample it was written from. A rule that has only ever seen the one sample it targets will false-positive the first time it meets ordinary software.' },
-              { border: 'rose', tag: 'PRACTICE', tagClass: 'practice', title: 'Pair Entropy With Strings', sub: 'High entropy alone describes most compressed files on a system',
-                body: '<code>math.entropy(0, filesize) &gt; 7.0</code> flags packed or encrypted content, but on its own it also flags routine zip archives, images, and installers. Pair it with a small, specific string set so the entropy check narrows a real hit instead of carrying the rule by itself.' }
-            ]
-          },
-          {
-            id: 'pitfalls', heading: 'Common <span class="red">Pitfalls</span>',
-            desc: "Small mistakes that don't show up until the rule is already deployed, and already wrong.",
-            type: 'grid', cards: [
-              { border: 'red', tag: 'PITFALL', tagClass: 'pitfall', title: 'Forgetting Wide', sub: "The string is there. Your rule just can't see it.",
-                body: 'Windows API strings and PowerShell\'s in-memory text are UTF-16LE, not ASCII. A plain <code>$s = "powershell"</code> string will silently never match either one; add <code>wide</code>, or <code>wide ascii</code> to catch both encodings.' },
-              { border: 'rose', tag: 'PITFALL', tagClass: 'pitfall', title: 'Unanchored Regex', sub: 'One bad pattern can pin a CPU core for the whole scan',
-                body: "A pattern like <code>/.*a.*b.*c/</code> against a large file can trigger catastrophic backtracking well before it ever reaches a verdict. Anchor with <code>^</code>/<code>$</code>, or switch to a text or hex string if the pattern doesn't actually need regex." },
-              { border: 'orange', tag: 'PITFALL', tagClass: 'pitfall', title: 'Missing meta.reference', sub: 'A rule with no source becomes unmaintainable the moment someone else inherits it',
-                body: 'Every rule should link back to what it was written from: a sample hash, an ATT&amp;CK ID, a report URL. Without <code>meta.reference</code>, the next analyst triaging a hit has to reverse-engineer why the rule exists before deciding whether it still should.' }
-            ]
-          },
-          {
-            id: 'example', heading: 'Full <span class="teal">Example</span>',
-            desc: 'Every clause from the sections above, in one rule, doing real work.',
-            type: 'flow', flowTitle: 'Suspicious_PowerShell_EncodedCommand',
-            flowHtml: '<span class="key">rule Suspicious_PowerShell_EncodedCommand</span>\n{\n    <span class="val">meta:</span>\n        author = &quot;your_name&quot;\n        date = &quot;2026-09-20&quot;\n        description = &quot;Detects base64-encoded PowerShell execution&quot;\n        reference = &quot;T1059.001&quot;\n\n    <span class="val">strings:</span>\n        $s1 = &quot;powershell&quot; nocase\n        $s2 = &quot;-EncodedCommand&quot; nocase\n        $s3 = &quot;-enc&quot; nocase\n        $hex1 = { 46 72 6F 6D 42 61 73 65 36 34 }\n\n    <span class="val">condition:</span>\n        $s1 and ($s2 or $s3) and $hex1\n}\n\n<span class="comment">// $hex1 decodes to the ASCII string &quot;FromBase64&quot; — pairing it with the plaintext flags means the\n// rule needs both the command-line indicator and the decode-side evidence before it fires.\n// meta.reference maps the hit straight to ATT&amp;CK T1059.001 for triage.</span>'
-          }
-        ]
-      }
-    ];
-
-    function hrRenderCard(c) {
-      return '<div class="detail-card border-' + c.border + '"><span class="tag ' + c.tagClass + '">' + c.tag + '</span>'
-        + '<h3>' + c.title + '</h3><div class="card-sub">' + c.sub + '</div><div class="card-body">' + c.body + '</div></div>';
-    }
-    function hrRenderSection(sec) {
-      var html = '<div class="section-header" id="hr-sec-' + sec.id + '"><h2>' + sec.heading + '</h2><p class="section-desc">' + sec.desc + '</p></div>';
-      if (sec.type === 'flow') {
-        html += '<div class="data-flow-card"><h4>' + sec.flowTitle + '</h4><pre>' + sec.flowHtml + '</pre></div>';
-      } else if (sec.type === 'grid') {
-        html += '<div class="details-grid">' + sec.cards.map(hrRenderCard).join('') + '</div>';
-      }
-      return html;
-    }
-    function hrRenderGuide(guide) {
-      var out = guide.sections.map(function (sec, i) {
-        return hrRenderSection(sec) + (i < guide.sections.length - 1 ? '<div class="separator"></div>' : '');
-      }).join('');
-      document.getElementById('hr-guide').innerHTML = out;
-      document.getElementById('hrToc').innerHTML = guide.sections.map(function (sec) {
-        var label = sec.heading.replace(/<[^>]+>/g, '').toUpperCase();
-        return '<button class="hr-toc-pill" onclick="hrJump(\'hr-sec-' + sec.id + '\')">' + label + '</button>';
-      }).join('');
-      hrCards = null;
-      hrFilter();
-    }
-
-    var hrActiveGuideId = null;
-    var hrCards = null;
-
-    function hrSelectGuide(id) {
-      hrActiveGuideId = id;
-      var guide = GUIDES.filter(function (g) { return g.id === id; })[0];
-      if (!guide) return;
-      document.querySelectorAll('.hr-guide-pick').forEach(function (el) {
-        el.classList.toggle('active', el.dataset.guide === id);
-      });
-      var search = document.getElementById('hrSearch');
-      if (search) search.value = '';
-      hrRenderGuide(guide);
-    }
-
-    function hrInitGuides() {
-      var picker = document.getElementById('hrGuidePicker');
-      if (GUIDES.length > 1) {
-        picker.hidden = false;
-        picker.innerHTML = GUIDES.map(function (g) {
-          return '<button class="hr-guide-pick" data-guide="' + g.id + '" onclick="hrSelectGuide(\'' + g.id + '\')">'
-            + '<div class="hr-guide-pick-title">' + g.title + '</div>'
-            + '<div class="hr-guide-pick-tagline">' + g.tagline + '</div></button>';
-        }).join('');
-      } else {
-        picker.hidden = true;
-        picker.innerHTML = '';
-      }
-      if (GUIDES.length) hrSelectGuide(GUIDES[0].id);
-    }
-
-    function hrJump(id) {
-      var el = document.getElementById(id);
-      if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }
-
-    function hrFilter() {
-      if (!hrCards) hrCards = Array.prototype.slice.call(document.querySelectorAll('#hr-guide .detail-card'));
-      var term = (document.getElementById('hrSearch').value || '').toLowerCase().trim();
-      var shown = 0;
-      hrCards.forEach(function (card) {
-        var hay = card.textContent.toLowerCase();
-        var match = !term || hay.indexOf(term) !== -1;
-        card.classList.toggle('hr-hidden', !match);
-        if (match) shown++;
-      });
-      var count = document.getElementById('hrCount');
-      count.innerHTML = term ? ('<span>' + shown + '</span> of ' + hrCards.length + ' cards') : '';
-      document.querySelectorAll('#hr-guide .details-grid').forEach(function (grid) {
-        var visible = Array.prototype.slice.call(grid.querySelectorAll('.detail-card')).some(function (c) { return !c.classList.contains('hr-hidden'); });
-        grid.style.display = (term && !visible) ? 'none' : '';
-      });
-    }
-
-    document.addEventListener('keydown', function (e) {
-      if (e.key === '/' && document.activeElement.tagName !== 'INPUT' && document.activeElement.tagName !== 'TEXTAREA') {
-        var search = document.getElementById('hrSearch');
-        if (search && hrCurrentCategory === 'guides') { e.preventDefault(); search.focus(); }
-      }
-    });
-
     /* ── Top-level category tabs ── */
-    var hrCurrentCategory = 'guides';
     var HR_VIEWS = { guides: 'hrViewGuides', cheatsheets: 'hrViewCheatsheets', references: 'hrViewReferences', playbooks: 'hrViewPlaybooks' };
     function hrSetCategory(cat) {
-      hrCurrentCategory = cat;
       Object.keys(HR_VIEWS).forEach(function (name) {
         document.getElementById(HR_VIEWS[name]).hidden = (name !== cat);
       });
       document.querySelectorAll('.hr-tab').forEach(function (t) { t.classList.toggle('active', t.dataset.cat === cat); });
     }
-
     hrSetCategory('guides');
-    hrInitGuides();
   </script>
 </body>
 
