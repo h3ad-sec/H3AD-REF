@@ -7,21 +7,21 @@
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
   <meta http-equiv="Pragma" content="no-cache">
   <meta http-equiv="Expires" content="0">
-  <title>H3AD-REF - Reference Library // H3AD-SEC</title>
+  <title>Packet Structure Reference // H3AD-REF</title>
   <meta name="description"
-    content="H3AD-REF by H3AD-SEC - Guides, cheatsheets, references, and playbooks in one reference library. First up: a YARA rule-writing guide covering rule anatomy, string types, condition logic, and the mistakes that make rules noisy.">
-  <link rel="canonical" href="https://h3ad-sec.github.io/H3AD-REF/">
+    content="H3AD-REF reference: Ethernet, IPv4, TCP, and UDP header layout in wire order, with byte offsets, common EtherType/protocol values, and the flag bits, plus how to hand-count to a TCP header in a hex dump without Wireshark.">
+  <link rel="canonical" href="https://h3ad-sec.github.io/H3AD-REF/references/packet-structure.html">
 
-  <meta property="og:type" content="website">
+  <meta property="og:type" content="article">
   <meta property="og:site_name" content="H3AD-SEC">
-  <meta property="og:url" content="https://h3ad-sec.github.io/H3AD-REF/">
-  <meta property="og:title" content="H3AD-REF - Reference Library">
-  <meta property="og:description" content="H3AD-REF by H3AD-SEC - Guides, cheatsheets, references, and playbooks in one reference library. First up: a YARA rule-writing guide covering rule anatomy, string types, condition logic, and the mistakes that make rules noisy.">
+  <meta property="og:url" content="https://h3ad-sec.github.io/H3AD-REF/references/packet-structure.html">
+  <meta property="og:title" content="Packet Structure Reference // H3AD-REF">
+  <meta property="og:description" content="Ethernet, IPv4, TCP, and UDP header layout in wire order, with byte offsets, common field values, and how to hand-count to a TCP header without Wireshark.">
   <meta property="og:image" content="https://raw.githubusercontent.com/h3ad-sec/h3ad-sec.github.io/main/logo-dark.png">
 
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="H3AD-REF - Reference Library">
-  <meta name="twitter:description" content="H3AD-REF by H3AD-SEC - Guides, cheatsheets, references, and playbooks in one reference library. First up: a YARA rule-writing guide covering rule anatomy, string types, condition logic, and the mistakes that make rules noisy.">
+  <meta name="twitter:title" content="Packet Structure Reference // H3AD-REF">
+  <meta name="twitter:description" content="Ethernet, IPv4, TCP, and UDP header layout in wire order, with byte offsets, common field values, and how to hand-count to a TCP header without Wireshark.">
   <meta name="twitter:image" content="https://raw.githubusercontent.com/h3ad-sec/h3ad-sec.github.io/main/logo-dark.png">
 
   <meta name="theme-color" content="#080c14">
@@ -30,15 +30,16 @@
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
-    "@type": "CollectionPage",
-    "name": "H3AD-REF - Reference Library // H3AD-SEC",
-    "description": "H3AD-REF by H3AD-SEC - Guides, cheatsheets, references, and playbooks in one reference library. First up: a YARA rule-writing guide covering rule anatomy, string types, condition logic, and the mistakes that make rules noisy.",
-    "url": "https://h3ad-sec.github.io/H3AD-REF/",
+    "@type": "TechArticle",
+    "headline": "Packet Structure Reference",
+    "description": "Ethernet, IPv4, TCP, and UDP header field layout in wire order, with byte offsets, common field values, and how to hand-count to a TCP header in a hex dump without Wireshark.",
+    "url": "https://h3ad-sec.github.io/H3AD-REF/references/packet-structure.html",
     "isPartOf": {
-      "@type": "WebSite",
-      "name": "H3AD-SEC",
-      "url": "https://h3ad-sec.github.io"
-    }
+      "@type": "CollectionPage",
+      "name": "H3AD-REF",
+      "url": "https://h3ad-sec.github.io/H3AD-REF/"
+    },
+    "publisher": { "@type": "Organization", "name": "H3AD-SEC", "url": "https://h3ad-sec.github.io" }
   }
   </script>
   <style>
@@ -60,52 +61,29 @@
       --sans: 'Exo 2', sans-serif;
       --ui: 'IBM Plex Sans', sans-serif;
       --fs-xs: 11px; --fs-sm: 13px; --fs-base: 15px; --fs-md: 16px; --fs-lg: 18px;
-      --cat-guides: #00d4ff; --cat-cheatsheets: #f59e0b; --cat-references: #8b5cf6; --cat-playbooks: #14b8a6;
     }
 
     body.light {
-      --bg: #D3D7DC;
-      --panel: #DADDE1;
-      --panel-alt: #C9CDD2;
-      --panel2: #C9CDD2;
-      --text: #000000;
-      --muted: #2E343B;
-      --accent: #0A6EA8;
-      --accent2: #C2540E;
-      --border: #BBC0C6;
-      --primary: #0A6EA8;
+      --bg: #D3D7DC; --panel: #DADDE1; --panel-alt: #C9CDD2; --panel2: #C9CDD2;
+      --text: #000000; --muted: #2E343B;
+      --accent: #0A6EA8; --accent2: #C2540E;
+      --border: #BBC0C6; --primary: #0A6EA8;
       --primary-dim: rgba(10, 110, 168, 0.07);
       --primary-glow: rgba(10, 110, 168, 0.14);
-      --status-live: #0A6EA8;
-      --status-partial: #B45309;
-      --status-soon: #AEB4BB;
+      --status-live: #0A6EA8; --status-partial: #B45309; --status-soon: #AEB4BB;
       --red: #DC2626; --yellow: #B45309; --green: #059669;
-      --surface: #C9CDD2;
-      --text-dim: #2E343B;
-      --border-dim: #BBC0C6;
-      --cat-guides: #0A6EA8; --cat-cheatsheets: #B45309; --cat-references: #7c3aed; --cat-playbooks: #0d9488;
+      --surface: #C9CDD2; --text-dim: #2E343B; --border-dim: #BBC0C6;
       font-weight: 500;
-    }
-    body.light .hero-sub {
-      font-weight: 400;
     }
 
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     html { scroll-behavior: smooth; }
 
     body {
-      background: var(--bg);
-      color: var(--text);
-      font-family: 'Exo 2', sans-serif;
-      font-size: 14px;
-      line-height: 1.6;
-      overflow-x: hidden;
-      transition: background 0.3s, color 0.3s;
-      display: flex;
-      flex-direction: column;
-      min-height: 100dvh;
+      background: var(--bg); color: var(--text); font-family: 'Exo 2', sans-serif;
+      font-size: 14px; line-height: 1.6; overflow-x: hidden; transition: background 0.3s, color 0.3s;
+      display: flex; flex-direction: column; min-height: 100dvh;
     }
-
     body::before { content: ''; position: fixed; inset: 0;
       background: radial-gradient(ellipse 80% 45% at 50% 0%, rgba(0,212,255,0.055) 0%, transparent 100%), radial-gradient(ellipse 50% 35% at 5% 100%, rgba(88,166,255,0.04) 0%, transparent 100%);
       pointer-events: none; z-index: 0; }
@@ -115,56 +93,38 @@
 
     .nav {
       position: fixed; top: 0; left: 0; right: 0; z-index: 50;
-      background: rgba(8, 12, 18, 0.9);
-      border-bottom: 1px solid var(--border);
-      height: var(--nav-h);
+      background: rgba(8, 12, 18, 0.9); border-bottom: 1px solid var(--border); height: var(--nav-h);
       display: flex; align-items: center; padding: 0 1.25rem;
       backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
     }
     body.light .nav { background: rgba(211, 215, 220, 0.9); }
-
     .nav-brand { flex-shrink: 0; margin-right: 1rem; }
     .nav-brand img { height: 22px; display: block; }
-
-    .nav-links {
-      position: absolute; left: 50%; transform: translateX(-50%);
-      display: flex; align-items: center; gap: 2px; overflow: visible;
-    }
-    .nav-links a {
-      font-family: 'Exo 2', sans-serif; font-weight: 500; font-size: 0.68rem;
-      color: var(--muted); padding: 5px 9px; border-radius: 4px; border: 1px solid transparent;
-      white-space: nowrap; transition: color 0.15s, border-color 0.15s, background 0.15s; flex-shrink: 0;
-    }
+    .nav-links { position: absolute; left: 50%; transform: translateX(-50%); display: flex; align-items: center; gap: 2px; overflow: visible; }
+    .nav-links a { font-family: 'Exo 2', sans-serif; font-weight: 500; font-size: 0.68rem; color: var(--muted);
+      padding: 5px 9px; border-radius: 4px; border: 1px solid transparent; white-space: nowrap;
+      transition: color 0.15s, border-color 0.15s, background 0.15s; flex-shrink: 0; }
     .nav-links a:hover { color: var(--accent); border-color: var(--border); background: var(--primary-dim); }
-    body.light .nav-links a:hover { background: var(--primary-dim); }
     .nav-links a.nav-current { color: var(--accent); border-color: var(--accent); background: var(--primary-dim); }
     .nav-links a:last-child { border: 1px solid var(--border); }
-
     .nav-divider { width: 1px; height: 16px; background: var(--border); margin: 0 6px; flex-shrink: 0; opacity: 0.6; }
     .nav-item { position: relative; display: flex; align-items: center; }
     .nav-dropdown { display: none; position: absolute; top: 100%; left: 0; min-width: 120px; padding-top: 6px; z-index: 100; }
     .nav-dropdown-inner { background: var(--panel); border: 1px solid var(--border); border-radius: 4px; overflow: hidden; }
     .nav-item:hover .nav-dropdown { display: block; }
-    .nav-links .nav-dropdown a {
-      display: block; padding: 7px 12px; font-size: 0.65rem; color: var(--muted);
-      border: none; border-left: 2px solid transparent; border-radius: 0; transition: 0.15s;
-    }
+    .nav-links .nav-dropdown a { display: block; padding: 7px 12px; font-size: 0.65rem; color: var(--muted);
+      border: none; border-left: 2px solid transparent; border-radius: 0; transition: 0.15s; }
     .nav-links .nav-dropdown a:hover { color: var(--accent); border-left-color: var(--accent); background: var(--primary-dim); }
-
     .theme-toggle { margin-left: auto; flex-shrink: 0; cursor: pointer; padding-left: 1rem; }
     .toggle-track { width: 42px; height: 22px; background: var(--border); border-radius: 50px; position: relative; transition: background 0.3s; }
     .toggle-thumb { width: 14px; height: 14px; background: var(--accent); border-radius: 50%; position: absolute; top: 4px; left: 4px; transition: transform 0.3s; box-shadow: 0 0 8px var(--accent); }
     body.light .toggle-thumb { transform: translateX(20px); }
-
     .hamburger { display: none; flex-direction: column; justify-content: center; gap: 4px; cursor: pointer; padding: 6px; margin-right: 8px; flex-shrink: 0; }
     .hamburger span { display: block; width: 18px; height: 2px; background: var(--muted); border-radius: 2px; transition: 0.2s; }
-
-    .nav-drawer {
-      display: none; position: fixed; top: var(--nav-h); left: 0; width: min(300px, 86vw);
+    .nav-drawer { display: none; position: fixed; top: var(--nav-h); left: 0; width: min(300px, 86vw);
       background: var(--panel); border-right: 1px solid var(--border); border-bottom: 1px solid var(--border);
       box-shadow: 6px 0 28px rgba(0, 0, 0, 0.35); z-index: 49; padding: 0.75rem 1rem 1rem;
-      flex-direction: column; gap: 2px; max-height: calc(100vh - var(--nav-h)); overflow-y: auto;
-    }
+      flex-direction: column; gap: 2px; max-height: calc(100vh - var(--nav-h)); overflow-y: auto; }
     .nav-drawer.open { display: flex; }
     .nav-drawer a { font-family: var(--ui); font-size: 0.75rem; color: var(--text-dim); padding: 8px 10px; border-radius: 4px; border-left: 2px solid transparent; transition: 0.15s; }
     .nav-drawer a:hover { color: var(--accent); border-left-color: var(--accent); background: var(--primary-dim); }
@@ -172,65 +132,103 @@
     .drawer-sub { padding-left: 1.8rem !important; font-size: 0.7rem !important; opacity: 0.8; }
 
     main { flex: 1 0 auto; position: relative; z-index: 1; }
-    .page { max-width: 1080px; margin: 0 auto; padding: calc(var(--nav-h) + 3rem) 2rem 5rem; }
-    .hero { padding: 0.5rem 0 1.6rem; }
-    .hero-title { font-family: var(--sans); font-weight: 700; font-size: clamp(22px, 4vw, 34px); color: var(--text); line-height: 1.25; margin-bottom: 10px; }
-    .hero-title span { color: var(--accent); }
-    .hero-sub { font-family: var(--ui); font-size: var(--fs-sm); color: var(--muted); max-width: 660px; line-height: 1.6; margin-bottom: 0; }
+    .page { max-width: 1000px; margin: 0 auto; padding: calc(var(--nav-h) + 2.4rem) 2rem 5rem; }
 
-    .hero-banner { display: flex; justify-content: center; align-items: baseline; gap: 2px; font-family: var(--sans); font-weight: 700; font-size: clamp(26px, 5vw, 42px); letter-spacing: 4px; }
-    .hero-banner-tagline { text-align: center; font-family: var(--sans); font-size: var(--fs-xs); color: var(--muted); letter-spacing: 2px; text-transform: uppercase; margin-top: -6px; }
-    .hero-banner-by { text-align: center; font-family: var(--ui); font-weight: 600; font-size: var(--fs-sm); color: var(--accent); letter-spacing: 1px; margin-bottom: 18px; }
-    .hero-intro { display: flex; flex-direction: column; align-items: center; text-align: center; max-width: 700px; margin: 0 auto; }
-    .hero-intro .hero-title, .hero-intro .hero-sub { margin-left: auto; margin-right: auto; }
+    .yg-crumb { font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.08em; color: var(--muted); margin-bottom: 14px; }
+    .yg-crumb a { color: var(--accent); }
+    .yg-crumb a:hover { text-decoration: underline; }
 
-    a:focus-visible, button:focus-visible, [tabindex]:focus-visible { outline: 2px solid var(--primary); outline-offset: 2px; border-radius: 3px; }
+    .yg-hero-title { font-family: var(--sans); font-weight: 700; font-size: clamp(22px, 4vw, 30px); color: var(--text); margin-bottom: 8px; }
+    .yg-hero-title span { color: var(--accent); }
+    .yg-hero-sub { font-family: var(--ui); font-size: 13px; color: var(--muted); max-width: 680px; line-height: 1.65; margin-bottom: 22px; }
 
-    /* ── Category tabs (PROMPTVAULT-style pill coloring, ARTIFEKTX-style view switch) ── */
-    .hr-tabs { display: flex; gap: 4px; flex-wrap: wrap; padding-bottom: 16px; border-bottom: 1px solid var(--border-dim); margin-bottom: 26px; }
-    .hr-tab { font-family: var(--mono); font-size: 11px; letter-spacing: 0.08em; background: transparent; color: var(--muted);
-      border: 1px solid var(--border); border-radius: 5px; padding: 8px 16px; cursor: pointer; transition: all 0.15s; white-space: nowrap; }
-    .hr-tab:hover { color: var(--text-dim); }
-    .hr-tab.tab-guides.active { color: var(--cat-guides); border-color: var(--cat-guides); background: color-mix(in srgb, var(--cat-guides) 10%, transparent); }
-    .hr-tab.tab-cheatsheets.active { color: var(--cat-cheatsheets); border-color: var(--cat-cheatsheets); background: color-mix(in srgb, var(--cat-cheatsheets) 10%, transparent); }
-    .hr-tab.tab-references.active { color: var(--cat-references); border-color: var(--cat-references); background: color-mix(in srgb, var(--cat-references) 10%, transparent); }
-    .hr-tab.tab-playbooks.active { color: var(--cat-playbooks); border-color: var(--cat-playbooks); background: color-mix(in srgb, var(--cat-playbooks) 10%, transparent); }
+    .hr-toolbar { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 14px; padding-bottom: 18px; border-bottom: 1px solid var(--border-dim); margin-bottom: 8px; }
+    .hr-search-input { flex: 1 1 auto; max-width: 300px; background: var(--panel); border: 1px solid var(--border); border-radius: 6px;
+      padding: 8px 12px; font-family: 'Exo 2', sans-serif; font-size: 13px; color: var(--text); }
+    .hr-search-input::placeholder { color: var(--muted); opacity: 0.7; }
+    .hr-search-input:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-color: var(--accent); }
+    .hr-toc { display: flex; flex-wrap: wrap; gap: 6px; }
+    .hr-toc-pill { font-family: var(--mono); font-size: 10px; letter-spacing: 0.08em; background: transparent; color: var(--muted);
+      border: 1px solid var(--border); border-radius: 20px; padding: 6px 13px; cursor: pointer; transition: all 0.15s; white-space: nowrap; }
+    .hr-toc-pill:hover { color: var(--accent); border-color: var(--accent); background: var(--primary-dim); }
+    .hr-count { font-family: var(--mono); font-size: 10px; color: var(--muted); white-space: nowrap; margin-left: auto; }
+    .hr-count span { color: var(--accent); }
 
-    .hr-view[hidden] { display: none !important; }
+    /* ── ADPATH-derived content components (rescoped to #hr-guide, values verbatim) ── */
+    #hr-guide {
+      --bg-card: #111827; --bg-card-hover: #1a2332; --border: #1e2d3d; --border-active: #2563eb;
+      --text: #e2e8f0; --text-dim: #94a3b8; --text-bright: #f8fafc;
+      --blue: #3b82f6; --cyan: #06b6d4; --green: #10b981; --orange: #f59e0b; --red: #ef4444;
+      --purple: #8b5cf6; --pink: #ec4899; --teal: #14b8a6; --yellow: #eab308; --rose: #f43f5e; --indigo: #6366f1;
+    }
+    body.light #hr-guide {
+      --bg-card: #ffffff; --bg-card-hover: #f1f5f9; --border: #e2e8f0; --border-active: #2563eb;
+      --text: #0f172a; --text-dim: #475569; --text-bright: #020617;
+      --blue: #2563eb; --cyan: #0891b2; --green: #059669; --orange: #c2410c; --red: #dc2626;
+      --purple: #7c3aed; --pink: #db2777; --teal: #0d9488; --yellow: #a16207; --rose: #e11d48; --indigo: #4f46e5;
+    }
+    #hr-guide .separator { height: 1px; background: linear-gradient(90deg, transparent, var(--border), transparent); margin: 44px 0; }
+    #hr-guide .section-header { margin-top: 48px; margin-bottom: 26px; }
+    #hr-guide .section-header:first-of-type { margin-top: 6px; }
+    #hr-guide .section-header h2 { font-family: 'Exo 2', sans-serif; font-size: 21px; font-weight: 600; color: var(--text-bright);
+      padding-bottom: 12px; border-bottom: 1px solid var(--border); }
+    #hr-guide .section-header h2 span { color: var(--cyan); }
+    #hr-guide .section-header h2 .orange { color: var(--orange); }
+    #hr-guide .section-header h2 .purple { color: var(--purple); }
+    #hr-guide .section-header h2 .green { color: var(--green); }
+    #hr-guide .section-header h2 .red { color: var(--red); }
+    #hr-guide .section-header h2 .teal { color: var(--teal); }
+    #hr-guide .section-desc { font-size: 13px; color: var(--text-dim); margin-top: 8px; line-height: 1.6; }
 
-    /* ── Landing card grid (one per tab) ── */
-    .hr-card-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; }
-    .hr-card { background: var(--panel); border: 1px solid var(--border); border-radius: 8px; padding: 20px;
-      transition: border-color 0.15s, background 0.15s; text-decoration: none; display: flex; flex-direction: column; gap: 8px; }
-    a.hr-card:hover { border-color: var(--accent); background: var(--primary-dim); }
-    .hr-card-top { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
-    .hr-card-title { font-family: 'Exo 2', sans-serif; font-weight: 600; font-size: 15px; color: var(--text); }
-    .hr-card-desc { font-family: var(--ui); font-size: 12.5px; color: var(--muted); line-height: 1.6; }
-    .hr-card-badge { font-family: var(--mono); font-size: 9px; letter-spacing: 0.14em; padding: 3px 8px; border-radius: 2px;
-      font-weight: 600; text-transform: uppercase; white-space: nowrap; }
-    .hr-card-badge.live { background: rgba(0, 212, 255, 0.12); color: var(--accent); border: 1px solid rgba(0, 212, 255, 0.25); }
-    .hr-card-badge.soon { background: rgba(148, 163, 184, 0.1); color: var(--muted); border: 1px solid var(--border); }
-    .hr-card.hr-card-disabled { opacity: 0.55; cursor: default; pointer-events: none; border-style: dashed; }
+    #hr-guide .data-flow-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 10px; padding: 24px; margin-top: 18px; }
+    #hr-guide .data-flow-card h4 { font-family: 'Exo 2', sans-serif; font-size: 15.5px; font-weight: 600; color: var(--text-bright); margin-bottom: 12px; }
+    #hr-guide .data-flow-card pre { font-family: 'Share Tech Mono', monospace; font-size: 12.5px; line-height: 1.75; color: var(--text-dim);
+      overflow-x: auto; white-space: pre; }
+    #hr-guide .data-flow-card pre .comment { color: #4a6a4a; }
+    #hr-guide .data-flow-card pre .key { color: var(--cyan); }
+    #hr-guide .data-flow-card pre .val { color: var(--orange); }
+    #hr-guide .data-flow-card pre .type { color: var(--purple); }
+    #hr-guide .data-flow-card pre .danger { color: var(--red); }
 
-    .hr-empty-panel { text-align: center; padding: 60px 20px; border: 1px dashed var(--border); border-radius: 10px; }
-    .hr-empty-title { font-family: var(--mono); font-size: 13px; letter-spacing: 0.1em; color: var(--text); margin-bottom: 8px; }
-    .hr-empty-desc { font-size: 12.5px; color: var(--muted); max-width: 360px; margin: 0 auto; line-height: 1.6; }
+    #hr-guide .details-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 18px; margin-top: 22px; }
+    @media(max-width:768px) { #hr-guide .details-grid { grid-template-columns: 1fr; } }
+
+    #hr-guide .detail-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 10px; padding: 20px; transition: border-color 0.2s; }
+    #hr-guide .detail-card:hover { border-color: var(--border-active); }
+    #hr-guide .detail-card.hr-hidden { display: none; }
+    #hr-guide .detail-card h3 { font-family: 'Exo 2', sans-serif; font-size: 16.5px; font-weight: 600; color: var(--text-bright); margin-bottom: 4px; }
+    #hr-guide .detail-card .card-sub { font-family: 'Exo 2', sans-serif; font-size: 13.5px; color: var(--text-dim); margin-bottom: 11px; letter-spacing: 0.2px; }
+    #hr-guide .detail-card .card-body { font-family: 'Exo 2', sans-serif; font-size: 14px; color: var(--text-dim); line-height: 1.7; }
+    #hr-guide .detail-card .card-body strong { color: var(--text); font-weight: 500; }
+    #hr-guide .detail-card .card-body code, #hr-guide .card-list li code { font-family: 'Share Tech Mono', monospace; font-size: 11.5px;
+      background: rgba(6, 182, 212, 0.08); color: var(--cyan); padding: 2px 6px; border-radius: 3px; }
+    #hr-guide .card-list { list-style: none; padding: 0; margin-top: 8px; }
+    #hr-guide .card-list li { font-family: 'Exo 2', sans-serif; font-size: 14px; color: var(--text-dim); padding: 4px 0 4px 16px; position: relative; line-height: 1.6; }
+    #hr-guide .card-list li:before { content: '\203A'; position: absolute; left: 0; color: var(--cyan); font-weight: 700; }
+
+    #hr-guide .tag { font-family: 'Share Tech Mono', monospace; font-size: 10px; font-weight: 600; text-transform: uppercase;
+      letter-spacing: 1px; padding: 3px 8px; border-radius: 4px; display: inline-block; margin-bottom: 8px; margin-right: 4px; }
+    #hr-guide .tag.strings { background: rgba(6, 182, 212, .15); color: var(--cyan); }
+    #hr-guide .tag.condition { background: rgba(245, 158, 11, .15); color: var(--orange); }
+    #hr-guide .tag.practice { background: rgba(16, 185, 129, .15); color: var(--green); }
+    #hr-guide .tag.pitfall { background: rgba(239, 68, 68, .15); color: var(--red); }
+
+    #hr-guide .detail-card.border-red { border-left: 3px solid var(--red); }
+    #hr-guide .detail-card.border-blue { border-left: 3px solid var(--blue); }
+    #hr-guide .detail-card.border-cyan { border-left: 3px solid var(--cyan); }
+    #hr-guide .detail-card.border-green { border-left: 3px solid var(--green); }
+    #hr-guide .detail-card.border-orange { border-left: 3px solid var(--orange); }
+    #hr-guide .detail-card.border-purple { border-left: 3px solid var(--purple); }
+    #hr-guide .detail-card.border-teal { border-left: 3px solid var(--teal); }
+    #hr-guide .detail-card.border-rose { border-left: 3px solid var(--rose); }
 
     .back-link { margin-top: 3rem; }
     .back-link a { color: var(--muted); font-size: 0.72rem; border-bottom: 1px solid var(--border-dim); transition: color 0.15s, border-color 0.15s; }
     .back-link a:hover { color: var(--accent); border-color: var(--accent); }
 
-    footer {
-      flex-shrink: 0;
-      position: relative; z-index: 1;
-      border-top: 1px solid var(--border-dim);
-      padding: 1.5rem 2.5rem;
-      display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem 1.5rem;
-    }
-    @media (max-width: 860px) {
-      footer { flex-direction: column; justify-content: center; align-items: center; text-align: center; gap: 0.6rem; }
-      .footer-credit-row { justify-content: center; }
-    }
+    footer { flex-shrink: 0; position: relative; z-index: 1; border-top: 1px solid var(--border-dim); padding: 1.5rem 2.5rem;
+      display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem 1.5rem; }
+    @media (max-width: 860px) { footer { flex-direction: column; justify-content: center; align-items: center; text-align: center; gap: 0.6rem; } .footer-credit-row { justify-content: center; } }
     .footer-left { color: var(--muted); font-family: var(--ui); font-size: var(--fs-xs); letter-spacing: 0.06em; }
     .footer-credit-row { display:flex; align-items:center; justify-content:center; gap:10px; flex-wrap:wrap; }
     .footer-credit-pill { display:inline-flex; flex-wrap:nowrap; align-items:center; gap:6px; padding:4px 12px; border:1px solid var(--border); border-radius:999px; text-decoration:none; font-family:'Exo 2',sans-serif; font-weight:500; font-size:var(--fs-xs); white-space:nowrap; color: var(--muted); transition:border-color .15s; }
@@ -240,7 +238,6 @@
     .footer-credit-pill .credit-name { color:var(--accent); font-weight:700; letter-spacing:.5px; }
     .footer-right { color: var(--muted); font-family: var(--ui); font-size: var(--fs-xs); letter-spacing: 0.12em; text-transform: uppercase; opacity: 0.85; }
 
-    /* Nav pill */
     .xv-nav-pill{display:flex;flex-direction:column;align-items:flex-start;gap:1px;margin-left:10px;padding-left:10px;border-left:1px solid var(--border);white-space:nowrap;flex-shrink:0;text-decoration:none;}
     .xv-pill-name{font-family:'Exo 2',sans-serif;font-weight:700;font-size:13px;letter-spacing:4px;line-height:1;}
     .xv-pill-accent{color:var(--accent);}
@@ -253,30 +250,19 @@
 
     body.nav-compact .nav-links { display: none; }
     body.nav-compact .hamburger { display: flex; }
-
     @media(max-width:1000px) { .xv-nav-pill { opacity: 1; transform: none; pointer-events: auto; transition: none; } }
-
-    @media(max-width:768px) {
-      .page { padding-left: 1.25rem; padding-right: 1.25rem; }
-      .hero-title { font-size: clamp(1.4rem, 4vw, 2.2rem); }
-    }
+    @media(max-width:768px) { .page { padding-left: 1.25rem; padding-right: 1.25rem; } }
     @media(max-width:640px) {
-      .nav-links { display: none; }
-      .hamburger { display: flex; }
+      .nav-links { display: none; } .hamburger { display: flex; }
       .page { padding: calc(var(--nav-h) + 1rem) 1.1rem 3.5rem; }
       footer { padding: 1.2rem 1.25rem; }
     }
     @media(max-width:480px) {
       .page { padding: calc(var(--nav-h) + 0.75rem) 0.9rem 3rem; }
-      .hero-sub { font-size: 0.82rem; }
-      .hero-title { font-size: clamp(1.2rem, 7vw, 1.8rem); white-space: normal; }
       .nav-brand { margin-right: 0.6rem; }
       .xv-pill-tagline { display: none; }
       .xv-nav-pill { margin-left: 6px; padding-left: 6px; }
-    }
-    @media(max-width:360px) {
-      .page { padding: calc(var(--nav-h) + 0.5rem) 0.75rem 2.5rem; }
-      .hero-sub { font-size: 0.78rem; }
+      #hr-guide .data-flow-card, #hr-guide .detail-card { padding: 15px; }
     }
   </style>
 </head>
@@ -417,85 +403,143 @@
     <a href="https://h3ad-sec.github.io/H3AD-LEARN/interview-prep/" target="_blank" rel="noopener" onclick="closeDrawer()" class="drawer-sub">↳ INTERVIEW PREP ↗</a>
     <a href="mailto:h3adsec@gmail.com" onclick="closeDrawer()">CONTACT</a>
   </div>
+
   <main>
     <div class="page">
-      <section class="hero">
-        <div class="hero-banner"><span class="xv-pill-accent">H3AD</span><span class="xv-pill-text">-REF</span></div>
-        <div class="hero-banner-tagline">REFERENCE & CHEATSHEET MODULE</div>
-        <div class="hero-banner-by">by H3AD</div>
-        <div class="hero-intro">
-          <h1 class="hero-title">Reference Material.<br><span>Not A Course.</span></h1>
-          <p class="hero-sub">Guides, cheatsheets, references, and playbooks for the moment you need one fact fast. H3AD-LEARN teaches a topic end to end; H3AD-REF just answers the question and gets out of your way. First up under Guides: writing YARA rules that hunt instead of just making noise.</p>
-        </div>
-      </section>
+      <div class="yg-crumb"><a href="https://h3ad-sec.github.io/H3AD-REF/">H3AD-REF</a> / REFERENCES / PACKET STRUCTURE</div>
+      <h1 class="yg-hero-title">Packets.<br><span>Byte By Byte, No Wireshark Required.</span></h1>
+      <p class="yg-hero-sub">A static reference for the four headers you end up hand-parsing most often: Ethernet, IPv4, TCP, and UDP. Each one is laid out here in wire order with byte offsets, so you can read a hex dump cold and know what you're looking at before you ever open a capture tool.</p>
 
-      <div class="hr-tabs" id="hrTabs" role="tablist">
-        <button class="hr-tab tab-guides" data-cat="guides" onclick="hrSetCategory('guides')">GUIDES</button>
-        <button class="hr-tab tab-cheatsheets" data-cat="cheatsheets" onclick="hrSetCategory('cheatsheets')">CHEATSHEETS</button>
-        <button class="hr-tab tab-references" data-cat="references" onclick="hrSetCategory('references')">REFERENCES</button>
-        <button class="hr-tab tab-playbooks" data-cat="playbooks" onclick="hrSetCategory('playbooks')">PLAYBOOKS</button>
+      <div class="hr-toolbar">
+        <input class="hr-search-input" id="hrSearch" type="text" placeholder="Search this reference... ( / )" oninput="hrFilter()" autocomplete="off" spellcheck="false" />
+        <div class="hr-toc">
+          <button class="hr-toc-pill" onclick="hrJump('hr-sec-ethernet')">ETHERNET</button>
+          <button class="hr-toc-pill" onclick="hrJump('hr-sec-ip')">IP HEADER</button>
+          <button class="hr-toc-pill" onclick="hrJump('hr-sec-tcp')">TCP HEADER</button>
+          <button class="hr-toc-pill" onclick="hrJump('hr-sec-udp')">UDP HEADER</button>
+          <button class="hr-toc-pill" onclick="hrJump('hr-sec-byhand')">BY HAND</button>
+        </div>
+        <div class="hr-count" id="hrCount"></div>
       </div>
 
-      <div class="hr-view" id="hrViewGuides">
-        <div class="hr-card-grid">
-          <a class="hr-card" href="guides/yara-rule-writing.html">
-            <div class="hr-card-top"><span class="hr-card-title">YARA Rule Writing</span><span class="hr-card-badge live">LIVE</span></div>
-            <div class="hr-card-desc">Rule anatomy, string and condition syntax, and the habits that keep a rule from becoming noise.</div>
-          </a>
-          <a class="hr-card" href="guides/sigma-rule-writing.html">
-            <div class="hr-card-top"><span class="hr-card-title">Sigma Rule Writing</span><span class="hr-card-badge live">LIVE</span></div>
-            <div class="hr-card-desc">Detection block syntax, condition logic, correlation rules, and backend-conversion gotchas.</div>
-          </a>
-          <a class="hr-card" href="guides/regex-log-parsing.html">
-            <div class="hr-card-top"><span class="hr-card-title">Regex For Log Parsing</span><span class="hr-card-badge live">LIVE</span></div>
-            <div class="hr-card-desc">Anchors, extraction patterns, greedy-vs-lazy quantifiers, and engine differences that break parsers.</div>
-          </a>
+      <div id="hr-guide">
+
+        <!-- ==================== ETHERNET HEADER ==================== -->
+        <div class="section-header" id="hr-sec-ethernet">
+          <h2>Ethernet <span>Header</span></h2>
+          <p class="section-desc">The first 14 bytes of any raw frame, fixed length, no exceptions. Everything else in this reference sits on top of it.</p>
         </div>
+        <div class="data-flow-card">
+          <h4>Ethernet II Header (14 bytes, fixed)</h4>
+          <pre><span class="key">Frame offset 0</span>: the very first byte captured
+├── <span class="key">Destination MAC</span>  <span class="val">6 bytes</span>  offset 0–5
+├── <span class="key">Source MAC</span>       <span class="val">6 bytes</span>  offset 6–11
+└── <span class="key">EtherType</span>        <span class="val">2 bytes</span>  offset 12–13
+    <span class="comment">// tells the next parser what sits inside the payload</span>
+
+<span class="danger">Common EtherType values</span>
+├── <span class="val">0x0800</span>  IPv4
+├── <span class="val">0x0806</span>  ARP
+└── <span class="val">0x86DD</span>  IPv6
+    <span class="comment">// there's no length field here: Ethernet doesn't say how big the payload is, IP's Total Length does that job instead</span></pre>
+        </div>
+
+        <div class="separator"></div>
+
+        <!-- ==================== IP HEADER ==================== -->
+        <div class="section-header" id="hr-sec-ip">
+          <h2>IP <span class="orange">Header</span> (IPv4)</h2>
+          <p class="section-desc">Starts right where Ethernet ends, at offset 14. Minimum 20 bytes, longer only when options are present.</p>
+        </div>
+        <div class="data-flow-card">
+          <h4>IPv4 Header (20 bytes minimum, up to 60 with options)</h4>
+          <pre><span class="key">Frame offset 14</span>: first byte right after the Ethernet header
+├── <span class="key">Version / IHL</span>            <span class="val">1 byte</span>   offset 14
+│   └── high nibble = version (<span class="danger">4</span> for IPv4), low nibble = IHL, header length in 4-byte words
+├── <span class="key">Type of Service</span>          <span class="val">1 byte</span>   offset 15
+├── <span class="key">Total Length</span>             <span class="val">2 bytes</span>  offset 16–17
+│   └── <span class="comment">// whole IP packet, header plus payload, in bytes</span>
+├── <span class="key">Identification</span>           <span class="val">2 bytes</span>  offset 18–19
+├── <span class="key">Flags / Fragment Offset</span>  <span class="val">2 bytes</span>  offset 20–21
+│   └── 3 flag bits (reserved, DF, MF) and a 13-bit fragment offset packed into the same two bytes
+├── <span class="key">TTL</span>                      <span class="val">1 byte</span>   offset 22
+├── <span class="key">Protocol</span>                 <span class="val">1 byte</span>   offset 23
+│   └── <span class="danger">6 = TCP, 17 = UDP, 1 = ICMP</span>
+├── <span class="key">Header Checksum</span>           <span class="val">2 bytes</span>  offset 24–25
+├── <span class="key">Source IP</span>                 <span class="val">4 bytes</span>  offset 26–29
+└── <span class="key">Destination IP</span>            <span class="val">4 bytes</span>  offset 30–33
+    <span class="comment">// IHL = 5 (no options) means this header is exactly 20 bytes, offsets 14 through 33</span></pre>
+        </div>
+
+        <div class="separator"></div>
+
+        <!-- ==================== TCP HEADER ==================== -->
+        <div class="section-header" id="hr-sec-tcp">
+          <h2>TCP <span class="purple">Header</span></h2>
+          <p class="section-desc">The connection-state header. Minimum 20 bytes, and the offsets below assume a 20-byte IP header ahead of it with no options.</p>
+        </div>
+        <div class="data-flow-card">
+          <h4>TCP Header (20 bytes minimum, up to 60 with options)</h4>
+          <pre><span class="key">Frame offset 34</span>: right after a 20-byte IP header
+├── <span class="key">Source Port</span>              <span class="val">2 bytes</span>  offset 34–35
+├── <span class="key">Destination Port</span>         <span class="val">2 bytes</span>  offset 36–37
+├── <span class="key">Sequence Number</span>          <span class="val">4 bytes</span>  offset 38–41
+├── <span class="key">Acknowledgment Number</span>    <span class="val">4 bytes</span>  offset 42–45
+├── <span class="key">Data Offset / Flags</span>      <span class="val">2 bytes</span>  offset 46–47
+│   └── high nibble = data offset, header length in 4-byte words; low bits carry the flags:
+│       <span class="danger">SYN, ACK, FIN, RST, PSH, URG</span>
+├── <span class="key">Window</span>                   <span class="val">2 bytes</span>  offset 48–49
+├── <span class="key">Checksum</span>                 <span class="val">2 bytes</span>  offset 50–51
+└── <span class="key">Urgent Pointer</span>           <span class="val">2 bytes</span>  offset 52–53
+    <span class="comment">// a bare SYN sets only that bit with ACK=0 and no data; a SYN/ACK sets both bits in the same flags byte</span></pre>
+        </div>
+
+        <div class="separator"></div>
+
+        <!-- ==================== UDP HEADER ==================== -->
+        <div class="section-header" id="hr-sec-udp">
+          <h2>UDP <span class="teal">Header</span></h2>
+          <p class="section-desc">Eight bytes, always. No sequence numbers, no acknowledgment, no state to track between packets.</p>
+        </div>
+        <div class="data-flow-card">
+          <h4>UDP Header (8 bytes, fixed, RFC 768)</h4>
+          <pre><span class="key">Frame offset varies</span>: same starting point TCP would occupy, right after the IP header
+├── <span class="key">Source Port</span>       <span class="val">2 bytes</span>
+├── <span class="key">Destination Port</span>  <span class="val">2 bytes</span>
+├── <span class="key">Length</span>            <span class="val">2 bytes</span>
+│   └── <span class="comment">// UDP header plus payload, in bytes, the same job IP's Total Length does one layer up</span>
+└── <span class="key">Checksum</span>          <span class="val">2 bytes</span>
+
+<span class="danger">No sequence number, no acknowledgment number, no flags</span>
+    <span class="comment">// deliberately simpler than TCP: 8 bytes total, and nothing here tracks connection state</span></pre>
+        </div>
+
+        <div class="separator"></div>
+
+        <!-- ==================== READING IT BY HAND ==================== -->
+        <div class="section-header" id="hr-sec-byhand">
+          <h2>Reading It <span class="green">By Hand</span></h2>
+          <p class="section-desc">The practical payoff of knowing this layout: finding a header in a raw hex dump with nothing but a byte counter.</p>
+        </div>
+        <div class="details-grid">
+          <div class="detail-card border-cyan"><span class="tag practice">BY HAND</span>
+            <h3>Finding the TCP Header In A Hex Dump</h3>
+            <div class="card-sub">No packet capture tool, just arithmetic on the bytes in front of you</div>
+            <div class="card-body">
+              Byte 0 of a raw frame is always the first byte of the destination MAC, and the Ethernet header is a fixed 14 bytes, so the IP header starts at offset <code>14</code> (<code>0x0E</code>) every single time. From there the math depends on one nibble: read the byte sitting at offset 14, take its low nibble, that's the IHL, and multiply it by 4. That product is the IP header's real length in bytes. Add it to 14 and you land on the first byte of whatever transport header comes next. With no IP options, IHL is 5, the IP header runs exactly 20 bytes, and TCP or UDP starts at offset <code>34</code> (<code>0x22</code>). Any IP options push that starting offset further out, so checking the IHL nibble first is what keeps a hand count from landing you three bytes into someone else's field.
+            </div>
+          </div>
+        </div>
+
       </div>
 
-      <div class="hr-view" id="hrViewCheatsheets" hidden>
-        <div class="hr-card-grid">
-          <a class="hr-card" href="cheatsheets/wireshark-filters.html">
-            <div class="hr-card-top"><span class="hr-card-title">Wireshark Display Filters</span><span class="hr-card-badge live">LIVE</span></div>
-            <div class="hr-card-desc">Filter syntax basics plus scenario-grouped filters for spoofing, tunneling, beaconing, and cleartext creds.</div>
-          </a>
-          <a class="hr-card" href="cheatsheets/tcpdump-reference.html">
-            <div class="hr-card-top"><span class="hr-card-title">tcpdump Command Reference</span><span class="hr-card-badge live">LIVE</span></div>
-            <div class="hr-card-desc">Basic syntax, BPF capture filters, common one-liners, and output flags.</div>
-          </a>
-          <a class="hr-card" href="cheatsheets/volatility3-commands.html">
-            <div class="hr-card-top"><span class="hr-card-title">Volatility3 Commands</span><span class="hr-card-badge live">LIVE</span></div>
-            <div class="hr-card-desc">Plugin reference for process, network, injection, credential, filesystem, and command-history analysis.</div>
-          </a>
-        </div>
-      </div>
-
-      <div class="hr-view" id="hrViewReferences" hidden>
-        <div class="hr-card-grid">
-          <a class="hr-card" href="references/protocol-port-reference.html">
-            <div class="hr-card-top"><span class="hr-card-title">Protocol & Port Reference</span><span class="hr-card-badge live">LIVE</span></div>
-            <div class="hr-card-desc">Common ports and services with a SOC-relevance note on which ones signal lateral movement.</div>
-          </a>
-          <a class="hr-card" href="references/packet-structure.html">
-            <div class="hr-card-top"><span class="hr-card-title">Packet Structure Reference</span><span class="hr-card-badge live">LIVE</span></div>
-            <div class="hr-card-desc">Ethernet, IP, TCP, and UDP header field layout, byte by byte.</div>
-          </a>
-        </div>
-      </div>
-
-      <div class="hr-view" id="hrViewPlaybooks" hidden>
-        <div class="hr-empty-panel">
-          <div class="hr-empty-title">PLAYBOOKS — MORE COMING</div>
-          <div class="hr-empty-desc">Step-by-step process docs land here. Nothing published yet.</div>
-        </div>
-      </div>
-
-      <div class="back-link"><a href="https://h3ad-sec.github.io/">← Back to H3AD-SEC Platform</a></div>
+      <div class="back-link"><a href="https://h3ad-sec.github.io/H3AD-REF/">← Back to H3AD-REF</a></div>
     </div>
   </main>
+
   <footer>
-    <span class="footer-left">H3AD-SEC © 2026 &nbsp;|&nbsp; H3AD-REF</span>
-    <span class="footer-right">Cheatsheets. Guides. Process Docs.</span>
+    <span class="footer-left">H3AD-SEC © 2026 &nbsp;|&nbsp; H3AD-REF / REFERENCES</span>
+    <span class="footer-right">PACKET STRUCTURE REFERENCE</span>
     <div class="footer-credit-row">
       <a class="footer-credit-pill" href="https://www.linkedin.com/in/hrushikesh-badgujar/" target="_blank" rel="noopener" title="Connect on LinkedIn">
         <span class="credit-tool"><span class="xv-pill-accent">H3AD</span><span class="xv-pill-text">-REF</span></span>
@@ -504,6 +548,7 @@
       </a>
     </div>
   </footer>
+
   <script>
     function toggleDrawer() { document.getElementById('navDrawer').classList.toggle('open'); } function closeDrawer() { document.getElementById('navDrawer').classList.remove('open'); }
     document.addEventListener('click', e => { const d = document.getElementById('navDrawer'), h = document.getElementById('hamburger'); if (d.classList.contains('open') && !d.contains(e.target) && !h.contains(e.target)) closeDrawer(); });
@@ -512,15 +557,34 @@
     const saved = localStorage.getItem('h3ad-theme'); if (saved === 'light') { document.body.classList.add('light'); setLogo('light'); } else setLogo('dark');
     (function(){var pill=document.getElementById('xv-nav-pill'),links=document.querySelector('.nav-links'),toggle=document.querySelector('.theme-toggle'),G=20;function check(){if(!links)return;document.body.classList.remove('nav-compact');links.style.visibility='hidden';var lr=links.getBoundingClientRect(),pr=pill?pill.getBoundingClientRect().right:60,tl=toggle?toggle.getBoundingClientRect().left:window.innerWidth-60;links.style.visibility='';document.body.classList.toggle('nav-compact',(pr+G>lr.left)||(lr.right+G>tl));}check();window.addEventListener('resize',check);})();
 
-    /* ── Top-level category tabs ── */
-    var HR_VIEWS = { guides: 'hrViewGuides', cheatsheets: 'hrViewCheatsheets', references: 'hrViewReferences', playbooks: 'hrViewPlaybooks' };
-    function hrSetCategory(cat) {
-      Object.keys(HR_VIEWS).forEach(function (name) {
-        document.getElementById(HR_VIEWS[name]).hidden = (name !== cat);
+    var hrCards = null;
+    function hrFilter() {
+      if (!hrCards) hrCards = Array.prototype.slice.call(document.querySelectorAll('#hr-guide .detail-card'));
+      var term = (document.getElementById('hrSearch').value || '').toLowerCase().trim();
+      var shown = 0;
+      hrCards.forEach(function (card) {
+        var hay = card.textContent.toLowerCase();
+        var match = !term || hay.indexOf(term) !== -1;
+        card.classList.toggle('hr-hidden', !match);
+        if (match) shown++;
       });
-      document.querySelectorAll('.hr-tab').forEach(function (t) { t.classList.toggle('active', t.dataset.cat === cat); });
+      var count = document.getElementById('hrCount');
+      count.innerHTML = term ? ('<span>' + shown + '</span> of ' + hrCards.length + ' cards') : '';
+      document.querySelectorAll('#hr-guide .details-grid').forEach(function (grid) {
+        var visible = Array.prototype.slice.call(grid.querySelectorAll('.detail-card')).some(function (c) { return !c.classList.contains('hr-hidden'); });
+        grid.style.display = (term && !visible) ? 'none' : '';
+      });
     }
-    hrSetCategory('guides');
+    function hrJump(id) {
+      var el = document.getElementById(id);
+      if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+    document.addEventListener('keydown', function (e) {
+      if (e.key === '/' && document.activeElement.tagName !== 'INPUT' && document.activeElement.tagName !== 'TEXTAREA') {
+        e.preventDefault();
+        document.getElementById('hrSearch').focus();
+      }
+    });
   </script>
 </body>
 
