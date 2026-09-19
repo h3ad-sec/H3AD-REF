@@ -1,0 +1,687 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
+  <title>Suricata & Snort Rule Writing Guide // H3AD-REF</title>
+  <meta name="description"
+    content="H3AD-REF guide: writing Suricata and Snort network IDS/IPS rules. Rule anatomy, sticky buffers vs deprecated content modifiers, detection keywords, best practices, and the pitfalls that make rules noisy or blind.">
+  <link rel="canonical" href="https://h3ad-sec.github.io/H3AD-REF/guides/suricata-snort-rule-writing.html">
+
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="H3AD-SEC">
+  <meta property="og:url" content="https://h3ad-sec.github.io/H3AD-REF/guides/suricata-snort-rule-writing.html">
+  <meta property="og:title" content="Suricata & Snort Rule Writing Guide // H3AD-REF">
+  <meta property="og:description" content="H3AD-REF guide: writing Suricata and Snort network IDS/IPS rules. Rule anatomy, sticky buffers, detection keywords, best practices, and the pitfalls that make rules noisy or blind.">
+  <meta property="og:image" content="https://raw.githubusercontent.com/h3ad-sec/h3ad-sec.github.io/main/logo-dark.png">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Suricata & Snort Rule Writing Guide // H3AD-REF">
+  <meta name="twitter:description" content="H3AD-REF guide: writing Suricata and Snort network IDS/IPS rules. Rule anatomy, sticky buffers, detection keywords, best practices, and the pitfalls that make rules noisy or blind.">
+  <meta name="twitter:image" content="https://raw.githubusercontent.com/h3ad-sec/h3ad-sec.github.io/main/logo-dark.png">
+
+  <meta name="theme-color" content="#080c14">
+  <link rel="icon" href="https://h3ad-sec.github.io/fevicon.png?v=2026" type="image/png">
+  <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Exo+2:wght@300;400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "TechArticle",
+    "headline": "Suricata & Snort Rule Writing Guide",
+    "description": "Rule anatomy, sticky buffers vs deprecated content modifiers, detection keywords, best practices, and the pitfalls that make rules noisy or blind.",
+    "url": "https://h3ad-sec.github.io/H3AD-REF/guides/suricata-snort-rule-writing.html",
+    "isPartOf": {
+      "@type": "CollectionPage",
+      "name": "H3AD-REF",
+      "url": "https://h3ad-sec.github.io/H3AD-REF/"
+    },
+    "publisher": { "@type": "Organization", "name": "H3AD-SEC", "url": "https://h3ad-sec.github.io" }
+  }
+  </script>
+  <style>
+    :root {
+      --bg: #080c14; --panel: #0d1117; --panel-alt: #111827; --panel2: #111827;
+      --text: #e6edf3; --muted: #8b949e;
+      --accent: #00d4ff; --accent2: #3b82f6;
+      --primary: #00d4ff;
+      --primary-dim: rgba(0, 212, 255, 0.08);
+      --primary-glow: rgba(0, 212, 255, 0.18);
+      --status-live: #00d4ff; --status-partial: #f59e0b; --status-soon: #2d3748;
+      --red: #ff3b5c; --yellow: #ffd60a; --green: #00d4ff;
+      --nav-h: 48px;
+      --border: #1c2333;
+      --surface: #111827;
+      --text-dim: #a0aec0;
+      --border-dim: #161f2e;
+      --mono: 'Share Tech Mono', monospace;
+      --sans: 'Exo 2', sans-serif;
+      --ui: 'IBM Plex Sans', sans-serif;
+      --fs-xs: 11px; --fs-sm: 13px; --fs-base: 15px; --fs-md: 16px; --fs-lg: 18px;
+    }
+
+    body.light {
+      --bg: #D3D7DC; --panel: #DADDE1; --panel-alt: #C9CDD2; --panel2: #C9CDD2;
+      --text: #000000; --muted: #2E343B;
+      --accent: #0A6EA8; --accent2: #C2540E;
+      --border: #BBC0C6; --primary: #0A6EA8;
+      --primary-dim: rgba(10, 110, 168, 0.07);
+      --primary-glow: rgba(10, 110, 168, 0.14);
+      --status-live: #0A6EA8; --status-partial: #B45309; --status-soon: #AEB4BB;
+      --red: #DC2626; --yellow: #B45309; --green: #059669;
+      --surface: #C9CDD2; --text-dim: #2E343B; --border-dim: #BBC0C6;
+      font-weight: 500;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg); color: var(--text); font-family: 'Exo 2', sans-serif;
+      font-size: 14px; line-height: 1.6; overflow-x: hidden; transition: background 0.3s, color 0.3s;
+      display: flex; flex-direction: column; min-height: 100dvh;
+    }
+    body::before { content: ''; position: fixed; inset: 0;
+      background: radial-gradient(ellipse 80% 45% at 50% 0%, rgba(0,212,255,0.055) 0%, transparent 100%), radial-gradient(ellipse 50% 35% at 5% 100%, rgba(88,166,255,0.04) 0%, transparent 100%);
+      pointer-events: none; z-index: 0; }
+    body.light::before { background: radial-gradient(ellipse 80% 45% at 50% 0%, rgba(2,132,199,0.05) 0%, transparent 100%), radial-gradient(ellipse 50% 35% at 5% 100%, rgba(37,99,235,0.03) 0%, transparent 100%); }
+
+    a { color: inherit; text-decoration: none; }
+
+    .nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 50;
+      background: rgba(8, 12, 18, 0.9); border-bottom: 1px solid var(--border); height: var(--nav-h);
+      display: flex; align-items: center; padding: 0 1.25rem;
+      backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+    }
+    body.light .nav { background: rgba(211, 215, 220, 0.9); }
+    .nav-brand { flex-shrink: 0; margin-right: 1rem; }
+    .nav-brand img { height: 22px; display: block; }
+    .nav-links { position: absolute; left: 50%; transform: translateX(-50%); display: flex; align-items: center; gap: 2px; overflow: visible; }
+    .nav-links a { font-family: 'Exo 2', sans-serif; font-weight: 500; font-size: 0.68rem; color: var(--muted);
+      padding: 5px 9px; border-radius: 4px; border: 1px solid transparent; white-space: nowrap;
+      transition: color 0.15s, border-color 0.15s, background 0.15s; flex-shrink: 0; }
+    .nav-links a:hover { color: var(--accent); border-color: var(--border); background: var(--primary-dim); }
+    .nav-links a.nav-current { color: var(--accent); border-color: var(--accent); background: var(--primary-dim); }
+    .nav-links a:last-child { border: 1px solid var(--border); }
+    .nav-divider { width: 1px; height: 16px; background: var(--border); margin: 0 6px; flex-shrink: 0; opacity: 0.6; }
+    .nav-item { position: relative; display: flex; align-items: center; }
+    .nav-dropdown { display: none; position: absolute; top: 100%; left: 0; min-width: 120px; padding-top: 6px; z-index: 100; }
+    .nav-dropdown-inner { background: var(--panel); border: 1px solid var(--border); border-radius: 4px; overflow: hidden; }
+    .nav-item:hover .nav-dropdown { display: block; }
+    .nav-links .nav-dropdown a { display: block; padding: 7px 12px; font-size: 0.65rem; color: var(--muted);
+      border: none; border-left: 2px solid transparent; border-radius: 0; transition: 0.15s; }
+    .nav-links .nav-dropdown a:hover { color: var(--accent); border-left-color: var(--accent); background: var(--primary-dim); }
+    .theme-toggle { margin-left: auto; flex-shrink: 0; cursor: pointer; padding-left: 1rem; }
+    .toggle-track { width: 42px; height: 22px; background: var(--border); border-radius: 50px; position: relative; transition: background 0.3s; }
+    .toggle-thumb { width: 14px; height: 14px; background: var(--accent); border-radius: 50%; position: absolute; top: 4px; left: 4px; transition: transform 0.3s; box-shadow: 0 0 8px var(--accent); }
+    body.light .toggle-thumb { transform: translateX(20px); }
+    .hamburger { display: none; flex-direction: column; justify-content: center; gap: 4px; cursor: pointer; padding: 6px; margin-right: 8px; flex-shrink: 0; }
+    .hamburger span { display: block; width: 18px; height: 2px; background: var(--muted); border-radius: 2px; transition: 0.2s; }
+    .nav-drawer { display: none; position: fixed; top: var(--nav-h); left: 0; width: min(300px, 86vw);
+      background: var(--panel); border-right: 1px solid var(--border); border-bottom: 1px solid var(--border);
+      box-shadow: 6px 0 28px rgba(0, 0, 0, 0.35); z-index: 49; padding: 0.75rem 1rem 1rem;
+      flex-direction: column; gap: 2px; max-height: calc(100vh - var(--nav-h)); overflow-y: auto; }
+    .nav-drawer.open { display: flex; }
+    .nav-drawer a { font-family: var(--ui); font-size: 0.75rem; color: var(--text-dim); padding: 8px 10px; border-radius: 4px; border-left: 2px solid transparent; transition: 0.15s; }
+    .nav-drawer a:hover { color: var(--accent); border-left-color: var(--accent); background: var(--primary-dim); }
+    .nav-drawer a.nav-current { color: var(--accent); border-left-color: var(--accent); }
+    .drawer-sub { padding-left: 1.8rem !important; font-size: 0.7rem !important; opacity: 0.8; }
+
+    main { flex: 1 0 auto; position: relative; z-index: 1; }
+    .page { max-width: 1000px; margin: 0 auto; padding: calc(var(--nav-h) + 2.4rem) 2rem 5rem; }
+
+    .yg-crumb { font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.08em; color: var(--muted); margin-bottom: 14px; }
+    .yg-crumb a { color: var(--accent); }
+    .yg-crumb a:hover { text-decoration: underline; }
+
+    .yg-hero-title { font-family: var(--sans); font-weight: 700; font-size: clamp(22px, 4vw, 30px); color: var(--text); margin-bottom: 8px; }
+    .yg-hero-title span { color: var(--accent); }
+    .yg-hero-sub { font-family: var(--ui); font-size: 13px; color: var(--muted); max-width: 680px; line-height: 1.65; margin-bottom: 22px; }
+
+    .hr-toolbar { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 14px; padding-bottom: 18px; border-bottom: 1px solid var(--border-dim); margin-bottom: 8px; }
+    .hr-search-input { flex: 1 1 auto; max-width: 300px; background: var(--panel); border: 1px solid var(--border); border-radius: 6px;
+      padding: 8px 12px; font-family: 'Exo 2', sans-serif; font-size: 13px; color: var(--text); }
+    .hr-search-input::placeholder { color: var(--muted); opacity: 0.7; }
+    .hr-search-input:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-color: var(--accent); }
+    .hr-toc { display: flex; flex-wrap: wrap; gap: 6px; }
+    .hr-toc-pill { font-family: var(--mono); font-size: 10px; letter-spacing: 0.08em; background: transparent; color: var(--muted);
+      border: 1px solid var(--border); border-radius: 20px; padding: 6px 13px; cursor: pointer; transition: all 0.15s; white-space: nowrap; }
+    .hr-toc-pill:hover { color: var(--accent); border-color: var(--accent); background: var(--primary-dim); }
+    .hr-count { font-family: var(--mono); font-size: 10px; color: var(--muted); white-space: nowrap; margin-left: auto; }
+    .hr-count span { color: var(--accent); }
+
+    /* ── ADPATH-derived content components (rescoped to #hr-guide, values verbatim) ── */
+    #hr-guide {
+      --bg-card: #111827; --bg-card-hover: #1a2332; --border: #1e2d3d; --border-active: #2563eb;
+      --text: #e2e8f0; --text-dim: #94a3b8; --text-bright: #f8fafc;
+      --blue: #3b82f6; --cyan: #06b6d4; --green: #10b981; --orange: #f59e0b; --red: #ef4444;
+      --purple: #8b5cf6; --pink: #ec4899; --teal: #14b8a6; --yellow: #eab308; --rose: #f43f5e; --indigo: #6366f1;
+    }
+    body.light #hr-guide {
+      --bg-card: #ffffff; --bg-card-hover: #f1f5f9; --border: #e2e8f0; --border-active: #2563eb;
+      --text: #0f172a; --text-dim: #475569; --text-bright: #020617;
+      --blue: #2563eb; --cyan: #0891b2; --green: #059669; --orange: #c2410c; --red: #dc2626;
+      --purple: #7c3aed; --pink: #db2777; --teal: #0d9488; --yellow: #a16207; --rose: #e11d48; --indigo: #4f46e5;
+    }
+    #hr-guide .separator { height: 1px; background: linear-gradient(90deg, transparent, var(--border), transparent); margin: 44px 0; }
+    #hr-guide .section-header { margin-top: 48px; margin-bottom: 26px; }
+    #hr-guide .section-header:first-of-type { margin-top: 6px; }
+    #hr-guide .section-header h2 { font-family: 'Exo 2', sans-serif; font-size: 21px; font-weight: 600; color: var(--text-bright);
+      padding-bottom: 12px; border-bottom: 1px solid var(--border); }
+    #hr-guide .section-header h2 span { color: var(--cyan); }
+    #hr-guide .section-header h2 .orange { color: var(--orange); }
+    #hr-guide .section-header h2 .purple { color: var(--purple); }
+    #hr-guide .section-header h2 .green { color: var(--green); }
+    #hr-guide .section-header h2 .red { color: var(--red); }
+    #hr-guide .section-header h2 .teal { color: var(--teal); }
+    #hr-guide .section-desc { font-size: 13px; color: var(--text-dim); margin-top: 8px; line-height: 1.6; }
+
+    #hr-guide .data-flow-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 10px; padding: 24px; margin-top: 18px; }
+    #hr-guide .data-flow-card h4 { font-family: 'Exo 2', sans-serif; font-size: 15.5px; font-weight: 600; color: var(--text-bright); margin-bottom: 12px; }
+    #hr-guide .data-flow-card pre { font-family: 'Share Tech Mono', monospace; font-size: 12.5px; line-height: 1.75; color: var(--text-dim);
+      overflow-x: auto; white-space: pre; }
+    #hr-guide .data-flow-card pre .comment { color: #4a6a4a; }
+    #hr-guide .data-flow-card pre .key { color: var(--cyan); }
+    #hr-guide .data-flow-card pre .val { color: var(--orange); }
+    #hr-guide .data-flow-card pre .type { color: var(--purple); }
+    #hr-guide .data-flow-card pre .danger { color: var(--red); }
+
+    #hr-guide .details-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 18px; margin-top: 22px; }
+    @media(max-width:768px) { #hr-guide .details-grid { grid-template-columns: 1fr; } }
+
+    #hr-guide .detail-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 10px; padding: 20px; transition: border-color 0.2s; }
+    #hr-guide .detail-card:hover { border-color: var(--border-active); }
+    #hr-guide .detail-card.hr-hidden { display: none; }
+    #hr-guide .detail-card h3 { font-family: 'Exo 2', sans-serif; font-size: 16.5px; font-weight: 600; color: var(--text-bright); margin-bottom: 4px; }
+    #hr-guide .detail-card .card-sub { font-family: 'Exo 2', sans-serif; font-size: 13.5px; color: var(--text-dim); margin-bottom: 11px; letter-spacing: 0.2px; }
+    #hr-guide .detail-card .card-body { font-family: 'Exo 2', sans-serif; font-size: 14px; color: var(--text-dim); line-height: 1.7; }
+    #hr-guide .detail-card .card-body strong { color: var(--text); font-weight: 500; }
+    #hr-guide .detail-card .card-body code, #hr-guide .card-list li code { font-family: 'Share Tech Mono', monospace; font-size: 11.5px;
+      background: rgba(6, 182, 212, 0.08); color: var(--cyan); padding: 2px 6px; border-radius: 3px; }
+    #hr-guide .card-list { list-style: none; padding: 0; margin-top: 8px; }
+    #hr-guide .card-list li { font-family: 'Exo 2', sans-serif; font-size: 14px; color: var(--text-dim); padding: 4px 0 4px 16px; position: relative; line-height: 1.6; }
+    #hr-guide .card-list li:before { content: '\203A'; position: absolute; left: 0; color: var(--cyan); font-weight: 700; }
+
+    #hr-guide .tag { font-family: 'Share Tech Mono', monospace; font-size: 10px; font-weight: 600; text-transform: uppercase;
+      letter-spacing: 1px; padding: 3px 8px; border-radius: 4px; display: inline-block; margin-bottom: 8px; margin-right: 4px; }
+    #hr-guide .tag.buffer { background: rgba(6, 182, 212, .15); color: var(--cyan); }
+    #hr-guide .tag.keyword { background: rgba(245, 158, 11, .15); color: var(--orange); }
+    #hr-guide .tag.practice { background: rgba(16, 185, 129, .15); color: var(--green); }
+    #hr-guide .tag.pitfall { background: rgba(239, 68, 68, .15); color: var(--red); }
+
+    #hr-guide .detail-card.border-red { border-left: 3px solid var(--red); }
+    #hr-guide .detail-card.border-blue { border-left: 3px solid var(--blue); }
+    #hr-guide .detail-card.border-cyan { border-left: 3px solid var(--cyan); }
+    #hr-guide .detail-card.border-green { border-left: 3px solid var(--green); }
+    #hr-guide .detail-card.border-orange { border-left: 3px solid var(--orange); }
+    #hr-guide .detail-card.border-purple { border-left: 3px solid var(--purple); }
+    #hr-guide .detail-card.border-teal { border-left: 3px solid var(--teal); }
+    #hr-guide .detail-card.border-rose { border-left: 3px solid var(--rose); }
+
+    .back-link { margin-top: 3rem; }
+    .back-link a { color: var(--muted); font-size: 0.72rem; border-bottom: 1px solid var(--border-dim); transition: color 0.15s, border-color 0.15s; }
+    .back-link a:hover { color: var(--accent); border-color: var(--accent); }
+
+    footer { flex-shrink: 0; position: relative; z-index: 1; border-top: 1px solid var(--border-dim); padding: 1.5rem 2.5rem;
+      display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem 1.5rem; }
+    @media (max-width: 860px) { footer { flex-direction: column; justify-content: center; align-items: center; text-align: center; gap: 0.6rem; } .footer-credit-row { justify-content: center; } }
+    .footer-left { color: var(--muted); font-family: var(--ui); font-size: var(--fs-xs); letter-spacing: 0.06em; }
+    .footer-credit-row { display:flex; align-items:center; justify-content:center; gap:10px; flex-wrap:wrap; }
+    .footer-credit-pill { display:inline-flex; flex-wrap:nowrap; align-items:center; gap:6px; padding:4px 12px; border:1px solid var(--border); border-radius:999px; text-decoration:none; font-family:'Exo 2',sans-serif; font-weight:500; font-size:var(--fs-xs); white-space:nowrap; color: var(--muted); transition:border-color .15s; }
+    .footer-credit-pill:hover { border-color:var(--accent); }
+    .footer-credit-pill .credit-tool { font-weight:700; letter-spacing:2px; color: var(--text); }
+    .footer-credit-pill .credit-by { color:var(--muted); }
+    .footer-credit-pill .credit-name { color:var(--accent); font-weight:700; letter-spacing:.5px; }
+    .footer-right { color: var(--muted); font-family: var(--ui); font-size: var(--fs-xs); letter-spacing: 0.12em; text-transform: uppercase; opacity: 0.85; }
+
+    .xv-nav-pill{display:flex;flex-direction:column;align-items:flex-start;gap:1px;margin-left:10px;padding-left:10px;border-left:1px solid var(--border);white-space:nowrap;flex-shrink:0;text-decoration:none;}
+    .xv-pill-name{font-family:'Exo 2',sans-serif;font-weight:700;font-size:13px;letter-spacing:4px;line-height:1;}
+    .xv-pill-accent{color:var(--accent);}
+    .xv-pill-text{color:var(--text);}
+    .xv-pill-tagline{font-family:'Exo 2',sans-serif;font-weight:400;font-size:8px;color:var(--muted);letter-spacing:1.5px;}
+
+    ::-webkit-scrollbar { width: 3px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+
+    body.nav-compact .nav-links { display: none; }
+    body.nav-compact .hamburger { display: flex; }
+    @media(max-width:1000px) { .xv-nav-pill { opacity: 1; transform: none; pointer-events: auto; transition: none; } }
+    @media(max-width:768px) { .page { padding-left: 1.25rem; padding-right: 1.25rem; } }
+    @media(max-width:640px) {
+      .nav-links { display: none; } .hamburger { display: flex; }
+      .page { padding: calc(var(--nav-h) + 1rem) 1.1rem 3.5rem; }
+      footer { padding: 1.2rem 1.25rem; }
+    }
+    @media(max-width:480px) {
+      .page { padding: calc(var(--nav-h) + 0.75rem) 0.9rem 3rem; }
+      .nav-brand { margin-right: 0.6rem; }
+      .xv-pill-tagline { display: none; }
+      .xv-nav-pill { margin-left: 6px; padding-left: 6px; }
+      #hr-guide .data-flow-card, #hr-guide .detail-card { padding: 15px; }
+    }
+  </style>
+</head>
+
+<body>
+  <nav class="nav">
+    <div class="hamburger" id="hamburger" onclick="toggleDrawer()"><span></span><span></span><span></span></div>
+    <div class="nav-brand"><a href="https://h3ad-sec.github.io/"><img id="logoImg"
+          src="https://h3ad-sec.github.io/logo-dark.png" alt="H3AD-SEC"></a></div>
+    <a class="xv-nav-pill" href="#" style="text-decoration:none">
+      <span class="xv-pill-name"><span class="xv-pill-accent">H3AD-</span><span class="xv-pill-text">REF</span></span>
+      <span class="xv-pill-tagline">Reference & Cheatsheets.</span>
+    </a>
+    <div class="nav-links">
+      <div class="nav-divider"></div>
+      <a href="https://h3ad-sec.github.io/H3AD/">H3AD</a>
+      <div class="nav-divider"></div>
+      <div class="nav-item">
+        <a href="https://h3ad-sec.github.io/H3AD-X/">H3AD-X</a>
+        <div class="nav-dropdown"><div class="nav-dropdown-inner">
+          <a href="https://h3ad-sec.github.io/IOC-VERDIKT/" target="_blank" rel="noopener">IOC-VERDIKT</a>
+          <a href="https://h3ad-sec.github.io/PARSE-X/" target="_blank" rel="noopener">PARSE-X</a>
+          <a href="https://h3ad-sec.github.io/DNSCOPE/" target="_blank" rel="noopener">DNSCOPE</a>
+          <a href="https://h3ad-sec.github.io/X-VERDIKT/" target="_blank" rel="noopener">X-VERDIKT</a>
+          <a href="https://h3ad-sec.github.io/MAILSCOPE/" target="_blank" rel="noopener">MAILSCOPE</a>
+          <a href="https://h3ad-sec.github.io/INFRA-SCOPE/" target="_blank" rel="noopener">INFRA-SCOPE</a>
+        </div></div>
+      </div>
+      <div class="nav-item">
+        <a href="https://h3ad-sec.github.io/H3AD-AI/">H3AD-AI</a>
+        <div class="nav-dropdown"><div class="nav-dropdown-inner">
+          <a href="https://h3ad-sec.github.io/PROMPTVAULT/" target="_blank" rel="noopener">PROMPTVAULT</a>
+        </div></div>
+      </div>
+      <div class="nav-item">
+        <a href="https://h3ad-sec.github.io/H3AD-DETECT/">H3AD-DETECT</a>
+        <div class="nav-dropdown"><div class="nav-dropdown-inner">
+          <a href="https://h3ad-sec.github.io/TRACERULES/" target="_blank" rel="noopener">TRACERULES</a>
+        </div></div>
+      </div>
+      <div class="nav-item">
+        <a href="https://h3ad-sec.github.io/H3AD-HUNT/">H3AD-HUNT</a>
+        <div class="nav-dropdown"><div class="nav-dropdown-inner">
+          <a href="https://h3ad-sec.github.io/HYPOS/" target="_blank" rel="noopener">HYPOS</a>
+          <a href="https://h3ad-sec.github.io/PIVEX/" target="_blank" rel="noopener">PIVEX</a>
+          <a href="https://h3ad-sec.github.io/TRACEPULSE/" target="_blank" rel="noopener">TRACEPULSE</a>
+          <a href="https://h3ad-sec.github.io/LOLBIN-R/" target="_blank" rel="noopener">LOLBIN-R</a>
+          <a href="https://h3ad-sec.github.io/TTPHUNT/" target="_blank" rel="noopener">TTPHUNT</a>
+          <a href="https://h3ad-sec.github.io/ADPATH/" target="_blank" rel="noopener">ADPATH</a>
+        </div></div>
+      </div>
+      <div class="nav-item">
+        <a href="https://h3ad-sec.github.io/H3AD-OPS/">H3AD-OPS</a>
+        <div class="nav-dropdown"><div class="nav-dropdown-inner">
+          <a href="https://h3ad-sec.github.io/QUICKTRACE/" target="_blank" rel="noopener">QUICKTRACE</a>
+          <a href="https://h3ad-sec.github.io/PHISHOPS/" target="_blank" rel="noopener">PHISHOPS</a>
+        </div></div>
+      </div>
+      <div class="nav-item">
+        <a href="https://h3ad-sec.github.io/H3AD-DF/">H3AD-DF</a>
+        <div class="nav-dropdown"><div class="nav-dropdown-inner">
+          <a href="https://h3ad-sec.github.io/ARTIFEKTX/" target="_blank" rel="noopener">ARTIFEKTX</a>
+          <a href="https://h3ad-sec.github.io/CHRONIFY/" target="_blank" rel="noopener">CHRONIFY</a>
+          <a href="https://h3ad-sec.github.io/WIN-EVT/" target="_blank" rel="noopener">WIN-EVT</a>
+        </div></div>
+      </div>
+      <a href="https://h3ad-sec.github.io/H3AD-IR/">H3AD-IR</a>
+      <a href="https://h3ad-sec.github.io/H3AD-REF/" class="nav-current">H3AD-REF</a>
+      <div class="nav-item">
+        <a href="https://h3ad-sec.github.io/H3AD-LEARN/">H3AD-LEARN</a>
+        <div class="nav-dropdown"><div class="nav-dropdown-inner">
+          <a href="https://h3ad-sec.github.io/H3AD-LEARN/fundamentals/" target="_blank" rel="noopener">FUNDAMENTALS</a>
+          <a href="https://h3ad-sec.github.io/H3AD-LEARN/networking/" target="_blank" rel="noopener">NETWORKING</a>
+          <a href="https://h3ad-sec.github.io/H3AD-LEARN/windows/" target="_blank" rel="noopener">WINDOWS</a>
+          <a href="https://h3ad-sec.github.io/H3AD-LEARN/threat-hunting/" target="_blank" rel="noopener">THREAT HUNTING</a>
+          <a href="https://h3ad-sec.github.io/H3AD-LEARN/lolbas/" target="_blank" rel="noopener">LOLBAS</a>
+          <a href="https://h3ad-sec.github.io/H3AD-LEARN/threat-intel/" target="_blank" rel="noopener">THREAT INTEL</a>
+          <a href="https://h3ad-sec.github.io/H3AD-LEARN/cloud-security/" target="_blank" rel="noopener">CLOUD SECURITY</a>
+          <a href="https://h3ad-sec.github.io/H3AD-LEARN/malware-analysis/" target="_blank" rel="noopener">MALWARE ANALYSIS</a>
+          <a href="https://h3ad-sec.github.io/H3AD-LEARN/soc-operations/" target="_blank" rel="noopener">SOC OPERATIONS</a>
+          <a href="https://h3ad-sec.github.io/H3AD-LEARN/detection-engineering/" target="_blank" rel="noopener">DETECTION ENGINEERING</a>
+          <a href="https://h3ad-sec.github.io/H3AD-LEARN/incident-response/" target="_blank" rel="noopener">INCIDENT RESPONSE</a>
+          <a href="https://h3ad-sec.github.io/H3AD-LEARN/digital-forensics/" target="_blank" rel="noopener">DIGITAL FORENSICS</a>
+          <a href="https://h3ad-sec.github.io/H3AD-LEARN/linux/" target="_blank" rel="noopener">LINUX</a>
+          <a href="https://h3ad-sec.github.io/H3AD-LEARN/interview-prep/" target="_blank" rel="noopener">INTERVIEW PREP</a>
+        </div></div>
+      </div>
+      <div class="nav-divider"></div>
+      <a href="mailto:h3adsec@gmail.com">CONTACT</a>
+    </div>
+    <div class="theme-toggle" onclick="toggleTheme()">
+      <div class="toggle-track"><div class="toggle-thumb"></div></div>
+    </div>
+  </nav>
+  <div class="nav-drawer" id="navDrawer">
+    <a href="https://h3ad-sec.github.io/H3AD/" onclick="closeDrawer()">H3AD</a>
+    <a href="https://h3ad-sec.github.io/H3AD-X/" onclick="closeDrawer()">H3AD-X</a>
+    <a href="https://h3ad-sec.github.io/IOC-VERDIKT/" target="_blank" rel="noopener" onclick="closeDrawer()" class="drawer-sub">↳ IOC-VERDIKT ↗</a>
+    <a href="https://h3ad-sec.github.io/PARSE-X/" target="_blank" rel="noopener" onclick="closeDrawer()" class="drawer-sub">↳ PARSE-X ↗</a>
+    <a href="https://h3ad-sec.github.io/DNSCOPE/" target="_blank" rel="noopener" onclick="closeDrawer()" class="drawer-sub">↳ DNSCOPE ↗</a>
+    <a href="https://h3ad-sec.github.io/X-VERDIKT/" target="_blank" rel="noopener" onclick="closeDrawer()" class="drawer-sub">↳ X-VERDIKT ↗</a>
+    <a href="https://h3ad-sec.github.io/MAILSCOPE/" target="_blank" rel="noopener" onclick="closeDrawer()" class="drawer-sub">↳ MAILSCOPE ↗</a>
+    <a href="https://h3ad-sec.github.io/INFRA-SCOPE/" target="_blank" rel="noopener" onclick="closeDrawer()" class="drawer-sub">↳ INFRA-SCOPE ↗</a>
+    <a href="https://h3ad-sec.github.io/H3AD-AI/" onclick="closeDrawer()">H3AD-AI</a>
+    <a href="https://h3ad-sec.github.io/PROMPTVAULT/" target="_blank" rel="noopener" onclick="closeDrawer()" class="drawer-sub">↳ PROMPTVAULT ↗</a>
+    <a href="https://h3ad-sec.github.io/H3AD-DETECT/" onclick="closeDrawer()">H3AD-DETECT</a>
+    <a href="https://h3ad-sec.github.io/TRACERULES/" target="_blank" rel="noopener" onclick="closeDrawer()" class="drawer-sub">↳ TRACERULES ↗</a>
+    <a href="https://h3ad-sec.github.io/H3AD-HUNT/" onclick="closeDrawer()">H3AD-HUNT</a>
+    <a href="https://h3ad-sec.github.io/HYPOS/" target="_blank" rel="noopener" onclick="closeDrawer()" class="drawer-sub">↳ HYPOS ↗</a>
+    <a href="https://h3ad-sec.github.io/PIVEX/" target="_blank" rel="noopener" onclick="closeDrawer()" class="drawer-sub">↳ PIVEX ↗</a>
+    <a href="https://h3ad-sec.github.io/TRACEPULSE/" target="_blank" rel="noopener" onclick="closeDrawer()" class="drawer-sub">↳ TRACEPULSE ↗</a>
+    <a href="https://h3ad-sec.github.io/LOLBIN-R/" target="_blank" rel="noopener" onclick="closeDrawer()" class="drawer-sub">↳ LOLBIN-R ↗</a>
+    <a href="https://h3ad-sec.github.io/TTPHUNT/" target="_blank" rel="noopener" onclick="closeDrawer()" class="drawer-sub">↳ TTPHUNT ↗</a>
+    <a href="https://h3ad-sec.github.io/ADPATH/" target="_blank" rel="noopener" onclick="closeDrawer()" class="drawer-sub">↳ ADPATH ↗</a>
+    <a href="https://h3ad-sec.github.io/H3AD-OPS/" onclick="closeDrawer()">H3AD-OPS</a>
+    <a href="https://h3ad-sec.github.io/QUICKTRACE/" target="_blank" rel="noopener" onclick="closeDrawer()" class="drawer-sub">↳ QUICKTRACE ↗</a>
+    <a href="https://h3ad-sec.github.io/PHISHOPS/" target="_blank" rel="noopener" onclick="closeDrawer()" class="drawer-sub">↳ PHISHOPS ↗</a>
+    <a href="https://h3ad-sec.github.io/H3AD-DF/" onclick="closeDrawer()">H3AD-DF</a>
+    <a href="https://h3ad-sec.github.io/ARTIFEKTX/" target="_blank" rel="noopener" onclick="closeDrawer()" class="drawer-sub">↳ ARTIFEKTX ↗</a>
+    <a href="https://h3ad-sec.github.io/CHRONIFY/" target="_blank" rel="noopener" onclick="closeDrawer()" class="drawer-sub">↳ CHRONIFY ↗</a>
+    <a href="https://h3ad-sec.github.io/WIN-EVT/" target="_blank" rel="noopener" onclick="closeDrawer()" class="drawer-sub">↳ WIN-EVT ↗</a>
+    <a href="https://h3ad-sec.github.io/H3AD-IR/" onclick="closeDrawer()">H3AD-IR</a>
+    <a href="https://h3ad-sec.github.io/H3AD-REF/" onclick="closeDrawer()" class="nav-current">H3AD-REF</a>
+    <a href="https://h3ad-sec.github.io/H3AD-LEARN/" onclick="closeDrawer()">H3AD-LEARN</a>
+    <a href="https://h3ad-sec.github.io/H3AD-LEARN/fundamentals/" target="_blank" rel="noopener" onclick="closeDrawer()" class="drawer-sub">↳ FUNDAMENTALS ↗</a>
+    <a href="https://h3ad-sec.github.io/H3AD-LEARN/networking/" target="_blank" rel="noopener" onclick="closeDrawer()" class="drawer-sub">↳ NETWORKING ↗</a>
+    <a href="https://h3ad-sec.github.io/H3AD-LEARN/windows/" target="_blank" rel="noopener" onclick="closeDrawer()" class="drawer-sub">↳ WINDOWS ↗</a>
+    <a href="https://h3ad-sec.github.io/H3AD-LEARN/threat-hunting/" target="_blank" rel="noopener" onclick="closeDrawer()" class="drawer-sub">↳ THREAT HUNTING ↗</a>
+    <a href="https://h3ad-sec.github.io/H3AD-LEARN/lolbas/" target="_blank" rel="noopener" onclick="closeDrawer()" class="drawer-sub">↳ LOLBAS ↗</a>
+    <a href="https://h3ad-sec.github.io/H3AD-LEARN/threat-intel/" target="_blank" rel="noopener" onclick="closeDrawer()" class="drawer-sub">↳ THREAT INTEL ↗</a>
+    <a href="https://h3ad-sec.github.io/H3AD-LEARN/cloud-security/" target="_blank" rel="noopener" onclick="closeDrawer()" class="drawer-sub">↳ CLOUD SECURITY ↗</a>
+    <a href="https://h3ad-sec.github.io/H3AD-LEARN/malware-analysis/" target="_blank" rel="noopener" onclick="closeDrawer()" class="drawer-sub">↳ MALWARE ANALYSIS ↗</a>
+    <a href="https://h3ad-sec.github.io/H3AD-LEARN/soc-operations/" target="_blank" rel="noopener" onclick="closeDrawer()" class="drawer-sub">↳ SOC OPERATIONS ↗</a>
+    <a href="https://h3ad-sec.github.io/H3AD-LEARN/detection-engineering/" target="_blank" rel="noopener" onclick="closeDrawer()" class="drawer-sub">↳ DETECTION ENGINEERING ↗</a>
+    <a href="https://h3ad-sec.github.io/H3AD-LEARN/incident-response/" target="_blank" rel="noopener" onclick="closeDrawer()" class="drawer-sub">↳ INCIDENT RESPONSE ↗</a>
+    <a href="https://h3ad-sec.github.io/H3AD-LEARN/digital-forensics/" target="_blank" rel="noopener" onclick="closeDrawer()" class="drawer-sub">↳ DIGITAL FORENSICS ↗</a>
+    <a href="https://h3ad-sec.github.io/H3AD-LEARN/linux/" target="_blank" rel="noopener" onclick="closeDrawer()" class="drawer-sub">↳ LINUX ↗</a>
+    <a href="https://h3ad-sec.github.io/H3AD-LEARN/interview-prep/" target="_blank" rel="noopener" onclick="closeDrawer()" class="drawer-sub">↳ INTERVIEW PREP ↗</a>
+    <a href="mailto:h3adsec@gmail.com" onclick="closeDrawer()">CONTACT</a>
+  </div>
+
+  <main>
+    <div class="page">
+      <div class="yg-crumb"><a href="https://h3ad-sec.github.io/H3AD-REF/">H3AD-REF</a> / GUIDES / SURICATA & SNORT RULE WRITING</div>
+      <h1 class="yg-hero-title">Network Rules.<br><span>Suricata & Snort, One Syntax Mostly.</span></h1>
+      <p class="yg-hero-sub">A static reference for writing network IDS/IPS rules: header anatomy, sticky buffers versus the deprecated content-modifier syntax, the detection keywords that do the real work, and the judgment calls that keep a rule from going blind against encrypted traffic. No rule engine here, no live testing, just the reference.</p>
+
+      <div class="hr-toolbar">
+        <input class="hr-search-input" id="hrSearch" type="text" placeholder="Search this guide... ( / )" oninput="hrFilter()" autocomplete="off" spellcheck="false" />
+        <div class="hr-toc">
+          <button class="hr-toc-pill" onclick="hrJump('hr-sec-anatomy')">ANATOMY</button>
+          <button class="hr-toc-pill" onclick="hrJump('hr-sec-buffers')">STICKY BUFFERS</button>
+          <button class="hr-toc-pill" onclick="hrJump('hr-sec-keywords')">DETECTION KEYWORDS</button>
+          <button class="hr-toc-pill" onclick="hrJump('hr-sec-practices')">BEST PRACTICES</button>
+          <button class="hr-toc-pill" onclick="hrJump('hr-sec-pitfalls')">PITFALLS</button>
+          <button class="hr-toc-pill" onclick="hrJump('hr-sec-example')">FULL EXAMPLE</button>
+        </div>
+        <div class="hr-count" id="hrCount"></div>
+      </div>
+
+      <div id="hr-guide">
+
+        <!-- ==================== RULE ANATOMY ==================== -->
+        <div class="section-header" id="hr-sec-anatomy">
+          <h2>Rule <span>Anatomy</span></h2>
+          <p class="section-desc">Action, header, options. Suricata and Snort share this shape; Suricata's app-layer protocols and sticky buffers are the parts that moved on.</p>
+        </div>
+        <div class="data-flow-card">
+          <h4>The Three Parts, In Order</h4>
+          <pre><span class="key">1. Action</span>
+<span class="val">alert | drop | reject | pass</span>
+├── alert: logs and generates an event, never blocks traffic
+├── drop (IPS mode only): blocks and logs, silently
+└── <span class="danger">reject</span>: blocks and logs, and sends a TCP RST or ICMP unreachable back
+    <span class="comment">// Suricata runs IDS and IPS from the same binary; Snort needs inline mode configured for drop/reject to block</span>
+
+<span class="key">2. Header</span>
+<span class="val">protocol src_ip src_port -> dst_ip dst_port</span>
+├── protocol: tcp, udp, icmp, or an app-layer protocol like http, tls, dns
+├── src_ip / dst_ip: an IP, a CIDR block, a variable ($HOME_NET, $EXTERNAL_NET), or a negation (!$HOME_NET)
+└── <span class="danger">-></span> is directional; <span class="danger">&lt;></span> matches traffic in either direction
+    <span class="comment">// $HOME_NET / $EXTERNAL_NET are defined once in suricata.yaml or snort.conf, not re-typed per rule</span>
+
+<span class="key">3. Options</span> (everything inside the parens)
+<span class="val">(msg:"..."; content:"..."; sid:1000001; rev:1;)</span>
+├── every option ends in a semicolon; order matters for sticky buffers, not much else
+├── msg, sid, rev, classtype, reference are metadata and required bookkeeping
+└── content, pcre, flow, and sticky buffers like http.uri are the actual matching logic
+    <span class="comment">// sid must be unique across the whole ruleset; local rules conventionally start at 1000000+</span></pre>
+        </div>
+
+        <div class="separator"></div>
+
+        <!-- ==================== STICKY BUFFERS ==================== -->
+        <div class="section-header" id="hr-sec-buffers">
+          <h2>Sticky <span class="orange">Buffers</span></h2>
+          <p class="section-desc">A sticky buffer sets which part of the traffic every content/pcre keyword after it inspects, until the next sticky buffer or the end of the rule.</p>
+        </div>
+        <div class="details-grid">
+          <div class="detail-card border-orange"><span class="tag buffer">BUFFER</span>
+            <h3>Modern Sticky Buffer Syntax</h3>
+            <div class="card-sub">The buffer name comes first, as its own keyword, then content: keywords apply to it</div>
+            <div class="card-body">
+              <ul class="card-list">
+                <li><code>http.uri; content:"/gate.php";</code> — matches only inside the request URI, not the whole packet</li>
+                <li><code>http.host; content:"evil.example";</code> — matches only the HTTP Host header</li>
+                <li><code>http.user_agent; content:"curl";</code> — matches only the User-Agent header value</li>
+                <li>Everything after a sticky buffer keyword stays scoped to it until another sticky buffer appears</li>
+              </ul>
+            </div>
+          </div>
+          <div class="detail-card border-cyan"><span class="tag buffer">BUFFER</span>
+            <h3>Deprecated Content Modifiers</h3>
+            <div class="card-sub">The old Snort-style syntax, still parsed but not how new rules should be written</div>
+            <div class="card-body"><code>content:"/gate.php"; http_uri;</code> puts the modifier after the content match instead of before it. Suricata still accepts this form, but every current ruleset and the official documentation write new rules with sticky buffers instead — write new rules the modern way and only expect to read the old form in inherited rulesets.</div>
+          </div>
+          <div class="detail-card border-purple"><span class="tag buffer">BUFFER</span>
+            <h3>Common Buffers Worth Knowing</h3>
+            <div class="card-sub">The ones that show up in most real-world rules</div>
+            <div class="card-body">
+              <ul class="card-list">
+                <li><code>tls.sni</code> — the SNI hostname from a TLS ClientHello, readable even though the session is encrypted</li>
+                <li><code>dns.query</code> — the queried domain name in a DNS request</li>
+                <li><code>file.data</code> — reassembled, decompressed file content extracted from the stream (HTTP body, SMB file transfer, etc.)</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="separator"></div>
+
+        <!-- ==================== DETECTION KEYWORDS ==================== -->
+        <div class="section-header" id="hr-sec-keywords">
+          <h2>Detection <span class="purple">Keywords</span></h2>
+          <p class="section-desc">The options that decide whether a rule fires, and how expensive it is to evaluate on every packet.</p>
+        </div>
+        <div class="details-grid">
+          <div class="detail-card border-orange"><span class="tag keyword">KEYWORD</span>
+            <h3>content & nocase</h3>
+            <div class="card-sub">The base string match, binary-safe</div>
+            <div class="card-body"><code>content:"malware"; nocase;</code> is the cheapest and most common match. Binary bytes can be mixed in with pipe syntax, e.g. <code>content:"|4D 5A|";</code> for the MZ header. Without <code>nocase</code>, the match is case-sensitive.</div>
+          </div>
+          <div class="detail-card border-cyan"><span class="tag keyword">KEYWORD</span>
+            <h3>pcre</h3>
+            <div class="card-sub">Regex matching, meaningfully slower than content</div>
+            <div class="card-body"><code>pcre:"/pattern/i";</code> is far more expressive than a fixed string but costs more CPU per packet. Pair it after a <code>content</code> match narrows the candidate packets first, rather than running pcre against every packet on the wire.</div>
+          </div>
+          <div class="detail-card border-purple"><span class="tag keyword">KEYWORD</span>
+            <h3>flow</h3>
+            <div class="card-sub">Restricts a rule to a TCP state and a direction</div>
+            <div class="card-body"><code>flow:established,to_server;</code> only inspects packets in an established session flowing toward the server. Direction values are <code>to_server</code>, <code>to_client</code>, <code>from_client</code>, <code>from_server</code> — matching the wrong direction is one of the most common reasons a rule never fires.</div>
+          </div>
+          <div class="detail-card border-teal"><span class="tag keyword">KEYWORD</span>
+            <h3>flowbits</h3>
+            <div class="card-sub">Lets one rule set a flag another rule in the same flow can check</div>
+            <div class="card-body"><code>flowbits:set,seen_login;</code> on one rule and <code>flowbits:isset,seen_login;</code> on a later one builds multi-stage detection logic, where a second rule only fires because an earlier rule already matched something in the same session.</div>
+          </div>
+          <div class="detail-card border-rose"><span class="tag keyword">KEYWORD</span>
+            <h3>fast_pattern</h3>
+            <div class="card-sub">Tells the multi-pattern matcher which content to index first</div>
+            <div class="card-body">Suricata pre-filters packets using one content match per rule before evaluating the rest of the rule's logic. Put <code>fast_pattern;</code> on the longest, least-common string in the rule, not necessarily the first one written, since a short or common string makes a poor pre-filter.</div>
+          </div>
+          <div class="detail-card border-green"><span class="tag keyword">KEYWORD</span>
+            <h3>threshold / detection_filter</h3>
+            <div class="card-sub">Rate-limits a rule that's real but noisy by nature</div>
+            <div class="card-body"><code>threshold:type limit, track by_src, count 5, seconds 60;</code> only alerts after 5 matches from the same source within a minute. Built for patterns like brute-force login attempts, where every individual match is genuine but alerting on each one drowns the analyst.</div>
+          </div>
+        </div>
+
+        <div class="separator"></div>
+
+        <!-- ==================== BEST PRACTICES ==================== -->
+        <div class="section-header" id="hr-sec-practices">
+          <h2>Best <span class="green">Practices</span></h2>
+          <p class="section-desc">The habits that keep a network rule fast, accurate, and maintainable once someone else inherits it.</p>
+        </div>
+        <div class="details-grid">
+          <div class="detail-card border-green"><span class="tag practice">PRACTICE</span>
+            <h3>Write New Rules With Sticky Buffers</h3>
+            <div class="card-sub">Not the deprecated content-modifier form</div>
+            <div class="card-body">Use <code>http.uri</code>, <code>tls.sni</code>, and the other sticky buffer keywords in anything new you write. The old <code>content:"x"; http_uri;</code> form still parses, but it's the legacy syntax, not the one to reach for by default.</div>
+          </div>
+          <div class="detail-card border-cyan"><span class="tag practice">PRACTICE</span>
+            <h3>Put fast_pattern On The Most Selective Content</h3>
+            <div class="card-sub">Not the first content keyword written</div>
+            <div class="card-body">The pre-filter match should be the longest, least-common string in the rule. A short or generic string like <code>content:"GET";</code> makes a poor <code>fast_pattern</code> candidate since it pre-filters almost nothing.</div>
+          </div>
+          <div class="detail-card border-purple"><span class="tag practice">PRACTICE</span>
+            <h3>Anchor Every Rule With flow</h3>
+            <div class="card-sub">A content match with no flow keyword checks every packet in both directions</div>
+            <div class="card-body">Adding <code>flow:established,to_server;</code> (or whichever direction actually applies) cuts both the CPU cost and the false-positive surface, since the rule stops inspecting traffic it was never meant to match.</div>
+          </div>
+          <div class="detail-card border-orange"><span class="tag practice">PRACTICE</span>
+            <h3>Give Every Rule A Real classtype And reference</h3>
+            <div class="card-sub">Same discipline as meta.reference in YARA and tags in Sigma</div>
+            <div class="card-body">An analyst triaging a hit months later needs to know why the rule exists without reverse-engineering it. <code>reference:url,attack.mitre.org/techniques/T1059/001/;</code> maps a hit straight to an ATT&amp;CK technique.</div>
+          </div>
+          <div class="detail-card border-teal"><span class="tag practice">PRACTICE</span>
+            <h3>Test Against A Clean Pcap Before Deploying</h3>
+            <div class="card-sub">Validate the rule outside production first</div>
+            <div class="card-body"><code>suricata -r sample.pcap -S your.rules -l /tmp/out</code> confirms a rule fires, or doesn't, against a known pcap without touching live traffic or an existing production ruleset.</div>
+          </div>
+          <div class="detail-card border-rose"><span class="tag practice">PRACTICE</span>
+            <h3>Keep A Dedicated sid Range For Local Rules</h3>
+            <div class="card-sub">Collisions between custom and vendor rules are a real, common failure</div>
+            <div class="card-body">Reserve a block, commonly 1000000-1999999, for local and custom rules so they never collide with an imported ruleset like ET Open or a commercial feed.</div>
+          </div>
+        </div>
+
+        <div class="separator"></div>
+
+        <!-- ==================== COMMON PITFALLS ==================== -->
+        <div class="section-header" id="hr-sec-pitfalls">
+          <h2>Common <span class="red">Pitfalls</span></h2>
+          <p class="section-desc">Mistakes that don't show up as an error, just as a rule that silently never fires or fires on everything.</p>
+        </div>
+        <div class="details-grid">
+          <div class="detail-card border-red"><span class="tag pitfall">PITFALL</span>
+            <h3>Missing Flow Direction</h3>
+            <div class="card-sub">A rule meant for responses that also inspects requests</div>
+            <div class="card-body">A rule that should only fire on server responses but has no <code>flow:to_client;</code> will also inspect client-to-server traffic, doubling both the match surface and the false-positive risk.</div>
+          </div>
+          <div class="detail-card border-rose"><span class="tag pitfall">PITFALL</span>
+            <h3>content Without nocase On Case-Varying Input</h3>
+            <div class="card-sub">HTTP headers and URIs aren't reliably one case</div>
+            <div class="card-body">Different clients and proxies inflect case differently. A bare <code>content:"POST";</code> can silently miss a lowercase or mixed-case variant that a real client or a deliberately evasive one sends.</div>
+          </div>
+          <div class="detail-card border-orange"><span class="tag pitfall">PITFALL</span>
+            <h3>Encrypted Payloads Defeat content/pcre Entirely</h3>
+            <div class="card-sub">TLS 1.3 encrypts almost everything past the ClientHello</div>
+            <div class="card-body">Matching inside an HTTPS session requires TLS termination or decryption upstream of Suricata. Without that, detection has to fall back to metadata that's still visible in cleartext, like <code>tls.sni</code> or a JA3/JA4 TLS fingerprint.</div>
+          </div>
+          <div class="detail-card border-teal"><span class="tag pitfall">PITFALL</span>
+            <h3>Duplicate Or Reused sid Values</h3>
+            <div class="card-sub">Two rules, one identity</div>
+            <div class="card-body">Suricata will refuse to load, or silently prefer one of, two rules that share a <code>sid</code>. Always check for collisions before deploying custom rules alongside a vendor ruleset like ET Open.</div>
+          </div>
+        </div>
+
+        <div class="separator"></div>
+
+        <!-- ==================== FULL EXAMPLE ==================== -->
+        <div class="section-header" id="hr-sec-example">
+          <h2>Full <span class="teal">Example</span></h2>
+          <p class="section-desc">Every keyword from the sections above, in one rule, doing real work.</p>
+        </div>
+        <div class="data-flow-card">
+          <h4>Suspicious PowerShell EncodedCommand Over HTTP POST</h4>
+          <pre><span class="key">alert http $HOME_NET any -> $EXTERNAL_NET any (</span>
+    msg:"SUSPICIOUS PowerShell EncodedCommand over HTTP POST";
+    <span class="val">flow:established,to_server;</span>
+    http.method; content:"POST"; nocase;
+    http.uri; content:"/gate.php"; <span class="danger">fast_pattern;</span> nocase;
+    file.data; content:"-EncodedCommand"; nocase;
+    classtype:trojan-activity;
+    reference:url,attack.mitre.org/techniques/T1059/001/;
+    sid:1000042; rev:1;
+<span class="key">)</span>
+
+<span class="comment">// http.method, http.uri, and file.data are sticky buffers — each content: that follows applies
+// to the buffer named just before it, not the raw packet payload. fast_pattern sits on the URI
+// content because it's the most unique string in the rule, so Suricata's matcher indexes on it first.</span></pre>
+        </div>
+
+      </div>
+
+      <div class="back-link"><a href="https://h3ad-sec.github.io/H3AD-REF/">← Back to H3AD-REF</a></div>
+    </div>
+  </main>
+
+  <footer>
+    <span class="footer-left">H3AD-SEC © 2026 &nbsp;|&nbsp; H3AD-REF / GUIDES</span>
+    <span class="footer-right">SURICATA & SNORT RULE-WRITING GUIDE</span>
+    <div class="footer-credit-row">
+      <a class="footer-credit-pill" href="https://www.linkedin.com/in/hrushikesh-badgujar/" target="_blank" rel="noopener" title="Connect on LinkedIn">
+        <span class="credit-tool"><span class="xv-pill-accent">H3AD</span><span class="xv-pill-text">-REF</span></span>
+        <span class="credit-by">created by</span>
+        <span class="credit-name">H3AD</span>
+      </a>
+    </div>
+  </footer>
+
+  <script>
+    function toggleDrawer() { document.getElementById('navDrawer').classList.toggle('open'); } function closeDrawer() { document.getElementById('navDrawer').classList.remove('open'); }
+    document.addEventListener('click', e => { const d = document.getElementById('navDrawer'), h = document.getElementById('hamburger'); if (d.classList.contains('open') && !d.contains(e.target) && !h.contains(e.target)) closeDrawer(); });
+    function setLogo(t) { const el = document.getElementById('logoImg'); if (el) el.src = t === 'light' ? 'https://h3ad-sec.github.io/logo-light.png' : 'https://h3ad-sec.github.io/logo-dark.png'; }
+    function toggleTheme() { document.body.classList.toggle('light'); const t = document.body.classList.contains('light') ? 'light' : 'dark'; localStorage.setItem('h3ad-theme', t); setLogo(t); }
+    const saved = localStorage.getItem('h3ad-theme'); if (saved === 'light') { document.body.classList.add('light'); setLogo('light'); } else setLogo('dark');
+    (function(){var pill=document.getElementById('xv-nav-pill'),links=document.querySelector('.nav-links'),toggle=document.querySelector('.theme-toggle'),G=20;function check(){if(!links)return;document.body.classList.remove('nav-compact');links.style.visibility='hidden';var lr=links.getBoundingClientRect(),pr=pill?pill.getBoundingClientRect().right:60,tl=toggle?toggle.getBoundingClientRect().left:window.innerWidth-60;links.style.visibility='';document.body.classList.toggle('nav-compact',(pr+G>lr.left)||(lr.right+G>tl));}check();window.addEventListener('resize',check);})();
+
+    var hrCards = null;
+    function hrFilter() {
+      if (!hrCards) hrCards = Array.prototype.slice.call(document.querySelectorAll('#hr-guide .detail-card'));
+      var term = (document.getElementById('hrSearch').value || '').toLowerCase().trim();
+      var shown = 0;
+      hrCards.forEach(function (card) {
+        var hay = card.textContent.toLowerCase();
+        var match = !term || hay.indexOf(term) !== -1;
+        card.classList.toggle('hr-hidden', !match);
+        if (match) shown++;
+      });
+      var count = document.getElementById('hrCount');
+      count.innerHTML = term ? ('<span>' + shown + '</span> of ' + hrCards.length + ' cards') : '';
+      document.querySelectorAll('#hr-guide .details-grid').forEach(function (grid) {
+        var visible = Array.prototype.slice.call(grid.querySelectorAll('.detail-card')).some(function (c) { return !c.classList.contains('hr-hidden'); });
+        grid.style.display = (term && !visible) ? 'none' : '';
+      });
+    }
+    function hrJump(id) {
+      var el = document.getElementById(id);
+      if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+    document.addEventListener('keydown', function (e) {
+      if (e.key === '/' && document.activeElement.tagName !== 'INPUT' && document.activeElement.tagName !== 'TEXTAREA') {
+        e.preventDefault();
+        document.getElementById('hrSearch').focus();
+      }
+    });
+  </script>
+</body>
+
+</html>
