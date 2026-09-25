@@ -120,4 +120,24 @@
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
+  <url>
+    <loc>https://h3ad-sec.github.io/H3AD-REF/guides/kql-xql-spl-syntax.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://h3ad-sec.github.io/H3AD-REF/cheatsheets/sysinternals-windows-cli-forensics.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://h3ad-sec.github.io/H3AD-REF/references/admiralty-code-tlp.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://h3ad-sec.github.io/H3AD-REF/playbooks/manual-host-triage-no-edr.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
 </urlset>

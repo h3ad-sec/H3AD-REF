@@ -1,0 +1,653 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
+  <title>Admiralty Code & TLP Quick Reference // H3AD-REF</title>
+  <meta name="description"
+    content="H3AD-REF reference: the Admiralty Code (NATO source reliability A-F, information credibility 1-6) and Traffic Light Protocol 2.0 (RED/AMBER+STRICT/AMBER/GREEN/CLEAR), with worked rating examples and handling rules for SOC and CTI.">
+  <link rel="canonical" href="https://h3ad-sec.github.io/H3AD-REF/references/admiralty-code-tlp.html">
+
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="H3AD-SEC">
+  <meta property="og:url" content="https://h3ad-sec.github.io/H3AD-REF/references/admiralty-code-tlp.html">
+  <meta property="og:title" content="Admiralty Code & TLP Quick Reference // H3AD-REF">
+  <meta property="og:description" content="The Admiralty Code (source reliability A-F, information credibility 1-6) and Traffic Light Protocol 2.0 (RED/AMBER+STRICT/AMBER/GREEN/CLEAR) in one reference, with worked examples and handling rules.">
+  <meta property="og:image" content="https://raw.githubusercontent.com/h3ad-sec/h3ad-sec.github.io/main/logo-dark.png">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Admiralty Code & TLP Quick Reference // H3AD-REF">
+  <meta name="twitter:description" content="The Admiralty Code (source reliability A-F, information credibility 1-6) and Traffic Light Protocol 2.0 (RED/AMBER+STRICT/AMBER/GREEN/CLEAR) in one reference, with worked examples and handling rules.">
+  <meta name="twitter:image" content="https://raw.githubusercontent.com/h3ad-sec/h3ad-sec.github.io/main/logo-dark.png">
+
+  <meta name="theme-color" content="#080c14">
+  <link rel="icon" href="https://h3ad-sec.github.io/fevicon.png?v=2026" type="image/png">
+  <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Exo+2:wght@300;400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "TechArticle",
+    "headline": "Admiralty Code & TLP Quick Reference",
+    "description": "The Admiralty Code (source reliability A-F, information credibility 1-6) and Traffic Light Protocol 2.0 (RED/AMBER+STRICT/AMBER/GREEN/CLEAR) in one reference, with worked examples and handling rules.",
+    "url": "https://h3ad-sec.github.io/H3AD-REF/references/admiralty-code-tlp.html",
+    "articleSection": "References",
+    "isPartOf": {
+      "@type": "CollectionPage",
+      "name": "H3AD-REF",
+      "url": "https://h3ad-sec.github.io/H3AD-REF/"
+    },
+    "publisher": { "@type": "Organization", "name": "H3AD-SEC", "url": "https://h3ad-sec.github.io" }
+  }
+  </script>
+  <style>
+    :root {
+      --bg: #080c14; --panel: #0d1117; --panel-alt: #111827; --panel2: #111827;
+      --text: #e6edf3; --muted: #8b949e;
+      --accent: #00d4ff; --accent2: #3b82f6;
+      --primary: #00d4ff;
+      --primary-dim: rgba(0, 212, 255, 0.08);
+      --primary-glow: rgba(0, 212, 255, 0.18);
+      --status-live: #00d4ff; --status-partial: #f59e0b; --status-soon: #2d3748;
+      --red: #ff3b5c; --yellow: #ffd60a; --green: #00d4ff;
+      --nav-h: 48px;
+      --border: #1c2333;
+      --surface: #111827;
+      --text-dim: #a0aec0;
+      --border-dim: #161f2e;
+      --mono: 'Share Tech Mono', monospace;
+      --sans: 'Exo 2', sans-serif;
+      --ui: 'IBM Plex Sans', sans-serif;
+      --fs-xs: 11px; --fs-sm: 13px; --fs-base: 15px; --fs-md: 16px; --fs-lg: 18px;
+    }
+
+    body.light {
+      --bg: #D3D7DC; --panel: #DADDE1; --panel-alt: #C9CDD2; --panel2: #C9CDD2;
+      --text: #000000; --muted: #2E343B;
+      --accent: #0A6EA8; --accent2: #C2540E;
+      --border: #BBC0C6; --primary: #0A6EA8;
+      --primary-dim: rgba(10, 110, 168, 0.07);
+      --primary-glow: rgba(10, 110, 168, 0.14);
+      --status-live: #0A6EA8; --status-partial: #B45309; --status-soon: #AEB4BB;
+      --red: #DC2626; --yellow: #B45309; --green: #059669;
+      --surface: #C9CDD2; --text-dim: #2E343B; --border-dim: #BBC0C6;
+      font-weight: 500;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg); color: var(--text); font-family: 'Exo 2', sans-serif;
+      font-size: 14px; line-height: 1.6; overflow-x: hidden; transition: background 0.3s, color 0.3s;
+      display: flex; flex-direction: column; min-height: 100dvh;
+    }
+    body::before { content: ''; position: fixed; inset: 0;
+      background: radial-gradient(ellipse 80% 45% at 50% 0%, rgba(0,212,255,0.055) 0%, transparent 100%), radial-gradient(ellipse 50% 35% at 5% 100%, rgba(88,166,255,0.04) 0%, transparent 100%);
+      pointer-events: none; z-index: 0; }
+    body.light::before { background: radial-gradient(ellipse 80% 45% at 50% 0%, rgba(2,132,199,0.05) 0%, transparent 100%), radial-gradient(ellipse 50% 35% at 5% 100%, rgba(37,99,235,0.03) 0%, transparent 100%); }
+
+    a { color: inherit; text-decoration: none; }
+
+    .nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 50;
+      background: rgba(8, 12, 18, 0.9); border-bottom: 1px solid var(--border); height: var(--nav-h);
+      display: flex; align-items: center; padding: 0 1.25rem;
+      backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+    }
+    body.light .nav { background: rgba(211, 215, 220, 0.9); }
+    .nav-brand { flex-shrink: 0; margin-right: 1rem; }
+    .nav-brand img { height: 22px; display: block; }
+    .nav-links { position: absolute; left: 50%; transform: translateX(-50%); display: flex; align-items: center; gap: 2px; overflow: visible; }
+    .nav-links a { font-family: 'Exo 2', sans-serif; font-weight: 500; font-size: 0.68rem; color: var(--muted);
+      padding: 5px 9px; border-radius: 4px; border: 1px solid transparent; white-space: nowrap;
+      transition: color 0.15s, border-color 0.15s, background 0.15s; flex-shrink: 0; }
+    .nav-links a:hover { color: var(--accent); border-color: var(--border); background: var(--primary-dim); }
+    .nav-links a.nav-current { color: var(--accent); border-color: var(--accent); background: var(--primary-dim); }
+    .nav-links a:last-child { border: 1px solid var(--border); }
+    .nav-divider { width: 1px; height: 16px; background: var(--border); margin: 0 6px; flex-shrink: 0; opacity: 0.6; }
+    .nav-item { position: relative; display: flex; align-items: center; }
+    .nav-dropdown { display: none; position: absolute; top: 100%; left: 0; min-width: 120px; padding-top: 6px; z-index: 100; }
+    .nav-dropdown-inner { background: var(--panel); border: 1px solid var(--border); border-radius: 4px; overflow: hidden; }
+    .nav-item:hover .nav-dropdown { display: block; }
+    .nav-links .nav-dropdown a { display: block; padding: 7px 12px; font-size: 0.65rem; color: var(--muted);
+      border: none; border-left: 2px solid transparent; border-radius: 0; transition: 0.15s; }
+    .nav-links .nav-dropdown a:hover { color: var(--accent); border-left-color: var(--accent); background: var(--primary-dim); }
+    .theme-toggle { margin-left: auto; flex-shrink: 0; cursor: pointer; padding-left: 1rem; }
+    .toggle-track { width: 42px; height: 22px; background: var(--border); border-radius: 50px; position: relative; transition: background 0.3s; }
+    .toggle-thumb { width: 14px; height: 14px; background: var(--accent); border-radius: 50%; position: absolute; top: 4px; left: 4px; transition: transform 0.3s; box-shadow: 0 0 8px var(--accent); }
+    body.light .toggle-thumb { transform: translateX(20px); }
+    .hamburger { display: none; flex-direction: column; justify-content: center; gap: 4px; cursor: pointer; padding: 6px; margin-right: 8px; flex-shrink: 0; }
+    .hamburger span { display: block; width: 18px; height: 2px; background: var(--muted); border-radius: 2px; transition: 0.2s; }
+    .nav-drawer { display: none; position: fixed; top: var(--nav-h); left: 0; width: min(300px, 86vw);
+      background: var(--panel); border-right: 1px solid var(--border); border-bottom: 1px solid var(--border);
+      box-shadow: 6px 0 28px rgba(0, 0, 0, 0.35); z-index: 49; padding: 0.75rem 1rem 1rem;
+      flex-direction: column; gap: 2px; max-height: calc(100vh - var(--nav-h)); overflow-y: auto; }
+    .nav-drawer.open { display: flex; }
+    .nav-drawer a { font-family: var(--ui); font-size: 0.75rem; color: var(--text-dim); padding: 8px 10px; border-radius: 4px; border-left: 2px solid transparent; transition: 0.15s; }
+    .nav-drawer a:hover { color: var(--accent); border-left-color: var(--accent); background: var(--primary-dim); }
+    .nav-drawer a.nav-current { color: var(--accent); border-left-color: var(--accent); }
+    .drawer-sub { padding-left: 1.8rem !important; font-size: 0.7rem !important; opacity: 0.8; }
+
+    main { flex: 1 0 auto; position: relative; z-index: 1; }
+    .page { max-width: 1000px; margin: 0 auto; padding: calc(var(--nav-h) + 2.4rem) 2rem 5rem; }
+
+    .yg-crumb { font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.08em; color: var(--muted); margin-bottom: 14px; }
+    .yg-crumb a { color: var(--accent); }
+    .yg-crumb a:hover { text-decoration: underline; }
+
+    .yg-hero-title { font-family: var(--sans); font-weight: 700; font-size: clamp(22px, 4vw, 30px); color: var(--text); margin-bottom: 8px; }
+    .yg-hero-title span { color: var(--accent); }
+    .yg-hero-sub { font-family: var(--ui); font-size: 13px; color: var(--muted); max-width: 680px; line-height: 1.65; margin-bottom: 22px; }
+
+    .hr-toolbar { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 14px; padding-bottom: 18px; border-bottom: 1px solid var(--border-dim); margin-bottom: 8px; }
+    .hr-search-input { flex: 1 1 auto; max-width: 300px; background: var(--panel); border: 1px solid var(--border); border-radius: 6px;
+      padding: 8px 12px; font-family: 'Exo 2', sans-serif; font-size: 13px; color: var(--text); }
+    .hr-search-input::placeholder { color: var(--muted); opacity: 0.7; }
+    .hr-search-input:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-color: var(--accent); }
+    .hr-toc { display: flex; flex-wrap: wrap; gap: 6px; }
+    .hr-toc-pill { font-family: var(--mono); font-size: 10px; letter-spacing: 0.08em; background: transparent; color: var(--muted);
+      border: 1px solid var(--border); border-radius: 20px; padding: 6px 13px; cursor: pointer; transition: all 0.15s; white-space: nowrap; }
+    .hr-toc-pill:hover { color: var(--accent); border-color: var(--accent); background: var(--primary-dim); }
+    .hr-count { font-family: var(--mono); font-size: 10px; color: var(--muted); white-space: nowrap; margin-left: auto; }
+    .hr-count span { color: var(--accent); }
+
+    /* ── ADPATH-derived content components (rescoped to #hr-guide, values verbatim) ── */
+    #hr-guide {
+      --bg-card: #111827; --bg-card-hover: #1a2332; --border: #1e2d3d; --border-active: #2563eb;
+      --text: #e2e8f0; --text-dim: #94a3b8; --text-bright: #f8fafc;
+      --blue: #3b82f6; --cyan: #06b6d4; --green: #10b981; --orange: #f59e0b; --red: #ef4444;
+      --purple: #8b5cf6; --pink: #ec4899; --teal: #14b8a6; --yellow: #eab308; --rose: #f43f5e; --indigo: #6366f1;
+    }
+    body.light #hr-guide {
+      --bg-card: #ffffff; --bg-card-hover: #f1f5f9; --border: #e2e8f0; --border-active: #2563eb;
+      --text: #0f172a; --text-dim: #475569; --text-bright: #020617;
+      --blue: #2563eb; --cyan: #0891b2; --green: #059669; --orange: #c2410c; --red: #dc2626;
+      --purple: #7c3aed; --pink: #db2777; --teal: #0d9488; --yellow: #a16207; --rose: #e11d48; --indigo: #4f46e5;
+    }
+    #hr-guide .separator { height: 1px; background: linear-gradient(90deg, transparent, var(--border), transparent); margin: 44px 0; }
+    #hr-guide .section-header { margin-top: 48px; margin-bottom: 26px; }
+    #hr-guide .section-header:first-of-type { margin-top: 6px; }
+    #hr-guide .section-header h2 { font-family: 'Exo 2', sans-serif; font-size: 21px; font-weight: 600; color: var(--text-bright);
+      padding-bottom: 12px; border-bottom: 1px solid var(--border); }
+    #hr-guide .section-header h2 span { color: var(--cyan); }
+    #hr-guide .section-header h2 .orange { color: var(--orange); }
+    #hr-guide .section-header h2 .purple { color: var(--purple); }
+    #hr-guide .section-header h2 .green { color: var(--green); }
+    #hr-guide .section-header h2 .red { color: var(--red); }
+    #hr-guide .section-header h2 .teal { color: var(--teal); }
+    #hr-guide .section-desc { font-size: 13px; color: var(--text-dim); margin-top: 8px; line-height: 1.6; }
+
+    #hr-guide .data-flow-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 10px; padding: 24px; margin-top: 18px; }
+    #hr-guide .data-flow-card h4 { font-family: 'Exo 2', sans-serif; font-size: 15.5px; font-weight: 600; color: var(--text-bright); margin-bottom: 12px; }
+    #hr-guide .data-flow-card pre { font-family: 'Share Tech Mono', monospace; font-size: 12.5px; line-height: 1.75; color: var(--text-dim);
+      overflow-x: auto; white-space: pre; }
+    #hr-guide .data-flow-card pre .comment { color: #4a6a4a; }
+    #hr-guide .data-flow-card pre .key { color: var(--cyan); }
+    #hr-guide .data-flow-card pre .val { color: var(--orange); }
+    #hr-guide .data-flow-card pre .type { color: var(--purple); }
+    #hr-guide .data-flow-card pre .danger { color: var(--red); }
+
+    #hr-guide .details-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 18px; margin-top: 22px; }
+    @media(max-width:768px) { #hr-guide .details-grid { grid-template-columns: 1fr; } }
+
+    #hr-guide .detail-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 10px; padding: 20px; transition: border-color 0.2s; }
+    #hr-guide .detail-card:hover { border-color: var(--border-active); }
+    #hr-guide .detail-card.hr-hidden { display: none; }
+    #hr-guide .detail-card h3 { font-family: 'Exo 2', sans-serif; font-size: 16.5px; font-weight: 600; color: var(--text-bright); margin-bottom: 4px; }
+    #hr-guide .detail-card .card-sub { font-family: 'Exo 2', sans-serif; font-size: 13.5px; color: var(--text-dim); margin-bottom: 11px; letter-spacing: 0.2px; }
+    #hr-guide .detail-card .card-body { font-family: 'Exo 2', sans-serif; font-size: 14px; color: var(--text-dim); line-height: 1.7; }
+    #hr-guide .detail-card .card-body strong { color: var(--text); font-weight: 500; }
+    #hr-guide .detail-card .card-body code, #hr-guide .card-list li code { font-family: 'Share Tech Mono', monospace; font-size: 11.5px;
+      background: rgba(6, 182, 212, 0.08); color: var(--cyan); padding: 2px 6px; border-radius: 3px; }
+    #hr-guide .card-list { list-style: none; padding: 0; margin-top: 8px; }
+    #hr-guide .card-list li { font-family: 'Exo 2', sans-serif; font-size: 14px; color: var(--text-dim); padding: 4px 0 4px 16px; position: relative; line-height: 1.6; }
+    #hr-guide .card-list li:before { content: '\203A'; position: absolute; left: 0; color: var(--cyan); font-weight: 700; }
+
+    #hr-guide .tag { font-family: 'Share Tech Mono', monospace; font-size: 10px; font-weight: 600; text-transform: uppercase;
+      letter-spacing: 1px; padding: 3px 8px; border-radius: 4px; display: inline-block; margin-bottom: 8px; margin-right: 4px; }
+    #hr-guide .tag.strings { background: rgba(6, 182, 212, .15); color: var(--cyan); }
+    #hr-guide .tag.condition { background: rgba(245, 158, 11, .15); color: var(--orange); }
+    #hr-guide .tag.practice { background: rgba(16, 185, 129, .15); color: var(--green); }
+    #hr-guide .tag.pitfall { background: rgba(239, 68, 68, .15); color: var(--red); }
+
+    #hr-guide .detail-card.border-red { border-left: 3px solid var(--red); }
+    #hr-guide .detail-card.border-blue { border-left: 3px solid var(--blue); }
+    #hr-guide .detail-card.border-cyan { border-left: 3px solid var(--cyan); }
+    #hr-guide .detail-card.border-green { border-left: 3px solid var(--green); }
+    #hr-guide .detail-card.border-orange { border-left: 3px solid var(--orange); }
+    #hr-guide .detail-card.border-purple { border-left: 3px solid var(--purple); }
+    #hr-guide .detail-card.border-teal { border-left: 3px solid var(--teal); }
+    #hr-guide .detail-card.border-rose { border-left: 3px solid var(--rose); }
+
+    /* ── Table (this page's own addition, tokens borrowed from the #hr-guide scope above) ── */
+    #hr-guide .hr-table-wrap { overflow-x: auto; margin-top: 18px; border: 1px solid var(--border); border-radius: 10px; }
+    #hr-guide table.hr-table { width: 100%; border-collapse: collapse; background: var(--bg-card); font-family: 'Exo 2', sans-serif; font-size: 13.5px; min-width: 640px; }
+    #hr-guide table.hr-table thead th { text-align: left; font-family: 'Share Tech Mono', monospace; font-size: 10.5px; letter-spacing: 0.08em;
+      text-transform: uppercase; color: var(--cyan); background: rgba(6, 182, 212, 0.06); padding: 12px 16px; border-bottom: 1px solid var(--border); white-space: nowrap; }
+    #hr-guide table.hr-table td { padding: 11px 16px; border-bottom: 1px solid var(--border); color: var(--text-dim); vertical-align: top; line-height: 1.5; }
+    #hr-guide table.hr-table tbody tr:last-child td { border-bottom: none; }
+    #hr-guide table.hr-table tbody tr:hover td { background: var(--bg-card-hover); }
+    #hr-guide table.hr-table td.hr-port { font-family: 'Share Tech Mono', monospace; color: var(--text-bright); font-weight: 600; white-space: nowrap; }
+    #hr-guide table.hr-table td.hr-proto { color: var(--text); font-weight: 500; white-space: nowrap; }
+
+    .back-link { margin-top: 3rem; }
+    .back-link a { color: var(--muted); font-size: 0.72rem; border-bottom: 1px solid var(--border-dim); transition: color 0.15s, border-color 0.15s; }
+    .back-link a:hover { color: var(--accent); border-color: var(--accent); }
+
+    footer { flex-shrink: 0; position: relative; z-index: 1; border-top: 1px solid var(--border-dim); padding: 1.5rem 2.5rem;
+      display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem 1.5rem; }
+    @media (max-width: 860px) { footer { flex-direction: column; justify-content: center; align-items: center; text-align: center; gap: 0.6rem; } .footer-credit-row { justify-content: center; } }
+    .footer-left { color: var(--muted); font-family: var(--ui); font-size: var(--fs-xs); letter-spacing: 0.06em; }
+    .footer-credit-row { display:flex; align-items:center; justify-content:center; gap:10px; flex-wrap:wrap; }
+    .footer-credit-pill { display:inline-flex; flex-wrap:nowrap; align-items:center; gap:6px; padding:4px 12px; border:1px solid var(--border); border-radius:999px; text-decoration:none; font-family:'Exo 2',sans-serif; font-weight:500; font-size:var(--fs-xs); white-space:nowrap; color: var(--muted); transition:border-color .15s; }
+    .footer-credit-pill:hover { border-color:var(--accent); }
+    .footer-credit-pill .credit-tool { font-weight:700; letter-spacing:2px; color: var(--text); }
+    .footer-credit-pill .credit-by { color:var(--muted); }
+    .footer-credit-pill .credit-name { color:var(--accent); font-weight:700; letter-spacing:.5px; }
+    .footer-right { color: var(--muted); font-family: var(--ui); font-size: var(--fs-xs); letter-spacing: 0.12em; text-transform: uppercase; opacity: 0.85; }
+
+    .xv-nav-pill{display:flex;flex-direction:column;align-items:flex-start;gap:1px;margin-left:10px;padding-left:10px;border-left:1px solid var(--border);white-space:nowrap;flex-shrink:0;text-decoration:none;}
+    .xv-pill-name{font-family:'Exo 2',sans-serif;font-weight:700;font-size:13px;letter-spacing:4px;line-height:1;}
+    .xv-pill-accent{color:var(--accent);}
+    .xv-pill-text{color:var(--text);}
+    .xv-pill-tagline{font-family:'Exo 2',sans-serif;font-weight:400;font-size:8px;color:var(--muted);letter-spacing:1.5px;}
+
+    ::-webkit-scrollbar { width: 3px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+
+    body.nav-compact .nav-links { display: none; }
+    body.nav-compact .hamburger { display: flex; }
+    @media(max-width:1000px) { .xv-nav-pill { opacity: 1; transform: none; pointer-events: auto; transition: none; } }
+    @media(max-width:768px) { .page { padding-left: 1.25rem; padding-right: 1.25rem; } }
+    @media(max-width:640px) {
+      .nav-links { display: none; } .hamburger { display: flex; }
+      .page { padding: calc(var(--nav-h) + 1rem) 1.1rem 3.5rem; }
+      footer { padding: 1.2rem 1.25rem; }
+    }
+    @media(max-width:480px) {
+      .page { padding: calc(var(--nav-h) + 0.75rem) 0.9rem 3rem; }
+      .nav-brand { margin-right: 0.6rem; }
+      .xv-pill-tagline { display: none; }
+      .xv-nav-pill { margin-left: 6px; padding-left: 6px; }
+      #hr-guide .data-flow-card, #hr-guide .detail-card { padding: 15px; }
+      #hr-guide table.hr-table td, #hr-guide table.hr-table thead th { padding: 9px 10px; }
+    }
+  </style>
+</head>
+
+<body>
+  <nav class="nav">
+    <div class="hamburger" id="hamburger" onclick="toggleDrawer()"><span></span><span></span><span></span></div>
+    <div class="nav-brand"><a href="https://h3ad-sec.github.io/"><img id="logoImg"
+          src="https://h3ad-sec.github.io/logo-dark.png" alt="H3AD-SEC"></a></div>
+    <a class="xv-nav-pill" href="#" style="text-decoration:none">
+      <span class="xv-pill-name"><span class="xv-pill-accent">H3AD-</span><span class="xv-pill-text">REF</span></span>
+      <span class="xv-pill-tagline">Reference & Cheatsheets.</span>
+    </a>
+    <div class="nav-links">
+      <div class="nav-divider"></div>
+      <a href="https://h3ad-sec.github.io/H3AD/">H3AD</a>
+      <div class="nav-divider"></div>
+      <div class="nav-item">
+        <a href="https://h3ad-sec.github.io/H3AD-X/">H3AD-X</a>
+        <div class="nav-dropdown"><div class="nav-dropdown-inner">
+          <a href="https://h3ad-sec.github.io/IOC-VERDIKT/" target="_blank" rel="noopener">IOC-VERDIKT</a>
+          <a href="https://h3ad-sec.github.io/PARSE-X/" target="_blank" rel="noopener">PARSE-X</a>
+          <a href="https://h3ad-sec.github.io/DNSCOPE/" target="_blank" rel="noopener">DNSCOPE</a>
+          <a href="https://h3ad-sec.github.io/X-VERDIKT/" target="_blank" rel="noopener">X-VERDIKT</a>
+          <a href="https://h3ad-sec.github.io/MAILSCOPE/" target="_blank" rel="noopener">MAILSCOPE</a>
+          <a href="https://h3ad-sec.github.io/INFRA-SCOPE/" target="_blank" rel="noopener">INFRA-SCOPE</a>
+        </div></div>
+      </div>
+      <div class="nav-item">
+        <a href="https://h3ad-sec.github.io/H3AD-AI/">H3AD-AI</a>
+        <div class="nav-dropdown"><div class="nav-dropdown-inner">
+          <a href="https://h3ad-sec.github.io/PROMPTVAULT/" target="_blank" rel="noopener">PROMPTVAULT</a>
+        </div></div>
+      </div>
+      <div class="nav-item">
+        <a href="https://h3ad-sec.github.io/H3AD-DETECT/">H3AD-DETECT</a>
+        <div class="nav-dropdown"><div class="nav-dropdown-inner">
+          <a href="https://h3ad-sec.github.io/TRACERULES/" target="_blank" rel="noopener">TRACERULES</a>
+        </div></div>
+      </div>
+      <div class="nav-item">
+        <a href="https://h3ad-sec.github.io/H3AD-HUNT/">H3AD-HUNT</a>
+        <div class="nav-dropdown"><div class="nav-dropdown-inner">
+          <a href="https://h3ad-sec.github.io/HYPOS/" target="_blank" rel="noopener">HYPOS</a>
+          <a href="https://h3ad-sec.github.io/PIVEX/" target="_blank" rel="noopener">PIVEX</a>
+          <a href="https://h3ad-sec.github.io/TRACEPULSE/" target="_blank" rel="noopener">TRACEPULSE</a>
+          <a href="https://h3ad-sec.github.io/LOLBIN-R/" target="_blank" rel="noopener">LOLBIN-R</a>
+          <a href="https://h3ad-sec.github.io/TTPHUNT/" target="_blank" rel="noopener">TTPHUNT</a>
+          <a href="https://h3ad-sec.github.io/ADPATH/" target="_blank" rel="noopener">ADPATH</a>
+        </div></div>
+      </div>
+      <div class="nav-item">
+        <a href="https://h3ad-sec.github.io/H3AD-OPS/">H3AD-OPS</a>
+        <div class="nav-dropdown"><div class="nav-dropdown-inner">
+          <a href="https://h3ad-sec.github.io/QUICKTRACE/" target="_blank" rel="noopener">QUICKTRACE</a>
+          <a href="https://h3ad-sec.github.io/PHISHOPS/" target="_blank" rel="noopener">PHISHOPS</a>
+        </div></div>
+      </div>
+      <div class="nav-item">
+        <a href="https://h3ad-sec.github.io/H3AD-DF/">H3AD-DF</a>
+        <div class="nav-dropdown"><div class="nav-dropdown-inner">
+          <a href="https://h3ad-sec.github.io/ARTIFEKTX/" target="_blank" rel="noopener">ARTIFEKTX</a>
+          <a href="https://h3ad-sec.github.io/CHRONIFY/" target="_blank" rel="noopener">CHRONIFY</a>
+          <a href="https://h3ad-sec.github.io/WIN-EVT/" target="_blank" rel="noopener">WIN-EVT</a>
+          <a href="https://h3ad-sec.github.io/MAL-OPS/" target="_blank" rel="noopener">MAL-OPS</a>
+        </div></div>
+      </div>
+      <a href="https://h3ad-sec.github.io/H3AD-IR/">H3AD-IR</a>
+      <a href="https://h3ad-sec.github.io/H3AD-REF/" class="nav-current">H3AD-REF</a>
+      <div class="nav-item">
+        <a href="https://h3ad-sec.github.io/H3AD-LEARN/">H3AD-LEARN</a>
+        <div class="nav-dropdown"><div class="nav-dropdown-inner">
+          <a href="https://h3ad-sec.github.io/H3AD-LEARN/fundamentals/" target="_blank" rel="noopener">FUNDAMENTALS</a>
+          <a href="https://h3ad-sec.github.io/H3AD-LEARN/networking/" target="_blank" rel="noopener">NETWORKING</a>
+          <a href="https://h3ad-sec.github.io/H3AD-LEARN/windows/" target="_blank" rel="noopener">WINDOWS</a>
+          <a href="https://h3ad-sec.github.io/H3AD-LEARN/threat-hunting/" target="_blank" rel="noopener">THREAT HUNTING</a>
+          <a href="https://h3ad-sec.github.io/H3AD-LEARN/lolbas/" target="_blank" rel="noopener">LOLBAS</a>
+          <a href="https://h3ad-sec.github.io/H3AD-LEARN/threat-intel/" target="_blank" rel="noopener">THREAT INTEL</a>
+          <a href="https://h3ad-sec.github.io/H3AD-LEARN/cloud-security/" target="_blank" rel="noopener">CLOUD SECURITY</a>
+          <a href="https://h3ad-sec.github.io/H3AD-LEARN/malware-analysis/" target="_blank" rel="noopener">MALWARE ANALYSIS</a>
+          <a href="https://h3ad-sec.github.io/H3AD-LEARN/soc-operations/" target="_blank" rel="noopener">SOC OPERATIONS</a>
+          <a href="https://h3ad-sec.github.io/H3AD-LEARN/detection-engineering/" target="_blank" rel="noopener">DETECTION ENGINEERING</a>
+          <a href="https://h3ad-sec.github.io/H3AD-LEARN/incident-response/" target="_blank" rel="noopener">INCIDENT RESPONSE</a>
+          <a href="https://h3ad-sec.github.io/H3AD-LEARN/digital-forensics/" target="_blank" rel="noopener">DIGITAL FORENSICS</a>
+          <a href="https://h3ad-sec.github.io/H3AD-LEARN/linux/" target="_blank" rel="noopener">LINUX</a>
+          <a href="https://h3ad-sec.github.io/H3AD-LEARN/interview-prep/" target="_blank" rel="noopener">INTERVIEW PREP</a>
+        </div></div>
+      </div>
+      <div class="nav-divider"></div>
+      <a href="mailto:h3adsec@gmail.com">CONTACT</a>
+    </div>
+    <div class="theme-toggle" onclick="toggleTheme()">
+      <div class="toggle-track"><div class="toggle-thumb"></div></div>
+    </div>
+  </nav>
+  <div class="nav-drawer" id="navDrawer">
+    <a href="https://h3ad-sec.github.io/H3AD/" onclick="closeDrawer()">H3AD</a>
+    <a href="https://h3ad-sec.github.io/H3AD-X/" onclick="closeDrawer()">H3AD-X</a>
+    <a href="https://h3ad-sec.github.io/IOC-VERDIKT/" target="_blank" rel="noopener" onclick="closeDrawer()" class="drawer-sub">↳ IOC-VERDIKT ↗</a>
+    <a href="https://h3ad-sec.github.io/PARSE-X/" target="_blank" rel="noopener" onclick="closeDrawer()" class="drawer-sub">↳ PARSE-X ↗</a>
+    <a href="https://h3ad-sec.github.io/DNSCOPE/" target="_blank" rel="noopener" onclick="closeDrawer()" class="drawer-sub">↳ DNSCOPE ↗</a>
+    <a href="https://h3ad-sec.github.io/X-VERDIKT/" target="_blank" rel="noopener" onclick="closeDrawer()" class="drawer-sub">↳ X-VERDIKT ↗</a>
+    <a href="https://h3ad-sec.github.io/MAILSCOPE/" target="_blank" rel="noopener" onclick="closeDrawer()" class="drawer-sub">↳ MAILSCOPE ↗</a>
+    <a href="https://h3ad-sec.github.io/INFRA-SCOPE/" target="_blank" rel="noopener" onclick="closeDrawer()" class="drawer-sub">↳ INFRA-SCOPE ↗</a>
+    <a href="https://h3ad-sec.github.io/H3AD-AI/" onclick="closeDrawer()">H3AD-AI</a>
+    <a href="https://h3ad-sec.github.io/PROMPTVAULT/" target="_blank" rel="noopener" onclick="closeDrawer()" class="drawer-sub">↳ PROMPTVAULT ↗</a>
+    <a href="https://h3ad-sec.github.io/H3AD-DETECT/" onclick="closeDrawer()">H3AD-DETECT</a>
+    <a href="https://h3ad-sec.github.io/TRACERULES/" target="_blank" rel="noopener" onclick="closeDrawer()" class="drawer-sub">↳ TRACERULES ↗</a>
+    <a href="https://h3ad-sec.github.io/H3AD-HUNT/" onclick="closeDrawer()">H3AD-HUNT</a>
+    <a href="https://h3ad-sec.github.io/HYPOS/" target="_blank" rel="noopener" onclick="closeDrawer()" class="drawer-sub">↳ HYPOS ↗</a>
+    <a href="https://h3ad-sec.github.io/PIVEX/" target="_blank" rel="noopener" onclick="closeDrawer()" class="drawer-sub">↳ PIVEX ↗</a>
+    <a href="https://h3ad-sec.github.io/TRACEPULSE/" target="_blank" rel="noopener" onclick="closeDrawer()" class="drawer-sub">↳ TRACEPULSE ↗</a>
+    <a href="https://h3ad-sec.github.io/LOLBIN-R/" target="_blank" rel="noopener" onclick="closeDrawer()" class="drawer-sub">↳ LOLBIN-R ↗</a>
+    <a href="https://h3ad-sec.github.io/TTPHUNT/" target="_blank" rel="noopener" onclick="closeDrawer()" class="drawer-sub">↳ TTPHUNT ↗</a>
+    <a href="https://h3ad-sec.github.io/ADPATH/" target="_blank" rel="noopener" onclick="closeDrawer()" class="drawer-sub">↳ ADPATH ↗</a>
+    <a href="https://h3ad-sec.github.io/H3AD-OPS/" onclick="closeDrawer()">H3AD-OPS</a>
+    <a href="https://h3ad-sec.github.io/QUICKTRACE/" target="_blank" rel="noopener" onclick="closeDrawer()" class="drawer-sub">↳ QUICKTRACE ↗</a>
+    <a href="https://h3ad-sec.github.io/PHISHOPS/" target="_blank" rel="noopener" onclick="closeDrawer()" class="drawer-sub">↳ PHISHOPS ↗</a>
+    <a href="https://h3ad-sec.github.io/H3AD-DF/" onclick="closeDrawer()">H3AD-DF</a>
+    <a href="https://h3ad-sec.github.io/ARTIFEKTX/" target="_blank" rel="noopener" onclick="closeDrawer()" class="drawer-sub">↳ ARTIFEKTX ↗</a>
+    <a href="https://h3ad-sec.github.io/CHRONIFY/" target="_blank" rel="noopener" onclick="closeDrawer()" class="drawer-sub">↳ CHRONIFY ↗</a>
+    <a href="https://h3ad-sec.github.io/WIN-EVT/" target="_blank" rel="noopener" onclick="closeDrawer()" class="drawer-sub">↳ WIN-EVT ↗</a>
+    <a href="https://h3ad-sec.github.io/MAL-OPS/" target="_blank" rel="noopener" onclick="closeDrawer()" class="drawer-sub">↳ MAL-OPS ↗</a>
+    <a href="https://h3ad-sec.github.io/H3AD-IR/" onclick="closeDrawer()">H3AD-IR</a>
+    <a href="https://h3ad-sec.github.io/H3AD-REF/" onclick="closeDrawer()" class="nav-current">H3AD-REF</a>
+    <a href="https://h3ad-sec.github.io/H3AD-LEARN/" onclick="closeDrawer()">H3AD-LEARN</a>
+    <a href="https://h3ad-sec.github.io/H3AD-LEARN/fundamentals/" target="_blank" rel="noopener" onclick="closeDrawer()" class="drawer-sub">↳ FUNDAMENTALS ↗</a>
+    <a href="https://h3ad-sec.github.io/H3AD-LEARN/networking/" target="_blank" rel="noopener" onclick="closeDrawer()" class="drawer-sub">↳ NETWORKING ↗</a>
+    <a href="https://h3ad-sec.github.io/H3AD-LEARN/windows/" target="_blank" rel="noopener" onclick="closeDrawer()" class="drawer-sub">↳ WINDOWS ↗</a>
+    <a href="https://h3ad-sec.github.io/H3AD-LEARN/threat-hunting/" target="_blank" rel="noopener" onclick="closeDrawer()" class="drawer-sub">↳ THREAT HUNTING ↗</a>
+    <a href="https://h3ad-sec.github.io/H3AD-LEARN/lolbas/" target="_blank" rel="noopener" onclick="closeDrawer()" class="drawer-sub">↳ LOLBAS ↗</a>
+    <a href="https://h3ad-sec.github.io/H3AD-LEARN/threat-intel/" target="_blank" rel="noopener" onclick="closeDrawer()" class="drawer-sub">↳ THREAT INTEL ↗</a>
+    <a href="https://h3ad-sec.github.io/H3AD-LEARN/cloud-security/" target="_blank" rel="noopener" onclick="closeDrawer()" class="drawer-sub">↳ CLOUD SECURITY ↗</a>
+    <a href="https://h3ad-sec.github.io/H3AD-LEARN/malware-analysis/" target="_blank" rel="noopener" onclick="closeDrawer()" class="drawer-sub">↳ MALWARE ANALYSIS ↗</a>
+    <a href="https://h3ad-sec.github.io/H3AD-LEARN/soc-operations/" target="_blank" rel="noopener" onclick="closeDrawer()" class="drawer-sub">↳ SOC OPERATIONS ↗</a>
+    <a href="https://h3ad-sec.github.io/H3AD-LEARN/detection-engineering/" target="_blank" rel="noopener" onclick="closeDrawer()" class="drawer-sub">↳ DETECTION ENGINEERING ↗</a>
+    <a href="https://h3ad-sec.github.io/H3AD-LEARN/incident-response/" target="_blank" rel="noopener" onclick="closeDrawer()" class="drawer-sub">↳ INCIDENT RESPONSE ↗</a>
+    <a href="https://h3ad-sec.github.io/H3AD-LEARN/digital-forensics/" target="_blank" rel="noopener" onclick="closeDrawer()" class="drawer-sub">↳ DIGITAL FORENSICS ↗</a>
+    <a href="https://h3ad-sec.github.io/H3AD-LEARN/linux/" target="_blank" rel="noopener" onclick="closeDrawer()" class="drawer-sub">↳ LINUX ↗</a>
+    <a href="https://h3ad-sec.github.io/H3AD-LEARN/interview-prep/" target="_blank" rel="noopener" onclick="closeDrawer()" class="drawer-sub">↳ INTERVIEW PREP ↗</a>
+    <a href="mailto:h3adsec@gmail.com" onclick="closeDrawer()">CONTACT</a>
+  </div>
+
+  <main>
+    <div class="page">
+      <div class="yg-crumb"><a href="https://h3ad-sec.github.io/H3AD-REF/">H3AD-REF</a> / REFERENCES / ADMIRALTY CODE & TLP</div>
+      <h1 class="yg-hero-title">Rate The Source.<br><span>Label The Sharing.</span></h1>
+      <p class="yg-hero-sub">Two classification systems that show up in almost every intel report you'll write or read: the Admiralty Code for grading a source and the information it handed you, and the Traffic Light Protocol for marking how far that information is allowed to travel. Static definitions, worked examples, no ambiguity about what a letter, number, or color actually permits.</p>
+
+      <div class="hr-toolbar">
+        <input class="hr-search-input" id="hrSearch" type="text" placeholder="Search this reference... ( / )" oninput="hrFilter()" autocomplete="off" spellcheck="false" />
+        <div class="hr-toc">
+          <button class="hr-toc-pill" onclick="hrJump('hr-sec-admiralty')">ADMIRALTY CODE</button>
+          <button class="hr-toc-pill" onclick="hrJump('hr-sec-tlp')">TLP 2.0</button>
+          <button class="hr-toc-pill" onclick="hrJump('hr-sec-usage')">DAILY USE</button>
+        </div>
+        <div class="hr-count" id="hrCount"></div>
+      </div>
+
+      <div id="hr-guide">
+
+        <!-- ==================== ADMIRALTY CODE ==================== -->
+        <div class="section-header" id="hr-sec-admiralty">
+          <h2>The <span>Admiralty Code</span></h2>
+          <p class="section-desc">A two-character grade, one letter and one number, first used by British naval intelligence and now standard across NATO, law enforcement fusion centers, and CTI shops. The letter rates the source. The number rates the specific piece of information in front of you. They are scored separately, then combined, such as <code style="font-family:'Share Tech Mono',monospace;font-size:11.5px;background:rgba(6,182,212,0.08);color:#06b6d4;padding:2px 6px;border-radius:3px;">B2</code> or <code style="font-family:'Share Tech Mono',monospace;font-size:11.5px;background:rgba(6,182,212,0.08);color:#06b6d4;padding:2px 6px;border-radius:3px;">F6</code>.</p>
+        </div>
+        <div class="details-grid">
+          <div>
+            <h3 style="font-family:'Exo 2',sans-serif;font-size:15.5px;font-weight:600;color:var(--text-bright);margin-bottom:0;">Source Reliability (A–F)</h3>
+            <div class="hr-table-wrap">
+              <table class="hr-table">
+                <thead>
+                  <tr><th>Grade</th><th>Label</th><th>Description</th></tr>
+                </thead>
+                <tbody>
+                  <tr><td class="hr-port">A</td><td class="hr-proto">Completely reliable</td><td>No doubt of authenticity, trustworthiness, or competency; history of complete reliability.</td></tr>
+                  <tr><td class="hr-port">B</td><td class="hr-proto">Usually reliable</td><td>Minor doubt about authenticity, trustworthiness, or competency; history of valid information most of the time.</td></tr>
+                  <tr><td class="hr-port">C</td><td class="hr-proto">Fairly reliable</td><td>Doubt of authenticity, trustworthiness, or competency, but has provided valid information in the past.</td></tr>
+                  <tr><td class="hr-port">D</td><td class="hr-proto">Not usually reliable</td><td>Significant doubt about authenticity, trustworthiness, or competency, but has provided valid information in the past.</td></tr>
+                  <tr><td class="hr-port">E</td><td class="hr-proto">Unreliable</td><td>Lacking in authenticity, trustworthiness, and competency; history of invalid information.</td></tr>
+                  <tr><td class="hr-port">F</td><td class="hr-proto">Reliability cannot be judged</td><td>No basis exists for evaluating the reliability of the source.</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div>
+            <h3 style="font-family:'Exo 2',sans-serif;font-size:15.5px;font-weight:600;color:var(--text-bright);margin-bottom:0;">Information Credibility (1–6)</h3>
+            <div class="hr-table-wrap">
+              <table class="hr-table">
+                <thead>
+                  <tr><th>Grade</th><th>Label</th><th>Description</th></tr>
+                </thead>
+                <tbody>
+                  <tr><td class="hr-port">1</td><td class="hr-proto">Confirmed</td><td>Confirmed by other independent sources; logical in itself; consistent with other information on the subject.</td></tr>
+                  <tr><td class="hr-port">2</td><td class="hr-proto">Probably true</td><td>Not confirmed; logical in itself; consistent with other information on the subject.</td></tr>
+                  <tr><td class="hr-port">3</td><td class="hr-proto">Possibly true</td><td>Not confirmed; reasonably logical in itself; agrees with some other information on the subject.</td></tr>
+                  <tr><td class="hr-port">4</td><td class="hr-proto">Doubtful</td><td>Not confirmed; possible but not logical in itself; no other information on the subject.</td></tr>
+                  <tr><td class="hr-port">5</td><td class="hr-proto">Improbable</td><td>Not confirmed; not logical in itself; contradicted by other information on the subject.</td></tr>
+                  <tr><td class="hr-port">6</td><td class="hr-proto">Cannot be judged</td><td>No basis exists for evaluating the validity of the information.</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        <div class="details-grid">
+          <div class="detail-card border-cyan"><span class="tag practice">WORKED EXAMPLE</span>
+            <h3>B2 — A Trusted Feed, Not Yet Corroborated</h3>
+            <div class="card-sub">The grade you'll write down most often in practice</div>
+            <div class="card-body">A commercial threat feed with a solid track record reports a new C2 domain tied to a known actor. The feed itself has been right often enough to earn <strong>B</strong>, usually reliable. This specific domain hasn't been confirmed by a second independent source yet, but it's logical and fits the actor's known infrastructure pattern, so the information gets <strong>2</strong>, probably true. Combined grade: <strong>B2</strong>. Actionable, worth blocking, still flagged as unconfirmed in the write-up.</div>
+          </div>
+          <div class="detail-card border-red"><span class="tag pitfall">WORKED EXAMPLE</span>
+            <h3>F6 — An Unvetted Anonymous Tip</h3>
+            <div class="card-sub">The grade that means "don't act on this alone"</div>
+            <div class="card-body">An anonymous submission lands in a tip line with no prior history to judge and no way to verify who sent it: the source gets <strong>F</strong>, reliability cannot be judged. The claim inside it also has nothing to check it against, no corroboration, no known pattern to compare it to: the information gets <strong>6</strong>, cannot be judged. <strong>F6</strong> doesn't mean discard it, it means it needs independent verification before it drives any decision.</div>
+          </div>
+        </div>
+
+        <div class="separator"></div>
+
+        <!-- ==================== TLP 2.0 ==================== -->
+        <div class="section-header" id="hr-sec-tlp">
+          <h2>Traffic Light <span class="orange">Protocol (TLP 2.0)</span></h2>
+          <p class="section-desc">TLP marks how far a piece of shared information is allowed to travel, not how sensitive it is on its own. Five levels as of TLP 2.0 (FIRST.org, current standard): TLP:RED, TLP:AMBER+STRICT, TLP:AMBER, TLP:GREEN, TLP:CLEAR. TLP:CLEAR replaced the older TLP:WHITE, and AMBER+STRICT was added to give AMBER a tighter option.</p>
+        </div>
+        <div class="hr-table-wrap">
+          <table class="hr-table">
+            <thead>
+              <tr><th>Level</th><th>Badge</th><th>Who Can See It</th><th>Typical Use Case</th></tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="hr-proto">TLP:RED</td>
+                <td><span class="tag pitfall">RED</span></td>
+                <td>Named recipients only, in the exchange it was shared in. No further disclosure.</td>
+                <td>Active-compromise specifics shared live with an incident bridge, before containment is confirmed.</td>
+              </tr>
+              <tr>
+                <td class="hr-proto">TLP:AMBER+STRICT</td>
+                <td><span class="tag condition">AMBER+STRICT</span></td>
+                <td>The recipient's own organization only. No client or partner sharing.</td>
+                <td>Vendor-shared indicators under a contract that forbids re-sharing beyond your org.</td>
+              </tr>
+              <tr>
+                <td class="hr-proto">TLP:AMBER</td>
+                <td><span class="tag condition">AMBER</span></td>
+                <td>The recipient's organization and its clients, need-to-know basis only.</td>
+                <td>An MSSP advisory that needs to reach the client's own security team to be actioned.</td>
+              </tr>
+              <tr>
+                <td class="hr-proto">TLP:GREEN</td>
+                <td><span class="tag practice">GREEN</span></td>
+                <td>Peers and partner organizations within the community, never public channels.</td>
+                <td>ISAC bulletin or sector threat-sharing group post.</td>
+              </tr>
+              <tr>
+                <td class="hr-proto">TLP:CLEAR</td>
+                <td><span class="tag strings">CLEAR</span></td>
+                <td>No restriction, subject to standard copyright.</td>
+                <td>A published blog post, public CVE writeup, or conference talk.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="details-grid">
+          <div class="detail-card border-red"><span class="tag pitfall">HANDLING</span>
+            <h3>TLP:RED Stays In The Room</h3>
+            <div class="card-sub">No forwarding, no paraphrasing into a broader channel</div>
+            <div class="card-body">TLP:RED means the named recipients and no one else, not even a summarized version dropped into a wider ticket or channel. If information can't be effectively acted on without real risk to privacy, reputation, or operations if it leaks, it's RED, full stop.</div>
+          </div>
+          <div class="detail-card border-orange"><span class="tag condition">HANDLING</span>
+            <h3>AMBER vs. AMBER+STRICT</h3>
+            <div class="card-sub">The distinction that trips people up most</div>
+            <div class="card-body">Plain TLP:AMBER allows sharing with your own organization <strong>and</strong> its clients, on a need-to-know basis. TLP:AMBER+STRICT removes the client clause entirely: it's restricted to the recipient's own organization only. When a vendor or partner marks something AMBER+STRICT, forwarding it to a client, even one who needs to know, is a violation of the marking.</div>
+          </div>
+          <div class="detail-card border-cyan"><span class="tag strings">HANDLING</span>
+            <h3>TLP:CLEAR Has No Gate</h3>
+            <div class="card-sub">The only level meant for public release</div>
+            <div class="card-body">TLP:CLEAR is for information that carries minimal or no foreseeable risk of misuse and is meant for public release. It can be shared without restriction, subject to ordinary copyright, which is exactly why it's the wrong marking for anything still under active investigation.</div>
+          </div>
+        </div>
+
+        <div class="separator"></div>
+
+        <!-- ==================== DAILY USE ==================== -->
+        <div class="section-header" id="hr-sec-usage">
+          <h2>Where This Shows Up <span class="green">In Daily SOC/CTI Work</span></h2>
+          <p class="section-desc">Neither system is academic. Both get written down, every day, on the reports and feeds that leave your desk.</p>
+        </div>
+        <div class="details-grid">
+          <div class="detail-card border-green"><span class="tag practice">CTI</span>
+            <h3>Rating An Intel Report Before Dissemination</h3>
+            <div class="card-sub">The Admiralty grade an analyst attaches before it goes out</div>
+            <div class="card-body">A finished intel product gets an Admiralty grade on every claim inside it, source letter plus information number, so the reader downstream knows exactly how much weight to put on each line without having to ask the analyst who wrote it.</div>
+          </div>
+          <div class="detail-card border-purple"><span class="tag practice">FEED HYGIENE</span>
+            <h3>Labeling A Shared IOC Feed</h3>
+            <div class="card-sub">TLP travels with the indicators, not just the report</div>
+            <div class="card-body">An IOC feed shared with a partner or an ISAC carries a TLP marking on the feed itself, and every consumer downstream is bound by it. Re-exporting AMBER indicators into a public feed is a policy breach even if the indicators themselves look harmless.</div>
+          </div>
+          <div class="detail-card border-teal"><span class="tag practice">IR</span>
+            <h3>Handling Instructions On An Incident Report</h3>
+            <div class="card-sub">Where TLP and Admiralty sit side by side</div>
+            <div class="card-body">A post-incident report commonly carries both: a TLP marking at the top setting who's allowed to read it, and Admiralty grades on the individual findings inside setting how much confidence to put in each one.</div>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="back-link"><a href="https://h3ad-sec.github.io/H3AD-REF/">← Back to H3AD-REF</a></div>
+    </div>
+  </main>
+
+  <footer>
+    <span class="footer-left">H3AD-SEC © 2026 &nbsp;|&nbsp; H3AD-REF / REFERENCES</span>
+    <span class="footer-right">ADMIRALTY CODE & TLP QUICK REFERENCE</span>
+    <div class="footer-credit-row">
+      <a class="footer-credit-pill" href="https://www.linkedin.com/in/hrushikesh-badgujar/" target="_blank" rel="noopener" title="Connect on LinkedIn">
+        <span class="credit-tool"><span class="xv-pill-accent">H3AD</span><span class="xv-pill-text">-REF</span></span>
+        <span class="credit-by">created by</span>
+        <span class="credit-name">H3AD</span>
+      </a>
+    </div>
+  </footer>
+
+  <script>
+    function toggleDrawer() { document.getElementById('navDrawer').classList.toggle('open'); } function closeDrawer() { document.getElementById('navDrawer').classList.remove('open'); }
+    document.addEventListener('click', e => { const d = document.getElementById('navDrawer'), h = document.getElementById('hamburger'); if (d.classList.contains('open') && !d.contains(e.target) && !h.contains(e.target)) closeDrawer(); });
+    function setLogo(t) { const el = document.getElementById('logoImg'); if (el) el.src = t === 'light' ? 'https://h3ad-sec.github.io/logo-light.png' : 'https://h3ad-sec.github.io/logo-dark.png'; }
+    function toggleTheme() { document.body.classList.toggle('light'); const t = document.body.classList.contains('light') ? 'light' : 'dark'; localStorage.setItem('h3ad-theme', t); setLogo(t); }
+    const saved = localStorage.getItem('h3ad-theme'); if (saved === 'light') { document.body.classList.add('light'); setLogo('light'); } else setLogo('dark');
+    (function(){var pill=document.getElementById('xv-nav-pill'),links=document.querySelector('.nav-links'),toggle=document.querySelector('.theme-toggle'),G=20;function check(){if(!links)return;document.body.classList.remove('nav-compact');links.style.visibility='hidden';var lr=links.getBoundingClientRect(),pr=pill?pill.getBoundingClientRect().right:60,tl=toggle?toggle.getBoundingClientRect().left:window.innerWidth-60;links.style.visibility='';document.body.classList.toggle('nav-compact',(pr+G>lr.left)||(lr.right+G>tl));}check();window.addEventListener('resize',check);})();
+
+    var hrCards = null;
+    function hrFilter() {
+      if (!hrCards) hrCards = Array.prototype.slice.call(document.querySelectorAll('#hr-guide .detail-card'));
+      var term = (document.getElementById('hrSearch').value || '').toLowerCase().trim();
+      var shown = 0;
+      hrCards.forEach(function (card) {
+        var hay = card.textContent.toLowerCase();
+        var match = !term || hay.indexOf(term) !== -1;
+        card.classList.toggle('hr-hidden', !match);
+        if (match) shown++;
+      });
+      var rows = Array.prototype.slice.call(document.querySelectorAll('#hr-guide table.hr-table tbody tr'));
+      var rowsShown = 0;
+      rows.forEach(function (row) {
+        var hay = row.textContent.toLowerCase();
+        var match = !term || hay.indexOf(term) !== -1;
+        row.classList.toggle('hr-hidden', !match);
+        row.style.display = match ? '' : 'none';
+        if (match) rowsShown++;
+      });
+      var count = document.getElementById('hrCount');
+      var total = hrCards.length + rows.length;
+      var totalShown = shown + rowsShown;
+      count.innerHTML = term ? ('<span>' + totalShown + '</span> of ' + total + ' entries') : '';
+      document.querySelectorAll('#hr-guide .details-grid').forEach(function (grid) {
+        var visible = Array.prototype.slice.call(grid.querySelectorAll('.detail-card')).some(function (c) { return !c.classList.contains('hr-hidden'); });
+        grid.style.display = (term && !visible) ? 'none' : '';
+      });
+    }
+    function hrJump(id) {
+      var el = document.getElementById(id);
+      if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+    document.addEventListener('keydown', function (e) {
+      if (e.key === '/' && document.activeElement.tagName !== 'INPUT' && document.activeElement.tagName !== 'TEXTAREA') {
+        e.preventDefault();
+        document.getElementById('hrSearch').focus();
+      }
+    });
+  </script>
+</body>
+
+</html>
