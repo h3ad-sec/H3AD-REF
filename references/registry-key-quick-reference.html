@@ -432,6 +432,7 @@
         <input class="hr-search-input" id="hrSearch" type="text" placeholder="Search this reference... ( / )" oninput="hrFilter()" autocomplete="off" spellcheck="false" />
         <div class="hr-toc">
           <button class="hr-toc-pill" onclick="hrJump('hr-sec-persistence')">PERSISTENCE</button>
+          <button class="hr-toc-pill" onclick="hrJump('hr-sec-evasion')">DEFENSE EVASION</button>
           <button class="hr-toc-pill" onclick="hrJump('hr-sec-execution')">EXECUTION EVIDENCE</button>
           <button class="hr-toc-pill" onclick="hrJump('hr-sec-activity')">USER & FILE ACTIVITY</button>
           <button class="hr-toc-pill" onclick="hrJump('hr-sec-device')">DEVICE & CONNECTION HISTORY</button>
@@ -497,6 +498,37 @@
                 <td>A cached record of every scheduled task the host has known about</td>
                 <td>Useful even after the task itself is deleted from Task Scheduler. The cache entry can outlive the task, giving you a name, path, and trigger to work backward from.</td>
               </tr>
+              <tr>
+                <td class="hr-port">HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\AppCompatFlags\Custom</td>
+                <td>Custom Shim Database (.sdb) entries applied to specific executables</td>
+                <td>Application shimming (T1546.011). A malicious shim can redirect or inject code into a legitimate binary's execution path without touching the binary itself, and most defenders never think to check the compatibility layer.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="separator"></div>
+
+        <!-- ==================== DEFENSE EVASION ==================== -->
+        <div class="section-header" id="hr-sec-evasion">
+          <h2>Defense <span class="purple">Evasion</span></h2>
+          <p class="section-desc">One key, and it doesn't hide a foothold, it blinds the thing that was supposed to find one.</p>
+        </div>
+        <div class="hr-table-wrap">
+          <table class="hr-table">
+            <thead>
+              <tr>
+                <th>Registry Key Path</th>
+                <th>What It Shows</th>
+                <th>Why It Matters For DFIR</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="hr-port">HKLM\SOFTWARE\Microsoft\Windows Defender\Exclusions\Paths<br>...\Processes / ...\Extensions</td>
+                <td>Paths, processes, and file extensions Windows Defender is told to skip</td>
+                <td>Defense evasion (T1562.001). A staging folder or a renamed binary added here runs invisibly to the built-in AV. Any exclusion the deployed software baseline doesn't account for is worth a direct answer as to why it exists.</td>
+              </tr>
             </tbody>
           </table>
         </div>
@@ -554,6 +586,16 @@
               </tr>
             </thead>
             <tbody>
+              <tr>
+                <td class="hr-port">NTUSER.DAT\Software\Microsoft\Windows\CurrentVersion\Explorer\RunMRU</td>
+                <td>Commands typed into the Win+R Run dialog, most-recent-first</td>
+                <td>One of the first things any triage checks. A typed <code>cmd</code>, <code>powershell</code>, or full path to an unusual binary here is a direct record of user-driven execution, not something a GUI click could produce.</td>
+              </tr>
+              <tr>
+                <td class="hr-port">HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\ProfileList</td>
+                <td>Every user profile ever created on the host, mapped from SID to username and profile path</td>
+                <td>Survives account deletion. When an account is removed but its profile directory or SID reference lingers here, this is how you recover who it was and when the profile was created.</td>
+              </tr>
               <tr>
                 <td class="hr-port">NTUSER.DAT\Software\Microsoft\Windows\CurrentVersion\Explorer\RecentDocs</td>
                 <td>Recently opened files, tracked per file type and overall</td>
@@ -631,6 +673,11 @@
               </tr>
             </thead>
             <tbody>
+              <tr>
+                <td class="hr-port">HKLM\SYSTEM\CurrentControlSet\Control\SecurityProviders\WDigest</td>
+                <td>The UseLogonCredential value controlling whether WDigest caches reversible cleartext credentials in memory</td>
+                <td>Set to 1, this is the setting Mimikatz-style credential dumping (T1003.001) depends on to pull plaintext passwords straight out of LSASS. Disabled by default on current Windows, so finding it enabled is itself a signal someone changed it.</td>
+              </tr>
               <tr>
                 <td class="hr-port">HKLM\SECURITY\Policy\Secrets</td>
                 <td>LSA secrets, encrypted blobs the OS uses to store sensitive values like service account passwords</td>
