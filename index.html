@@ -9,19 +9,19 @@
   <meta http-equiv="Expires" content="0">
   <title>H3AD-REF - Reference Library // H3AD-SEC</title>
   <meta name="description"
-    content="H3AD-REF by H3AD-SEC - Guides, cheatsheets, references, and playbooks in one reference library. First up: a YARA rule-writing guide covering rule anatomy, string types, condition logic, and the mistakes that make rules noisy.">
+    content="H3AD-REF by H3AD-SEC - Guides, cheatsheets, and references for SOC and DFIR work: rule-writing guides for YARA, Sigma, and Suricata/Snort, forensic and network cheatsheets, and a ransomware IR playbook.">
   <link rel="canonical" href="https://h3ad-sec.github.io/H3AD-REF/">
 
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="H3AD-SEC">
   <meta property="og:url" content="https://h3ad-sec.github.io/H3AD-REF/">
   <meta property="og:title" content="H3AD-REF - Reference Library">
-  <meta property="og:description" content="H3AD-REF by H3AD-SEC - Guides, cheatsheets, references, and playbooks in one reference library. First up: a YARA rule-writing guide covering rule anatomy, string types, condition logic, and the mistakes that make rules noisy.">
+  <meta property="og:description" content="H3AD-REF by H3AD-SEC - Guides, cheatsheets, and references for SOC and DFIR work: rule-writing guides for YARA, Sigma, and Suricata/Snort, forensic and network cheatsheets, and a ransomware IR playbook.">
   <meta property="og:image" content="https://raw.githubusercontent.com/h3ad-sec/h3ad-sec.github.io/main/logo-dark.png">
 
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="H3AD-REF - Reference Library">
-  <meta name="twitter:description" content="H3AD-REF by H3AD-SEC - Guides, cheatsheets, references, and playbooks in one reference library. First up: a YARA rule-writing guide covering rule anatomy, string types, condition logic, and the mistakes that make rules noisy.">
+  <meta name="twitter:description" content="H3AD-REF by H3AD-SEC - Guides, cheatsheets, and references for SOC and DFIR work: rule-writing guides for YARA, Sigma, and Suricata/Snort, forensic and network cheatsheets, and a ransomware IR playbook.">
   <meta name="twitter:image" content="https://raw.githubusercontent.com/h3ad-sec/h3ad-sec.github.io/main/logo-dark.png">
 
   <meta name="theme-color" content="#080c14">
@@ -32,7 +32,7 @@
     "@context": "https://schema.org",
     "@type": "CollectionPage",
     "name": "H3AD-REF - Reference Library // H3AD-SEC",
-    "description": "H3AD-REF by H3AD-SEC - Guides, cheatsheets, references, and playbooks in one reference library. First up: a YARA rule-writing guide covering rule anatomy, string types, condition logic, and the mistakes that make rules noisy.",
+    "description": "H3AD-REF by H3AD-SEC - Guides, cheatsheets, and references for SOC and DFIR work: rule-writing guides for YARA, Sigma, and Suricata/Snort, forensic and network cheatsheets, and a ransomware IR playbook.",
     "url": "https://h3ad-sec.github.io/H3AD-REF/",
     "isPartOf": {
       "@type": "WebSite",
@@ -494,9 +494,11 @@
       </div>
 
       <div class="hr-view" id="hrViewPlaybooks" hidden>
-        <div class="hr-empty-panel">
-          <div class="hr-empty-title">PLAYBOOKS — MORE COMING</div>
-          <div class="hr-empty-desc">Step-by-step process docs land here. Nothing published yet.</div>
+        <div class="hr-card-grid">
+          <a class="hr-card" href="playbooks/ransomware-ir.html">
+            <div class="hr-card-top"><span class="hr-card-title">Ransomware IR</span><span class="hr-card-badge live">LIVE</span></div>
+            <div class="hr-card-desc">Immediate triage, the IR lifecycle applied to ransomware, containment/eradication checklists, and escalation decision points.</div>
+          </a>
         </div>
       </div>
 
