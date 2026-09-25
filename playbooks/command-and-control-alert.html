@@ -411,7 +411,7 @@
     <div class="page">
       <div class="yg-crumb"><a href="https://h3ad-sec.github.io/H3AD-REF/">H3AD-REF</a> / PLAYBOOKS / COMMAND & CONTROL ALERT</div>
       <h1 class="yg-hero-title">The Beacon<br><span>That Won't Stop Calling Home.</span></h1>
-      <p class="yg-hero-sub">Beacon detection, C2 framework fingerprints, and the difference between a legitimate check-in and a live implant phoning out on a schedule. Triage from detection source to containment.</p>
+      <p class="yg-hero-sub">Beacon detection, C2 framework fingerprints, and the difference between a legitimate check-in and a live implant phoning out on a schedule. Triage from detection source to containment. For capturing and confirming the traffic itself, see the <a href="https://h3ad-sec.github.io/H3AD-REF/cheatsheets/tcpdump-reference.html">tcpdump Command Reference</a>.</p>
 
       <div class="hr-toolbar">
         <input class="hr-search-input" id="hrSearch" type="text" placeholder="Search this playbook... ( / )" oninput="hrFilter()" autocomplete="off" spellcheck="false" />
@@ -506,7 +506,7 @@ Process injection, credential access, or lateral movement attempts around the sa
           <div class="detail-card border-teal"><span class="tag mistake">TRUE POSITIVE</span>
             <h3>DGA Or DNS Tunneling Pattern</h3>
             <div class="card-sub">The DNS traffic itself is the channel</div>
-            <div class="card-body">Query names matching an algorithmically generated pattern, or an unusually high volume of TXT/NULL record queries, consistent with using DNS as a covert command channel rather than for name resolution.</div>
+            <div class="card-body">Query names matching an algorithmically generated pattern (T1568.002), or an unusually high volume of TXT/NULL record queries (T1071.004), consistent with using DNS as a covert command channel rather than for name resolution.</div>
           </div>
           <div class="detail-card border-purple"><span class="tag mistake">TRUE POSITIVE</span>
             <h3>Correlates With Other Host Activity</h3>

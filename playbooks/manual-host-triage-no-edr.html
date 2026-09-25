@@ -518,6 +518,9 @@
 <span class="key">net user</span>
 <span class="comment">// local account list — add a username to see group membership and account flags for one account</span>
 
+<span class="key">net localgroup administrators</span>
+<span class="comment">// who actually has local admin right now — an unfamiliar name here is at least as urgent as the UID 0 check on the Linux side</span>
+
 <span class="key">whoami /priv /groups</span>
 <span class="comment">// current session's privileges and group memberships in one call</span></pre>
         </div>
@@ -557,17 +560,17 @@
         </div>
 
         <div class="details-grid">
-          <div class="detail-card border-cyan">
+          <div class="detail-card border-cyan"><span class="tag step">PATTERN</span>
             <h3>Correlate Across Tools, Not Within One</h3>
             <div class="card-sub">No single native tool gives the full picture</div>
             <div class="card-body">Without EDR there's no unified process tree with network and file activity attached. Tie the PID column from <code>tasklist</code>, <code>netstat -ano</code>, and <code>wevtutil</code> output together manually — that correlation is normally what the agent does for you.</div>
           </div>
-          <div class="detail-card border-orange">
+          <div class="detail-card border-orange"><span class="tag checklist">PATTERN</span>
             <h3>The LOLBIN Pattern To Watch For</h3>
             <div class="card-sub">Recognizable even with zero telemetry</div>
             <div class="card-body">A living-off-the-land binary (<code>rundll32</code>, <code>mshta</code>, <code>certutil</code>, <code>wmic</code> itself) spawning a child process with no visible window, paired with an outbound connection in <code>netstat -anob</code>, is the pattern worth chasing — it shows up in a plain process and connection listing without any behavioral engine involved.</div>
           </div>
-          <div class="detail-card border-red">
+          <div class="detail-card border-red"><span class="tag mistake">PITFALL</span>
             <h3>Audit Policy Is A Real Blind Spot</h3>
             <div class="card-sub">Logon event coverage depends entirely on what's already configured</div>
             <div class="card-body">4624/4625 only appear if "Audit Logon Events" was enabled before the incident. A workstation with default local policy frequently logs nothing useful here — say so explicitly in the write-up rather than treating an empty query as a clean result.</div>
@@ -697,17 +700,17 @@
         </div>
 
         <div class="details-grid">
-          <div class="detail-card border-orange">
+          <div class="detail-card border-orange"><span class="tag checklist">PATTERN</span>
             <h3>An Unfamiliar SUID Binary Is Priority One</h3>
             <div class="card-sub">The standard set is small and well known</div>
             <div class="card-body">The expected SUID binaries on a stock system are a short, boring list — <code>passwd</code>, <code>sudo</code>, <code>ping</code>, <code>su</code>, <code>mount</code>, a handful of others. Anything in the <code>find / -perm -4000</code> output that isn't on that list, especially sitting in <code>/tmp</code> or a user's home directory, is worth investigating immediately — it's a common privilege-escalation persistence technique.</div>
           </div>
-          <div class="detail-card border-teal">
+          <div class="detail-card border-teal"><span class="tag step">PATTERN</span>
             <h3>ps Only Shows What's Running Right Now</h3>
             <div class="card-sub">Persistence mechanisms don't show up in a process list between reboots</div>
             <div class="card-body">A cron entry, systemd unit, or SSH key doesn't appear in <code>ps aux</code> unless it's actively executing at that moment. The persistence checks above have to run separately from the process checks — a clean process list says nothing about what's configured to run next boot or next login.</div>
           </div>
-          <div class="detail-card border-red">
+          <div class="detail-card border-red"><span class="tag mistake">PITFALL</span>
             <h3>A Second UID 0 Account Is Not Ambiguous</h3>
             <div class="card-sub">There is exactly one legitimate reason to see this, and it isn't good</div>
             <div class="card-body">Only <code>root</code> should ever show UID 0 in <code>/etc/passwd</code>. A second entry with UID 0 is a near-certain sign of a planted backdoor account, not a misconfiguration worth debating — treat it as compromise confirmation and move to containment.</div>
@@ -717,10 +720,15 @@
         <div class="separator"></div>
 
         <div class="details-grid">
-          <div class="detail-card border-cyan">
+          <div class="detail-card border-cyan"><span class="tag escalation">SEE ALSO</span>
             <h3>If Sysinternals Is Actually An Option</h3>
             <div class="card-sub">Portable, no-install downloads change what's possible</div>
             <div class="card-body">Everything above assumes truly nothing beyond the OS. If a portable download is permitted — no install, no admin package manager — <a href="../cheatsheets/sysinternals-windows-cli-forensics.html">cheatsheets/sysinternals-windows-cli-forensics.html</a> goes considerably deeper on the Windows side: full command-line history, autoruns coverage beyond the standard registry keys, and process tree detail native tools can't match.</div>
+          </div>
+          <div class="detail-card border-purple"><span class="tag escalation">SEE ALSO</span>
+            <h3>When Live Inspection Isn't Enough</h3>
+            <div class="card-sub">A running process list only shows what's still running</div>
+            <div class="card-body">Native tools show the current state of the box, not what happened before you got there or what a process already terminated. If a memory capture is possible, <a href="../cheatsheets/volatility3-commands.html">cheatsheets/volatility3-commands.html</a> covers the plugin set for pulling process, network, and injection evidence out of a memory image instead of the live host.</div>
           </div>
         </div>
 

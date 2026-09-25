@@ -411,7 +411,7 @@
     <div class="page">
       <div class="yg-crumb"><a href="https://h3ad-sec.github.io/H3AD-REF/">H3AD-REF</a> / PLAYBOOKS / BEC PHISHING RESPONSE</div>
       <h1 class="yg-hero-title">BEC & Phishing Response.<br><span>Verify Before You Wire, Every Time.</span></h1>
-      <p class="yg-hero-sub">A static process reference: the sources a BEC or phishing case typically comes in through, the triage steps that separate a targeted user from a compromised mailbox, the true and false positive indicators that keep the queue honest, and the escalation and containment actions once a case is confirmed real. Not a substitute for an org's own IR plan or legal counsel, just the reference.</p>
+      <p class="yg-hero-sub">A static process reference: the sources a BEC or phishing case typically comes in through, the triage steps that separate a targeted user from a compromised mailbox, the true and false positive indicators that keep the queue honest, and the escalation and containment actions once a case is confirmed real. Not a substitute for an org's own IR plan or legal counsel, just the reference. For working an active case, see <a href="https://h3ad-sec.github.io/PHISHOPS/" target="_blank" rel="noopener">PHISHOPS</a>; for header/SPF/DKIM/DMARC analysis, see <a href="https://h3ad-sec.github.io/MAILSCOPE/" target="_blank" rel="noopener">MAILSCOPE</a>.</p>
 
       <div class="hr-toolbar">
         <input class="hr-search-input" id="hrSearch" type="text" placeholder="Search this playbook... ( / )" oninput="hrFilter()" autocomplete="off" spellcheck="false" />
@@ -434,7 +434,7 @@
           <p class="section-desc">A BEC or phishing case rarely starts from one clean signal. It shows up through several different channels, and each one implies a slightly different starting point for the investigation.</p>
         </div>
         <div class="data-flow-card">
-          <h4>Common Trigger Sources</h4>
+          <h4>Common Trigger Sources <span class="val">[T1566 Phishing]</span></h4>
           <pre><span class="key">User-reported suspicious email</span>
 ├── An employee forwards or flags a message through the phish-report button or a support ticket
     <span class="comment">// still the most common entry point, and often the fastest signal available</span>

@@ -473,7 +473,7 @@
           <div class="detail-card border-cyan"><span class="tag step">PHASE 2</span>
             <h3>Identification</h3>
             <div class="card-sub">Confirming what happened, not just that something did</div>
-            <div class="card-body">Identify the ransomware family if possible (ransom note format, file extension, known TTPs), the initial access vector, and how long the actor had access before deploying the payload. The deployment is usually the last step of a much longer intrusion.</div>
+            <div class="card-body">Identify the ransomware family if possible (ransom note format, file extension, known TTPs), the initial access vector, and how long the actor had access before deploying the payload (T1486). The deployment is usually the last step of a much longer intrusion.</div>
           </div>
           <div class="detail-card border-purple"><span class="tag step">PHASE 3</span>
             <h3>Containment</h3>
@@ -508,7 +508,7 @@
           <div class="detail-card border-purple"><span class="tag checklist">CONTAIN</span>
             <h3>Isolate Backup Infrastructure First</h3>
             <div class="card-sub">Backups are a deliberate target, not collateral damage</div>
-            <div class="card-body">Modern ransomware operators specifically hunt for and encrypt or delete backup infrastructure before deploying the main payload. Verify backup systems are isolated and backup integrity is confirmed before doing anything else network-wide.</div>
+            <div class="card-body">Modern ransomware operators specifically hunt for and encrypt or delete backup infrastructure (T1490) before deploying the main payload. Verify backup systems are isolated and backup integrity is confirmed before doing anything else network-wide.</div>
           </div>
           <div class="detail-card border-orange"><span class="tag checklist">CONTAIN</span>
             <h3>Rotate Credentials By Priority</h3>

@@ -411,7 +411,7 @@
     <div class="page">
       <div class="yg-crumb"><a href="https://h3ad-sec.github.io/H3AD-REF/">H3AD-REF</a> / PLAYBOOKS / PRIVILEGE ESCALATION ALERT</div>
       <h1 class="yg-hero-title">Standard User<br><span>To Something Else, Fast.</span></h1>
-      <p class="yg-hero-sub">Group membership changes, token manipulation, UAC bypass, and every other way a standard account ends up acting like an administrator. Triage from what changed to what it was used for.</p>
+      <p class="yg-hero-sub">Group membership changes, token manipulation, UAC bypass, and every other way a standard account ends up acting like an administrator. Triage from what changed to what it was used for. For the AD-specific techniques behind many of these (Kerberoasting, delegation abuse, and the rest), see <a href="https://h3ad-sec.github.io/ADPATH/" target="_blank" rel="noopener">ADPATH</a>; for the persistence keys a confirmed escalation often leaves behind, see the <a href="https://h3ad-sec.github.io/H3AD-REF/references/registry-key-quick-reference.html">Registry Key Quick Reference</a>.</p>
 
       <div class="hr-toolbar">
         <input class="hr-search-input" id="hrSearch" type="text" placeholder="Search this playbook... ( / )" oninput="hrFilter()" autocomplete="off" spellcheck="false" />
@@ -439,16 +439,16 @@
 An account added to Domain Admins, local Administrators, or another privileged group
 └── Usually the loudest and easiest signal, and the one with the clearest audit trail (Event ID 4728/4732/4756)
 
-<span class="key">Token Manipulation / Impersonation</span>
+<span class="key">Token Manipulation / Impersonation</span> <span class="val">[T1134.001]</span>
 A process duplicating or impersonating a token belonging to a higher-privilege account
 └── Underlies techniques like SeImpersonatePrivilege abuse and the Potato-family exploits
 
-<span class="key">UAC Bypass</span>
+<span class="key">UAC Bypass</span> <span class="val">[T1548.002]</span>
 A known technique (fodhelper.exe, eventvwr.exe registry hijack, and similar) used to run elevated
 without a consent prompt
 └── Signature-detectable by most EDR, since the technique list is well-documented and finite
 
-<span class="key">Linux / sudo Abuse</span>
+<span class="key">Linux / sudo Abuse</span> <span class="val">[T1548.001]</span>
 Misconfigured sudoers entries, SUID binary abuse, or a kernel exploit used to reach root
     <span class="comment">// same underlying question across all four: did a lower-privilege actor gain a higher-privilege context, and was it used</span></pre>
         </div>

@@ -411,7 +411,7 @@
     <div class="page">
       <div class="yg-crumb"><a href="https://h3ad-sec.github.io/H3AD-REF/">H3AD-REF</a> / PLAYBOOKS / AUTHENTICATION ANOMALY ALERT</div>
       <h1 class="yg-hero-title">One Login.<br><span>Three Ways It Goes Wrong.</span></h1>
-      <p class="yg-hero-sub">Password spray, brute force, impossible travel, and a login from a country with no business reason to be there are four alert names for the same underlying question: is this still the account owner. Triaged as one pattern here, from trigger to containment.</p>
+      <p class="yg-hero-sub">Password spray, brute force, impossible travel, and a login from a country with no business reason to be there are four alert names for the same underlying question: is this still the account owner. Triaged as one pattern here, from trigger to containment. For the AD-specific spray/brute-force targets (Kerberoasting, service accounts, and the rest), see <a href="https://h3ad-sec.github.io/ADPATH/" target="_blank" rel="noopener">ADPATH</a>.</p>
 
       <div class="hr-toolbar">
         <input class="hr-search-input" id="hrSearch" type="text" placeholder="Search this playbook... ( / )" oninput="hrFilter()" autocomplete="off" spellcheck="false" />
@@ -435,11 +435,11 @@
         </div>
         <div class="data-flow-card">
           <h4>The Four Triggers</h4>
-          <pre><span class="key">Password Spray</span>
+          <pre><span class="key">Password Spray</span> <span class="val">[T1110.003]</span>
 Many accounts, few attempts each, one or a small set of source IPs
 └── Built to stay under per-account lockout thresholds, so volume alone often won't trip it
 
-<span class="key">Brute Force</span>
+<span class="key">Brute Force</span> <span class="val">[T1110]</span>
 Many attempts, one account, from one or a small set of source IPs
 └── The inverse shape of a spray: depth on one target instead of breadth across many
 
@@ -505,7 +505,7 @@ Satisfied normally, challenged and denied, challenged repeatedly, or bypassed en
             <div class="card-body">A login from a country with no business relationship, no known traveling staff member, and no documented VPN egress point in that region.</div>
           </div>
           <div class="detail-card border-teal"><span class="tag mistake">TRUE POSITIVE</span>
-            <h3>MFA Fatigue Pattern</h3>
+            <h3>MFA Fatigue Pattern [T1621]</h3>
             <div class="card-sub">Repeated push prompts are the attack, not a side effect of it</div>
             <div class="card-body">A burst of MFA push notifications the user didn't initiate is a deliberate technique on its own, regardless of whether the user eventually approved one by mistake or denied all of them.</div>
           </div>
