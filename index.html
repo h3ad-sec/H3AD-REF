@@ -595,8 +595,10 @@
         document.getElementById(HR_VIEWS[name]).hidden = (name !== cat);
       });
       document.querySelectorAll('.hr-tab').forEach(function (t) { t.classList.toggle('active', t.dataset.cat === cat); });
+      if (location.hash !== '#' + cat) history.replaceState(null, '', '#' + cat);
     }
-    hrSetCategory('guides');
+    var hrInitialCat = (location.hash || '').replace('#', '');
+    hrSetCategory(HR_VIEWS[hrInitialCat] ? hrInitialCat : 'guides');
   </script>
 </body>
 
