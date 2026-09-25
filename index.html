@@ -9,19 +9,19 @@
   <meta http-equiv="Expires" content="0">
   <title>H3AD-REF - Reference Library // H3AD-SEC</title>
   <meta name="description"
-    content="H3AD-REF by H3AD-SEC - Guides, cheatsheets, and references for SOC and DFIR work: rule-writing guides for YARA, Sigma, and Suricata/Snort, forensic and network cheatsheets, and a ransomware IR playbook.">
+    content="H3AD-REF by H3AD-SEC - Guides, cheatsheets, references, and alert-triage playbooks for SOC and DFIR work: rule-writing guides, forensic and network cheatsheets, and response playbooks for ransomware, exfiltration, malware, and phishing alerts.">
   <link rel="canonical" href="https://h3ad-sec.github.io/H3AD-REF/">
 
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="H3AD-SEC">
   <meta property="og:url" content="https://h3ad-sec.github.io/H3AD-REF/">
   <meta property="og:title" content="H3AD-REF - Reference Library">
-  <meta property="og:description" content="H3AD-REF by H3AD-SEC - Guides, cheatsheets, and references for SOC and DFIR work: rule-writing guides for YARA, Sigma, and Suricata/Snort, forensic and network cheatsheets, and a ransomware IR playbook.">
+  <meta property="og:description" content="H3AD-REF by H3AD-SEC - Guides, cheatsheets, references, and alert-triage playbooks for SOC and DFIR work: rule-writing guides, forensic and network cheatsheets, and response playbooks for ransomware, exfiltration, malware, and phishing alerts.">
   <meta property="og:image" content="https://raw.githubusercontent.com/h3ad-sec/h3ad-sec.github.io/main/logo-dark.png">
 
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="H3AD-REF - Reference Library">
-  <meta name="twitter:description" content="H3AD-REF by H3AD-SEC - Guides, cheatsheets, and references for SOC and DFIR work: rule-writing guides for YARA, Sigma, and Suricata/Snort, forensic and network cheatsheets, and a ransomware IR playbook.">
+  <meta name="twitter:description" content="H3AD-REF by H3AD-SEC - Guides, cheatsheets, references, and alert-triage playbooks for SOC and DFIR work: rule-writing guides, forensic and network cheatsheets, and response playbooks for ransomware, exfiltration, malware, and phishing alerts.">
   <meta name="twitter:image" content="https://raw.githubusercontent.com/h3ad-sec/h3ad-sec.github.io/main/logo-dark.png">
 
   <meta name="theme-color" content="#080c14">
@@ -32,7 +32,7 @@
     "@context": "https://schema.org",
     "@type": "CollectionPage",
     "name": "H3AD-REF - Reference Library // H3AD-SEC",
-    "description": "H3AD-REF by H3AD-SEC - Guides, cheatsheets, and references for SOC and DFIR work: rule-writing guides for YARA, Sigma, and Suricata/Snort, forensic and network cheatsheets, and a ransomware IR playbook.",
+    "description": "H3AD-REF by H3AD-SEC - Guides, cheatsheets, references, and alert-triage playbooks for SOC and DFIR work: rule-writing guides, forensic and network cheatsheets, and response playbooks for ransomware, exfiltration, malware, and phishing alerts.",
     "url": "https://h3ad-sec.github.io/H3AD-REF/",
     "isPartOf": {
       "@type": "WebSite",
@@ -477,6 +477,10 @@
             <div class="hr-card-top"><span class="hr-card-title">Nmap Scan Reference</span><span class="hr-card-badge live">LIVE</span></div>
             <div class="hr-card-desc">Scan types, host and port options, timing templates, NSE script categories, and output formats.</div>
           </a>
+          <a class="hr-card" href="cheatsheets/windows-event-ids.html">
+            <div class="hr-card-top"><span class="hr-card-title">Windows Event ID Cheatsheet</span><span class="hr-card-badge live">LIVE</span></div>
+            <div class="hr-card-desc">The ~28 highest-signal event IDs for fast triage, with a cross-link to WIN-EVT's full 105-event catalog.</div>
+          </a>
         </div>
       </div>
 
@@ -490,6 +494,14 @@
             <div class="hr-card-top"><span class="hr-card-title">Packet Structure Reference</span><span class="hr-card-badge live">LIVE</span></div>
             <div class="hr-card-desc">Ethernet, IP, TCP, and UDP header field layout, byte by byte.</div>
           </a>
+          <a class="hr-card" href="references/registry-key-quick-reference.html">
+            <div class="hr-card-top"><span class="hr-card-title">Registry Key Quick Reference</span><span class="hr-card-badge live">LIVE</span></div>
+            <div class="hr-card-desc">Persistence, execution evidence, user activity, device history, and credential-relevant registry keys.</div>
+          </a>
+          <a class="hr-card" href="references/security-frameworks.html">
+            <div class="hr-card-top"><span class="hr-card-title">Security Frameworks & Models</span><span class="hr-card-badge live">LIVE</span></div>
+            <div class="hr-card-desc">Kill Chain, Pyramid of Pain, Diamond Model, NIST IR lifecycle, CTI lifecycle, Sliding Scale, and MITRE ATT&CK — one diagram each.</div>
+          </a>
         </div>
       </div>
 
@@ -498,6 +510,26 @@
           <a class="hr-card" href="playbooks/ransomware-ir.html">
             <div class="hr-card-top"><span class="hr-card-title">Ransomware IR</span><span class="hr-card-badge live">LIVE</span></div>
             <div class="hr-card-desc">Immediate triage, the IR lifecycle applied to ransomware, containment/eradication checklists, and escalation decision points.</div>
+          </a>
+          <a class="hr-card" href="playbooks/data-exfiltration-alert.html">
+            <div class="hr-card-top"><span class="hr-card-title">Data Exfiltration Alert</span><span class="hr-card-badge live">LIVE</span></div>
+            <div class="hr-card-desc">Triage steps, true/false positive indicators, escalation criteria, and containment for an exfil alert.</div>
+          </a>
+          <a class="hr-card" href="playbooks/network-connection-alert.html">
+            <div class="hr-card-top"><span class="hr-card-title">Network Connection Alert</span><span class="hr-card-badge live">LIVE</span></div>
+            <div class="hr-card-desc">Triage for beaconing, C2, and unusual-connection alerts, from trigger to containment.</div>
+          </a>
+          <a class="hr-card" href="playbooks/malware-execution-alert.html">
+            <div class="hr-card-top"><span class="hr-card-title">Malware / Execution Alert</span><span class="hr-card-badge live">LIVE</span></div>
+            <div class="hr-card-desc">Triage for an EDR/AV execution alert, from verdict source to containment and hash hunting.</div>
+          </a>
+          <a class="hr-card" href="playbooks/powershell-alert.html">
+            <div class="hr-card-top"><span class="hr-card-title">Suspicious PowerShell Alert</span><span class="hr-card-badge live">LIVE</span></div>
+            <div class="hr-card-desc">Decoding encoded commands, spotting download cradles and AMSI bypasses, and containment.</div>
+          </a>
+          <a class="hr-card" href="playbooks/bec-phishing-response.html">
+            <div class="hr-card-top"><span class="hr-card-title">BEC & Phishing Response</span><span class="hr-card-badge live">LIVE</span></div>
+            <div class="hr-card-desc">Triage for a reported phish or business email compromise, from header preservation to wire recall.</div>
           </a>
         </div>
       </div>

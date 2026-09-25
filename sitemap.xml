@@ -46,6 +46,11 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://h3ad-sec.github.io/H3AD-REF/cheatsheets/windows-event-ids.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://h3ad-sec.github.io/H3AD-REF/references/protocol-port-reference.html</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
@@ -56,7 +61,42 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://h3ad-sec.github.io/H3AD-REF/references/registry-key-quick-reference.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://h3ad-sec.github.io/H3AD-REF/references/security-frameworks.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://h3ad-sec.github.io/H3AD-REF/playbooks/ransomware-ir.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://h3ad-sec.github.io/H3AD-REF/playbooks/data-exfiltration-alert.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://h3ad-sec.github.io/H3AD-REF/playbooks/network-connection-alert.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://h3ad-sec.github.io/H3AD-REF/playbooks/malware-execution-alert.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://h3ad-sec.github.io/H3AD-REF/playbooks/powershell-alert.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://h3ad-sec.github.io/H3AD-REF/playbooks/bec-phishing-response.html</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
