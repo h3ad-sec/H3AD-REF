@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
+  <title>PowerShell For Incident Response Guide // H3AD-REF</title>
+  <meta name="description"
+    content="H3AD-REF guide: using PowerShell as an evidence-collection tool during an investigation. Core IR cmdlets, remote collection across a fleet, script block logging setup, and the pitfalls that break a collection run.">
+  <link rel="canonical" href="https://h3ad-sec.github.io/H3AD-REF/guides/powershell-for-ir.html">
+
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="H3AD-SEC">
+  <meta property="og:url" content="https://h3ad-sec.github.io/H3AD-REF/guides/powershell-for-ir.html">
+  <meta property="og:title" content="PowerShell For Incident Response Guide // H3AD-REF">
+  <meta property="og:description" content="H3AD-REF guide: using PowerShell as an evidence-collection tool during an investigation. Core IR cmdlets, remote collection, script block logging setup, and common pitfalls.">
+  <meta property="og:image" content="https://raw.githubusercontent.com/h3ad-sec/h3ad-sec.github.io/main/logo-dark.png">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="PowerShell For Incident Response Guide // H3AD-REF">
+  <meta name="twitter:description" content="H3AD-REF guide: using PowerShell as an evidence-collection tool during an investigation. Core IR cmdlets, remote collection, script block logging setup, and common pitfalls.">
+  <meta name="twitter:image" content="https://raw.githubusercontent.com/h3ad-sec/h3ad-sec.github.io/main/logo-dark.png">
+
+  <meta name="theme-color" content="#080c14">
+  <link rel="icon" href="https://h3ad-sec.github.io/fevicon.png?v=2026" type="image/png">
+  <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Exo+2:wght@300;400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "TechArticle",
+    "headline": "PowerShell For Incident Response Guide",
+    "description": "Using PowerShell as an evidence-collection tool during an investigation. Core IR cmdlets, remote collection across a fleet, script block logging setup, and the pitfalls that break a collection run.",
+    "url": "https://h3ad-sec.github.io/H3AD-REF/guides/powershell-for-ir.html",
+    "isPartOf": {
+      "@type": "CollectionPage",
+      "name": "H3AD-REF",
+      "url": "https://h3ad-sec.github.io/H3AD-REF/"
+    },
+    "publisher": { "@type": "Organization", "name": "H3AD-SEC", "url": "https://h3ad-sec.github.io" }
+  }
+  </script>
+  <style>
+    :root {
+      --bg: #080c14; --panel: #0d1117; --panel-alt: #111827; --panel2: #111827;
+      --text: #e6edf3; --muted: #8b949e;
+      --accent: #00d4ff; --accent2: #3b82f6;
+      --primary: #00d4ff;
+      --primary-dim: rgba(0, 212, 255, 0.08);
+      --primary-glow: rgba(0, 212, 255, 0.18);
+      --status-live: #00d4ff; --status-partial: #f59e0b; --status-soon: #2d3748;
+      --red: #ff3b5c; --yellow: #ffd60a; --green: #00d4ff;
+      --nav-h: 48px;
+      --border: #1c2333;
+      --surface: #111827;
+      --text-dim: #a0aec0;
+      --border-dim: #161f2e;
+      --mono: 'Share Tech Mono', monospace;
+      --sans: 'Exo 2', sans-serif;
+      --ui: 'IBM Plex Sans', sans-serif;
+      --fs-xs: 11px; --fs-sm: 13px; --fs-base: 15px; --fs-md: 16px; --fs-lg: 18px;
+    }
+
+    body.light {
+      --bg: #D3D7DC; --panel: #DADDE1; --panel-alt: #C9CDD2; --panel2: #C9CDD2;
+      --text: #000000; --muted: #2E343B;
+      --accent: #0A6EA8; --accent2: #C2540E;
+      --border: #BBC0C6; --primary: #0A6EA8;
+      --primary-dim: rgba(10, 110, 168, 0.07);
+      --primary-glow: rgba(10, 110, 168, 0.14);
+      --status-live: #0A6EA8; --status-partial: #B45309; --status-soon: #AEB4BB;
+      --red: #DC2626; --yellow: #B45309; --green: #059669;
+      --surface: #C9CDD2; --text-dim: #2E343B; --border-dim: #BBC0C6;
+      font-weight: 500;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg); color: var(--text); font-family: 'Exo 2', sans-serif;
+      font-size: 14px; line-height: 1.6; overflow-x: hidden; transition: background 0.3s, color 0.3s;
+      display: flex; flex-direction: column; min-height: 100dvh;
+    }
+    body::before { content: ''; position: fixed; inset: 0;
+      background: radial-gradient(ellipse 80% 45% at 50% 0%, rgba(0,212,255,0.055) 0%, transparent 100%), radial-gradient(ellipse 50% 35% at 5% 100%, rgba(88,166,255,0.04) 0%, transparent 100%);
+      pointer-events: none; z-index: 0; }
+    body.light::before { background: radial-gradient(ellipse 80% 45% at 50% 0%, rgba(2,132,199,0.05) 0%, transparent 100%), radial-gradient(ellipse 50% 35% at 5% 100%, rgba(37,99,235,0.03) 0%, transparent 100%); }
+
+    a { color: inherit; text-decoration: none; }
+
+    .nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 50;
+      background: rgba(8, 12, 18, 0.9); border-bottom: 1px solid var(--border); height: var(--nav-h);
+      display: flex; align-items: center; padding: 0 1.25rem;
+      backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+    }
+    body.light .nav { background: rgba(211, 215, 220, 0.9); }
+    .nav-brand { flex-shrink: 0; margin-right: 1rem; }
+    .nav-brand img { height: 22px; display: block; }
+    .nav-links { position: absolute; left: 50%; transform: translateX(-50%); display: flex; align-items: center; gap: 2px; overflow: visible; }
+    .nav-links a { font-family: 'Exo 2', sans-serif; font-weight: 500; font-size: 0.68rem; color: var(--muted);
+      padding: 5px 9px; border-radius: 4px; border: 1px solid transparent; white-space: nowrap;
+      transition: color 0.15s, border-color 0.15s, background 0.15s; flex-shrink: 0; }
+    .nav-links a:hover { color: var(--accent); border-color: var(--border); background: var(--primary-dim); }
+    .nav-links a.nav-current { color: var(--accent); border-color: var(--accent); background: var(--primary-dim); }
+    .nav-links a:last-child { border: 1px solid var(--border); }
+    .nav-divider { width: 1px; height: 16px; background: var(--border); margin: 0 6px; flex-shrink: 0; opacity: 0.6; }
+    .nav-item { position: relative; display: flex; align-items: center; }
+    .nav-dropdown { display: none; position: absolute; top: 100%; left: 0; min-width: 120px; padding-top: 6px; z-index: 100; }
+    .nav-dropdown-inner { background: var(--panel); border: 1px solid var(--border); border-radius: 4px; overflow: hidden; }
+    .nav-item:hover .nav-dropdown { display: block; }
+    .nav-links .nav-dropdown a { display: block; padding: 7px 12px; font-size: 0.65rem; color: var(--muted);
+      border: none; border-left: 2px solid transparent; border-radius: 0; transition: 0.15s; }
+    .nav-links .nav-dropdown a:hover { color: var(--accent); border-left-color: var(--accent); background: var(--primary-dim); }
+    .theme-toggle { margin-left: auto; flex-shrink: 0; cursor: pointer; padding-left: 1rem; }
+    .toggle-track { width: 42px; height: 22px; background: var(--border); border-radius: 50px; position: relative; transition: background 0.3s; }
+    .toggle-thumb { width: 14px; height: 14px; background: var(--accent); border-radius: 50%; position: absolute; top: 4px; left: 4px; transition: transform 0.3s; box-shadow: 0 0 8px var(--accent); }
+    body.light .toggle-thumb { transform: translateX(20px); }
+    .hamburger { display: none; flex-direction: column; justify-content: center; gap: 4px; cursor: pointer; padding: 6px; margin-right: 8px; flex-shrink: 0; }
+    .hamburger span { display: block; width: 18px; height: 2px; background: var(--muted); border-radius: 2px; transition: 0.2s; }
+    .nav-drawer { display: none; position: fixed; top: var(--nav-h); left: 0; width: min(300px, 86vw);
+      background: var(--panel); border-right: 1px solid var(--border); border-bottom: 1px solid var(--border);
+      box-shadow: 6px 0 28px rgba(0, 0, 0, 0.35); z-index: 49; padding: 0.75rem 1rem 1rem;
+      flex-direction: column; gap: 2px; max-height: calc(100vh - var(--nav-h)); overflow-y: auto; }
+    .nav-drawer.open { display: flex; }
+    .nav-drawer a { font-family: var(--ui); font-size: 0.75rem; color: var(--text-dim); padding: 8px 10px; border-radius: 4px; border-left: 2px solid transparent; transition: 0.15s; }
+    .nav-drawer a:hover { color: var(--accent); border-left-color: var(--accent); background: var(--primary-dim); }
+    .nav-drawer a.nav-current { color: var(--accent); border-left-color: var(--accent); }
+    .drawer-sub { padding-left: 1.8rem !important; font-size: 0.7rem !important; opacity: 0.8; }
+
+    main { flex: 1 0 auto; position: relative; z-index: 1; }
+    .page { max-width: 1000px; margin: 0 auto; padding: calc(var(--nav-h) + 2.4rem) 2rem 5rem; }
+
+    .yg-crumb { font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.08em; color: var(--muted); margin-bottom: 14px; }
+    .yg-crumb a { color: var(--accent); }
+    .yg-crumb a:hover { text-decoration: underline; }
+
+    .yg-hero-title { font-family: var(--sans); font-weight: 700; font-size: clamp(22px, 4vw, 30px); color: var(--text); margin-bottom: 8px; }
+    .yg-hero-title span { color: var(--accent); }
+    .yg-hero-sub { font-family: var(--ui); font-size: 13px; color: var(--muted); max-width: 680px; line-height: 1.65; margin-bottom: 22px; }
+
+    .hr-toolbar { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 14px; padding-bottom: 18px; border-bottom: 1px solid var(--border-dim); margin-bottom: 8px; }
+    .hr-search-input { flex: 1 1 auto; max-width: 300px; background: var(--panel); border: 1px solid var(--border); border-radius: 6px;
+      padding: 8px 12px; font-family: 'Exo 2', sans-serif; font-size: 13px; color: var(--text); }
+    .hr-search-input::placeholder { color: var(--muted); opacity: 0.7; }
+    .hr-search-input:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-color: var(--accent); }
+    .hr-toc { display: flex; flex-wrap: wrap; gap: 6px; }
+    .hr-toc-pill { font-family: var(--mono); font-size: 10px; letter-spacing: 0.08em; background: transparent; color: var(--muted);
+      border: 1px solid var(--border); border-radius: 20px; padding: 6px 13px; cursor: pointer; transition: all 0.15s; white-space: nowrap; }
+    .hr-toc-pill:hover { color: var(--accent); border-color: var(--accent); background: var(--primary-dim); }
+    .hr-count { font-family: var(--mono); font-size: 10px; color: var(--muted); white-space: nowrap; margin-left: auto; }
+    .hr-count span { color: var(--accent); }
+
+    /* ── ADPATH-derived content components (rescoped to #hr-guide, values verbatim) ── */
+    #hr-guide {
+      --bg-card: #111827; --bg-card-hover: #1a2332; --border: #1e2d3d; --border-active: #2563eb;
+      --text: #e2e8f0; --text-dim: #94a3b8; --text-bright: #f8fafc;
+      --blue: #3b82f6; --cyan: #06b6d4; --green: #10b981; --orange: #f59e0b; --red: #ef4444;
+      --purple: #8b5cf6; --pink: #ec4899; --teal: #14b8a6; --yellow: #eab308; --rose: #f43f5e; --indigo: #6366f1;
+    }
+    body.light #hr-guide {
+      --bg-card: #ffffff; --bg-card-hover: #f1f5f9; --border: #e2e8f0; --border-active: #2563eb;
+      --text: #0f172a; --text-dim: #475569; --text-bright: #020617;
+      --blue: #2563eb; --cyan: #0891b2; --green: #059669; --orange: #c2410c; --red: #dc2626;
+      --purple: #7c3aed; --pink: #db2777; --teal: #0d9488; --yellow: #a16207; --rose: #e11d48; --indigo: #4f46e5;
+    }
+    #hr-guide .separator { height: 1px; background: linear-gradient(90deg, transparent, var(--border), transparent); margin: 44px 0; }
+    #hr-guide .section-header { margin-top: 48px; margin-bottom: 26px; }
+    #hr-guide .section-header:first-of-type { margin-top: 6px; }
+    #hr-guide .section-header h2 { font-family: 'Exo 2', sans-serif; font-size: 21px; font-weight: 600; color: var(--text-bright);
+      padding-bottom: 12px; border-bottom: 1px solid var(--border); }
+    #hr-guide .section-header h2 span { color: var(--cyan); }
+    #hr-guide .section-header h2 .orange { color: var(--orange); }
+    #hr-guide .section-header h2 .purple { color: var(--purple); }
+    #hr-guide .section-header h2 .green { color: var(--green); }
+    #hr-guide .section-header h2 .red { color: var(--red); }
+    #hr-guide .section-header h2 .teal { color: var(--teal); }
+    #hr-guide .section-desc { font-size: 13px; color: var(--text-dim); margin-top: 8px; line-height: 1.6; }
+
+    #hr-guide .data-flow-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 10px; padding: 24px; margin-top: 18px; }
+    #hr-guide .data-flow-card h4 { font-family: 'Exo 2', sans-serif; font-size: 15.5px; font-weight: 600; color: var(--text-bright); margin-bottom: 12px; }
+    #hr-guide .data-flow-card pre { font-family: 'Share Tech Mono', monospace; font-size: 12.5px; line-height: 1.75; color: var(--text-dim);
+      overflow-x: auto; white-space: pre; }
+    #hr-guide .data-flow-card pre .comment { color: #4a6a4a; }
+    #hr-guide .data-flow-card pre .key { color: var(--cyan); }
+    #hr-guide .data-flow-card pre .val { color: var(--orange); }
+    #hr-guide .data-flow-card pre .type { color: var(--purple); }
+    #hr-guide .data-flow-card pre .danger { color: var(--red); }
+
+    #hr-guide .details-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 18px; margin-top: 22px; }
+    @media(max-width:768px) { #hr-guide .details-grid { grid-template-columns: 1fr; } }
+
+    #hr-guide .detail-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 10px; padding: 20px; transition: border-color 0.2s; }
+    #hr-guide .detail-card:hover { border-color: var(--border-active); }
+    #hr-guide .detail-card.hr-hidden { display: none; }
+    #hr-guide .detail-card h3 { font-family: 'Exo 2', sans-serif; font-size: 16.5px; font-weight: 600; color: var(--text-bright); margin-bottom: 4px; }
+    #hr-guide .detail-card .card-sub { font-family: 'Exo 2', sans-serif; font-size: 13.5px; color: var(--text-dim); margin-bottom: 11px; letter-spacing: 0.2px; }
+    #hr-guide .detail-card .card-body { font-family: 'Exo 2', sans-serif; font-size: 14px; color: var(--text-dim); line-height: 1.7; }
+    #hr-guide .detail-card .card-body strong { color: var(--text); font-weight: 500; }
+    #hr-guide .detail-card .card-body code, #hr-guide .card-list li code { font-family: 'Share Tech Mono', monospace; font-size: 11.5px;
+      background: rgba(6, 182, 212, 0.08); color: var(--cyan); padding: 2px 6px; border-radius: 3px; }
+    #hr-guide .card-list { list-style: none; padding: 0; margin-top: 8px; }
+    #hr-guide .card-list li { font-family: 'Exo 2', sans-serif; font-size: 14px; color: var(--text-dim); padding: 4px 0 4px 16px; position: relative; line-height: 1.6; }
+    #hr-guide .card-list li:before { content: '\203A'; position: absolute; left: 0; color: var(--cyan); font-weight: 700; }
+
+    #hr-guide .tag { font-family: 'Share Tech Mono', monospace; font-size: 10px; font-weight: 600; text-transform: uppercase;
+      letter-spacing: 1px; padding: 3px 8px; border-radius: 4px; display: inline-block; margin-bottom: 8px; margin-right: 4px; }
+    #hr-guide .tag.strings { background: rgba(6, 182, 212, .15); color: var(--cyan); }
+    #hr-guide .tag.condition { background: rgba(245, 158, 11, .15); color: var(--orange); }
+    #hr-guide .tag.practice { background: rgba(16, 185, 129, .15); color: var(--green); }
+    #hr-guide .tag.pitfall { background: rgba(239, 68, 68, .15); color: var(--red); }
+
+    #hr-guide .detail-card.border-red { border-left: 3px solid var(--red); }
+    #hr-guide .detail-card.border-blue { border-left: 3px solid var(--blue); }
+    #hr-guide .detail-card.border-cyan { border-left: 3px solid var(--cyan); }
+    #hr-guide .detail-card.border-green { border-left: 3px solid var(--green); }
+    #hr-guide .detail-card.border-orange { border-left: 3px solid var(--orange); }
+    #hr-guide .detail-card.border-purple { border-left: 3px solid var(--purple); }
+    #hr-guide .detail-card.border-teal { border-left: 3px solid var(--teal); }
+    #hr-guide .detail-card.border-rose { border-left: 3px solid var(--rose); }
+
+    .back-link { margin-top: 3rem; }
+    .back-link a { color: var(--muted); font-size: 0.72rem; border-bottom: 1px solid var(--border-dim); transition: color 0.15s, border-color 0.15s; }
+    .back-link a:hover { color: var(--accent); border-color: var(--accent); }
+
+    footer { flex-shrink: 0; position: relative; z-index: 1; border-top: 1px solid var(--border-dim); padding: 1.5rem 2.5rem;
+      display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem 1.5rem; }
+    @media (max-width: 860px) { footer { flex-direction: column; justify-content: center; align-items: center; text-align: center; gap: 0.6rem; } .footer-credit-row { justify-content: center; } }
+    .footer-left { color: var(--muted); font-family: var(--ui); font-size: var(--fs-xs); letter-spacing: 0.06em; }
+    .footer-credit-row { display:flex; align-items:center; justify-content:center; gap:10px; flex-wrap:wrap; }
+    .footer-credit-pill { display:inline-flex; flex-wrap:nowrap; align-items:center; gap:6px; padding:4px 12px; border:1px solid var(--border); border-radius:999px; text-decoration:none; font-family:'Exo 2',sans-serif; font-weight:500; font-size:var(--fs-xs); white-space:nowrap; color: var(--muted); transition:border-color .15s; }
+    .footer-credit-pill:hover { border-color:var(--accent); }
+    .footer-credit-pill .credit-tool { font-weight:700; letter-spacing:2px; color: var(--text); }
+    .footer-credit-pill .credit-by { color:var(--muted); }
+    .footer-credit-pill .credit-name { color:var(--accent); font-weight:700; letter-spacing:.5px; }
+    .footer-right { color: var(--muted); font-family: var(--ui); font-size: var(--fs-xs); letter-spacing: 0.12em; text-transform: uppercase; opacity: 0.85; }
+
+    .xv-nav-pill{display:flex;flex-direction:column;align-items:flex-start;gap:1px;margin-left:10px;padding-left:10px;border-left:1px solid var(--border);white-space:nowrap;flex-shrink:0;text-decoration:none;}
+    .xv-pill-name{font-family:'Exo 2',sans-serif;font-weight:700;font-size:13px;letter-spacing:4px;line-height:1;}
+    .xv-pill-accent{color:var(--accent);}
+    .xv-pill-text{color:var(--text);}
+    .xv-pill-tagline{font-family:'Exo 2',sans-serif;font-weight:400;font-size:8px;color:var(--muted);letter-spacing:1.5px;}
+
+    ::-webkit-scrollbar { width: 3px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+
+    body.nav-compact .nav-links { display: none; }
+    body.nav-compact .hamburger { display: flex; }
+    @media(max-width:1000px) { .xv-nav-pill { opacity: 1; transform: none; pointer-events: auto; transition: none; } }
+    @media(max-width:768px) { .page { padding-left: 1.25rem; padding-right: 1.25rem; } }
+    @media(max-width:640px) {
+      .nav-links { display: none; } .hamburger { display: flex; }
+      .page { padding: calc(var(--nav-h) + 1rem) 1.1rem 3.5rem; }
+      footer { padding: 1.2rem 1.25rem; }
+    }
+    @media(max-width:480px) {
+      .page { padding: calc(var(--nav-h) + 0.75rem) 0.9rem 3rem; }
+      .nav-brand { margin-right: 0.6rem; }
+      .xv-pill-tagline { display: none; }
+      .xv-nav-pill { margin-left: 6px; padding-left: 6px; }
+      #hr-guide .data-flow-card, #hr-guide .detail-card { padding: 15px; }
+    }
+  </style>
+</head>
+
+<body>
+  <nav class="nav">
+    <div class="hamburger" id="hamburger" onclick="toggleDrawer()"><span></span><span></span><span></span></div>
+    <div class="nav-brand"><a href="https://h3ad-sec.github.io/"><img id="logoImg"
+          src="https://h3ad-sec.github.io/logo-dark.png" alt="H3AD-SEC"></a></div>
+    <a class="xv-nav-pill" href="#" style="text-decoration:none">
+      <span class="xv-pill-name"><span class="xv-pill-accent">H3AD-</span><span class="xv-pill-text">REF</span></span>
+      <span class="xv-pill-tagline">Reference & Cheatsheets.</span>
+    </a>
+    <div class="nav-links">
+      <div class="nav-divider"></div>
+      <a href="https://h3ad-sec.github.io/H3AD/">H3AD</a>
+      <div class="nav-divider"></div>
+      <div class="nav-item">
+        <a href="https://h3ad-sec.github.io/H3AD-X/">H3AD-X</a>
+        <div class="nav-dropdown"><div class="nav-dropdown-inner">
+          <a href="https://h3ad-sec.github.io/IOC-VERDIKT/" target="_blank" rel="noopener">IOC-VERDIKT</a>
+          <a href="https://h3ad-sec.github.io/PARSE-X/" target="_blank" rel="noopener">PARSE-X</a>
+          <a href="https://h3ad-sec.github.io/DNSCOPE/" target="_blank" rel="noopener">DNSCOPE</a>
+          <a href="https://h3ad-sec.github.io/X-VERDIKT/" target="_blank" rel="noopener">X-VERDIKT</a>
+          <a href="https://h3ad-sec.github.io/MAILSCOPE/" target="_blank" rel="noopener">MAILSCOPE</a>
+          <a href="https://h3ad-sec.github.io/INFRA-SCOPE/" target="_blank" rel="noopener">INFRA-SCOPE</a>
+        </div></div>
+      </div>
+      <div class="nav-item">
+        <a href="https://h3ad-sec.github.io/H3AD-AI/">H3AD-AI</a>
+        <div class="nav-dropdown"><div class="nav-dropdown-inner">
+          <a href="https://h3ad-sec.github.io/PROMPTVAULT/" target="_blank" rel="noopener">PROMPTVAULT</a>
+        </div></div>
+      </div>
+      <div class="nav-item">
+        <a href="https://h3ad-sec.github.io/H3AD-DETECT/">H3AD-DETECT</a>
+        <div class="nav-dropdown"><div class="nav-dropdown-inner">
+          <a href="https://h3ad-sec.github.io/TRACERULES/" target="_blank" rel="noopener">TRACERULES</a>
+        </div></div>
+      </div>
+      <div class="nav-item">
+        <a href="https://h3ad-sec.github.io/H3AD-HUNT/">H3AD-HUNT</a>
+        <div class="nav-dropdown"><div class="nav-dropdown-inner">
+          <a href="https://h3ad-sec.github.io/HYPOS/" target="_blank" rel="noopener">HYPOS</a>
+          <a href="https://h3ad-sec.github.io/PIVEX/" target="_blank" rel="noopener">PIVEX</a>
+          <a href="https://h3ad-sec.github.io/TRACEPULSE/" target="_blank" rel="noopener">TRACEPULSE</a>
+          <a href="https://h3ad-sec.github.io/LOLBIN-R/" target="_blank" rel="noopener">LOLBIN-R</a>
+          <a href="https://h3ad-sec.github.io/TTPHUNT/" target="_blank" rel="noopener">TTPHUNT</a>
+          <a href="https://h3ad-sec.github.io/ADPATH/" target="_blank" rel="noopener">ADPATH</a>
+        </div></div>
+      </div>
+      <div class="nav-item">
+        <a href="https://h3ad-sec.github.io/H3AD-OPS/">H3AD-OPS</a>
+        <div class="nav-dropdown"><div class="nav-dropdown-inner">
+          <a href="https://h3ad-sec.github.io/QUICKTRACE/" target="_blank" rel="noopener">QUICKTRACE</a>
+          <a href="https://h3ad-sec.github.io/PHISHOPS/" target="_blank" rel="noopener">PHISHOPS</a>
+        </div></div>
+      </div>
+      <div class="nav-item">
+        <a href="https://h3ad-sec.github.io/H3AD-DF/">H3AD-DF</a>
+        <div class="nav-dropdown"><div class="nav-dropdown-inner">
+          <a href="https://h3ad-sec.github.io/ARTIFEKTX/" target="_blank" rel="noopener">ARTIFEKTX</a>
+          <a href="https://h3ad-sec.github.io/CHRONIFY/" target="_blank" rel="noopener">CHRONIFY</a>
+          <a href="https://h3ad-sec.github.io/WIN-EVT/" target="_blank" rel="noopener">WIN-EVT</a>
+          <a href="https://h3ad-sec.github.io/MAL-OPS/" target="_blank" rel="noopener">MAL-OPS</a>
+        </div></div>
+      </div>
+      <a href="https://h3ad-sec.github.io/H3AD-IR/">H3AD-IR</a>
+      <a href="https://h3ad-sec.github.io/H3AD-REF/" class="nav-current">H3AD-REF</a>
+      <div class="nav-item">
+        <a href="https://h3ad-sec.github.io/H3AD-LEARN/">H3AD-LEARN</a>
+        <div class="nav-dropdown"><div class="nav-dropdown-inner">
+          <a href="https://h3ad-sec.github.io/H3AD-LEARN/fundamentals/" target="_blank" rel="noopener">FUNDAMENTALS</a>
+          <a href="https://h3ad-sec.github.io/H3AD-LEARN/networking/" target="_blank" rel="noopener">NETWORKING</a>
+          <a href="https://h3ad-sec.github.io/H3AD-LEARN/windows/" target="_blank" rel="noopener">WINDOWS</a>
+          <a href="https://h3ad-sec.github.io/H3AD-LEARN/threat-hunting/" target="_blank" rel="noopener">THREAT HUNTING</a>
+          <a href="https://h3ad-sec.github.io/H3AD-LEARN/lolbas/" target="_blank" rel="noopener">LOLBAS</a>
+          <a href="https://h3ad-sec.github.io/H3AD-LEARN/threat-intel/" target="_blank" rel="noopener">THREAT INTEL</a>
+          <a href="https://h3ad-sec.github.io/H3AD-LEARN/cloud-security/" target="_blank" rel="noopener">CLOUD SECURITY</a>
+          <a href="https://h3ad-sec.github.io/H3AD-LEARN/malware-analysis/" target="_blank" rel="noopener">MALWARE ANALYSIS</a>
+          <a href="https://h3ad-sec.github.io/H3AD-LEARN/soc-operations/" target="_blank" rel="noopener">SOC OPERATIONS</a>
+          <a href="https://h3ad-sec.github.io/H3AD-LEARN/detection-engineering/" target="_blank" rel="noopener">DETECTION ENGINEERING</a>
+          <a href="https://h3ad-sec.github.io/H3AD-LEARN/incident-response/" target="_blank" rel="noopener">INCIDENT RESPONSE</a>
+          <a href="https://h3ad-sec.github.io/H3AD-LEARN/digital-forensics/" target="_blank" rel="noopener">DIGITAL FORENSICS</a>
+          <a href="https://h3ad-sec.github.io/H3AD-LEARN/linux/" target="_blank" rel="noopener">LINUX</a>
+          <a href="https://h3ad-sec.github.io/H3AD-LEARN/interview-prep/" target="_blank" rel="noopener">INTERVIEW PREP</a>
+        </div></div>
+      </div>
+      <div class="nav-divider"></div>
+      <a href="mailto:h3adsec@gmail.com">CONTACT</a>
+    </div>
+    <div class="theme-toggle" onclick="toggleTheme()">
+      <div class="toggle-track"><div class="toggle-thumb"></div></div>
+    </div>
+  </nav>
+  <div class="nav-drawer" id="navDrawer">
+    <a href="https://h3ad-sec.github.io/H3AD/" onclick="closeDrawer()">H3AD</a>
+    <a href="https://h3ad-sec.github.io/H3AD-X/" onclick="closeDrawer()">H3AD-X</a>
+    <a href="https://h3ad-sec.github.io/IOC-VERDIKT/" target="_blank" rel="noopener" onclick="closeDrawer()" class="drawer-sub">↳ IOC-VERDIKT ↗</a>
+    <a href="https://h3ad-sec.github.io/PARSE-X/" target="_blank" rel="noopener" onclick="closeDrawer()" class="drawer-sub">↳ PARSE-X ↗</a>
+    <a href="https://h3ad-sec.github.io/DNSCOPE/" target="_blank" rel="noopener" onclick="closeDrawer()" class="drawer-sub">↳ DNSCOPE ↗</a>
+    <a href="https://h3ad-sec.github.io/X-VERDIKT/" target="_blank" rel="noopener" onclick="closeDrawer()" class="drawer-sub">↳ X-VERDIKT ↗</a>
+    <a href="https://h3ad-sec.github.io/MAILSCOPE/" target="_blank" rel="noopener" onclick="closeDrawer()" class="drawer-sub">↳ MAILSCOPE ↗</a>
+    <a href="https://h3ad-sec.github.io/INFRA-SCOPE/" target="_blank" rel="noopener" onclick="closeDrawer()" class="drawer-sub">↳ INFRA-SCOPE ↗</a>
+    <a href="https://h3ad-sec.github.io/H3AD-AI/" onclick="closeDrawer()">H3AD-AI</a>
+    <a href="https://h3ad-sec.github.io/PROMPTVAULT/" target="_blank" rel="noopener" onclick="closeDrawer()" class="drawer-sub">↳ PROMPTVAULT ↗</a>
+    <a href="https://h3ad-sec.github.io/H3AD-DETECT/" onclick="closeDrawer()">H3AD-DETECT</a>
+    <a href="https://h3ad-sec.github.io/TRACERULES/" target="_blank" rel="noopener" onclick="closeDrawer()" class="drawer-sub">↳ TRACERULES ↗</a>
+    <a href="https://h3ad-sec.github.io/H3AD-HUNT/" onclick="closeDrawer()">H3AD-HUNT</a>
+    <a href="https://h3ad-sec.github.io/HYPOS/" target="_blank" rel="noopener" onclick="closeDrawer()" class="drawer-sub">↳ HYPOS ↗</a>
+    <a href="https://h3ad-sec.github.io/PIVEX/" target="_blank" rel="noopener" onclick="closeDrawer()" class="drawer-sub">↳ PIVEX ↗</a>
+    <a href="https://h3ad-sec.github.io/TRACEPULSE/" target="_blank" rel="noopener" onclick="closeDrawer()" class="drawer-sub">↳ TRACEPULSE ↗</a>
+    <a href="https://h3ad-sec.github.io/LOLBIN-R/" target="_blank" rel="noopener" onclick="closeDrawer()" class="drawer-sub">↳ LOLBIN-R ↗</a>
+    <a href="https://h3ad-sec.github.io/TTPHUNT/" target="_blank" rel="noopener" onclick="closeDrawer()" class="drawer-sub">↳ TTPHUNT ↗</a>
+    <a href="https://h3ad-sec.github.io/ADPATH/" target="_blank" rel="noopener" onclick="closeDrawer()" class="drawer-sub">↳ ADPATH ↗</a>
+    <a href="https://h3ad-sec.github.io/H3AD-OPS/" onclick="closeDrawer()">H3AD-OPS</a>
+    <a href="https://h3ad-sec.github.io/QUICKTRACE/" target="_blank" rel="noopener" onclick="closeDrawer()" class="drawer-sub">↳ QUICKTRACE ↗</a>
+    <a href="https://h3ad-sec.github.io/PHISHOPS/" target="_blank" rel="noopener" onclick="closeDrawer()" class="drawer-sub">↳ PHISHOPS ↗</a>
+    <a href="https://h3ad-sec.github.io/H3AD-DF/" onclick="closeDrawer()">H3AD-DF</a>
+    <a href="https://h3ad-sec.github.io/ARTIFEKTX/" target="_blank" rel="noopener" onclick="closeDrawer()" class="drawer-sub">↳ ARTIFEKTX ↗</a>
+    <a href="https://h3ad-sec.github.io/CHRONIFY/" target="_blank" rel="noopener" onclick="closeDrawer()" class="drawer-sub">↳ CHRONIFY ↗</a>
+    <a href="https://h3ad-sec.github.io/WIN-EVT/" target="_blank" rel="noopener" onclick="closeDrawer()" class="drawer-sub">↳ WIN-EVT ↗</a>
+    <a href="https://h3ad-sec.github.io/MAL-OPS/" target="_blank" rel="noopener" onclick="closeDrawer()" class="drawer-sub">↳ MAL-OPS ↗</a>
+    <a href="https://h3ad-sec.github.io/H3AD-IR/" onclick="closeDrawer()">H3AD-IR</a>
+    <a href="https://h3ad-sec.github.io/H3AD-REF/" onclick="closeDrawer()" class="nav-current">H3AD-REF</a>
+    <a href="https://h3ad-sec.github.io/H3AD-LEARN/" onclick="closeDrawer()">H3AD-LEARN</a>
+    <a href="https://h3ad-sec.github.io/H3AD-LEARN/fundamentals/" target="_blank" rel="noopener" onclick="closeDrawer()" class="drawer-sub">↳ FUNDAMENTALS ↗</a>
+    <a href="https://h3ad-sec.github.io/H3AD-LEARN/networking/" target="_blank" rel="noopener" onclick="closeDrawer()" class="drawer-sub">↳ NETWORKING ↗</a>
+    <a href="https://h3ad-sec.github.io/H3AD-LEARN/windows/" target="_blank" rel="noopener" onclick="closeDrawer()" class="drawer-sub">↳ WINDOWS ↗</a>
+    <a href="https://h3ad-sec.github.io/H3AD-LEARN/threat-hunting/" target="_blank" rel="noopener" onclick="closeDrawer()" class="drawer-sub">↳ THREAT HUNTING ↗</a>
+    <a href="https://h3ad-sec.github.io/H3AD-LEARN/lolbas/" target="_blank" rel="noopener" onclick="closeDrawer()" class="drawer-sub">↳ LOLBAS ↗</a>
+    <a href="https://h3ad-sec.github.io/H3AD-LEARN/threat-intel/" target="_blank" rel="noopener" onclick="closeDrawer()" class="drawer-sub">↳ THREAT INTEL ↗</a>
+    <a href="https://h3ad-sec.github.io/H3AD-LEARN/cloud-security/" target="_blank" rel="noopener" onclick="closeDrawer()" class="drawer-sub">↳ CLOUD SECURITY ↗</a>
+    <a href="https://h3ad-sec.github.io/H3AD-LEARN/malware-analysis/" target="_blank" rel="noopener" onclick="closeDrawer()" class="drawer-sub">↳ MALWARE ANALYSIS ↗</a>
+    <a href="https://h3ad-sec.github.io/H3AD-LEARN/soc-operations/" target="_blank" rel="noopener" onclick="closeDrawer()" class="drawer-sub">↳ SOC OPERATIONS ↗</a>
+    <a href="https://h3ad-sec.github.io/H3AD-LEARN/detection-engineering/" target="_blank" rel="noopener" onclick="closeDrawer()" class="drawer-sub">↳ DETECTION ENGINEERING ↗</a>
+    <a href="https://h3ad-sec.github.io/H3AD-LEARN/incident-response/" target="_blank" rel="noopener" onclick="closeDrawer()" class="drawer-sub">↳ INCIDENT RESPONSE ↗</a>
+    <a href="https://h3ad-sec.github.io/H3AD-LEARN/digital-forensics/" target="_blank" rel="noopener" onclick="closeDrawer()" class="drawer-sub">↳ DIGITAL FORENSICS ↗</a>
+    <a href="https://h3ad-sec.github.io/H3AD-LEARN/linux/" target="_blank" rel="noopener" onclick="closeDrawer()" class="drawer-sub">↳ LINUX ↗</a>
+    <a href="https://h3ad-sec.github.io/H3AD-LEARN/interview-prep/" target="_blank" rel="noopener" onclick="closeDrawer()" class="drawer-sub">↳ INTERVIEW PREP ↗</a>
+    <a href="mailto:h3adsec@gmail.com" onclick="closeDrawer()">CONTACT</a>
+  </div>
+
+  <main>
+    <div class="page">
+      <div class="yg-crumb"><a href="https://h3ad-sec.github.io/H3AD-REF/">H3AD-REF</a> / <a href="https://h3ad-sec.github.io/H3AD-REF/#guides">GUIDES</a> / POWERSHELL FOR IR</div>
+      <h1 class="yg-hero-title">The Shell You Triage With<br><span>Is Also The Shell You Collect With.</span></h1>
+      <p class="yg-hero-sub">Using PowerShell as an evidence-collection tool: core IR cmdlets, remote collection across a fleet, and script block logging setup. See <a href="https://h3ad-sec.github.io/H3AD-REF/playbooks/powershell-alert.html">Suspicious PowerShell</a> for triaging a PowerShell-based alert, which is a different question than the one this guide answers.</p>
+
+      <div class="hr-toolbar">
+        <input class="hr-search-input" id="hrSearch" type="text" placeholder="Search this guide... ( / )" oninput="hrFilter()" autocomplete="off" spellcheck="false" />
+        <div class="hr-toc">
+          <button class="hr-toc-pill" onclick="hrJump('hr-sec-cmdlets')">CORE CMDLETS</button>
+          <button class="hr-toc-pill" onclick="hrJump('hr-sec-remote')">REMOTE COLLECTION</button>
+          <button class="hr-toc-pill" onclick="hrJump('hr-sec-logging')">LOGGING SETUP</button>
+          <button class="hr-toc-pill" onclick="hrJump('hr-sec-pitfalls')">PITFALLS</button>
+        </div>
+        <div class="hr-count" id="hrCount"></div>
+      </div>
+
+      <div id="hr-guide">
+
+        <!-- ==================== CORE IR CMDLETS ==================== -->
+        <div class="section-header" id="hr-sec-cmdlets">
+          <h2>Core <span>IR Cmdlets</span></h2>
+          <p class="section-desc">The commands that come up in almost every collection run, regardless of what the investigation is actually about.</p>
+        </div>
+        <div class="data-flow-card">
+          <h4>Events, Processes, Connections, Persistence</h4>
+          <pre><span class="key">Get-WinEvent -FilterHashtable @{LogName='Security'; Id=4624,4625; StartTime=(Get-Date).AddHours(-24)}</span>
+├── Far faster than the deprecated Get-EventLog — FilterHashtable filters at the provider level,
+    not after loading every event into memory
+└── -ComputerName targets a remote host directly, given WinRM access and the right permissions
+
+<span class="key">Get-Process | Select-Object Name, Id, Path, StartTime</span>
+<span class="key">Get-CimInstance Win32_Process | Select-Object Name, ProcessId, ParentProcessId, CommandLine</span>
+├── Get-CimInstance shows the full command line and parent PID; Get-Process alone does not
+└── The parent-child relationship is often the fastest way to spot a LOLBIN abuse chain by hand
+
+<span class="key">Get-NetTCPConnection | Where-Object State -eq 'Established'</span>
+├── The modern replacement for netstat, returns structured objects instead of text to parse
+└── Pipe to a process lookup (OwningProcess maps to a PID) to tie a connection back to its process
+
+<span class="key">Get-ScheduledTask | Where-Object State -ne 'Disabled'</span>
+<span class="key">Get-Service | Where-Object Status -eq 'Running'</span>
+    <span class="comment">// both are common persistence checks, same rationale as the manual-host-triage playbook's persistence sections</span></pre>
+        </div>
+
+        <div class="separator"></div>
+
+        <!-- ==================== REMOTE COLLECTION ==================== -->
+        <div class="section-header" id="hr-sec-remote">
+          <h2>Remote <span class="orange">Collection</span></h2>
+          <p class="section-desc">The same cmdlets, run against a fleet instead of one host.</p>
+        </div>
+        <div class="details-grid">
+          <div class="detail-card border-orange"><span class="tag strings">CMDLET</span>
+            <h3>Invoke-Command</h3>
+            <div class="card-sub">One script block, many hosts, in parallel</div>
+            <div class="card-body"><code>Invoke-Command -ComputerName $hosts -ScriptBlock { ... }</code> runs a script block against one or many remote hosts at once. This is the core mechanism for a fleet-wide IR sweep.</div>
+          </div>
+          <div class="detail-card border-cyan"><span class="tag strings">CMDLET</span>
+            <h3>New-PSSession / Enter-PSSession</h3>
+            <div class="card-sub">For an extended interactive investigation on one host</div>
+            <div class="card-body">A persistent remote session, useful when the work on a single host is going to take more than one command, rather than a one-shot collection.</div>
+          </div>
+          <div class="detail-card border-purple"><span class="tag pitfall">PREREQUISITE</span>
+            <h3>WinRM Access</h3>
+            <div class="card-sub">Fails as a timeout, not a clear permissions error</div>
+            <div class="card-body">The target needs WinRM enabled, and the investigator's account needs local Administrators membership or an explicit WinRM permission on that host. Misconfiguration shows up as a connection timeout, not an obvious access-denied message.</div>
+          </div>
+        </div>
+
+        <div class="separator"></div>
+
+        <!-- ==================== SCRIPT BLOCK LOGGING SETUP ==================== -->
+        <div class="section-header" id="hr-sec-logging">
+          <h2>Script Block <span class="purple">Logging Setup</span></h2>
+          <p class="section-desc">This has to be turned on before the incident, not during it.</p>
+        </div>
+        <div class="details-grid">
+          <div class="detail-card border-purple"><span class="tag practice">GPO</span>
+            <h3>Script Block Logging</h3>
+            <div class="card-sub">What actually populates Event ID 4104</div>
+            <div class="card-body">Computer Configuration &gt; Administrative Templates &gt; Windows Components &gt; Windows PowerShell &gt; Turn on PowerShell Script Block Logging. This is what puts decoded script content into Event ID 4104.</div>
+          </div>
+          <div class="detail-card border-rose"><span class="tag practice">GPO</span>
+            <h3>Module Logging</h3>
+            <div class="card-sub">A separate setting, useful alongside 4104</div>
+            <div class="card-body">Module logging records pipeline execution details as Event ID 4103. It's a separate GPO setting from script block logging, and worth enabling alongside it, not instead of it.</div>
+          </div>
+          <div class="detail-card border-green"><span class="tag pitfall">SCOPE</span>
+            <h3>Transcription</h3>
+            <div class="card-sub">Valuable, but scope it deliberately</div>
+            <div class="card-body">Turn on PowerShell Transcription writes a full session transcript to a specified directory. It generates significant log volume, so enable it deliberately with a retention plan, not fleet-wide by default.</div>
+          </div>
+        </div>
+
+        <div class="separator"></div>
+
+        <!-- ==================== COMMON PITFALLS ==================== -->
+        <div class="section-header" id="hr-sec-pitfalls">
+          <h2>Common <span class="red">Pitfalls</span></h2>
+          <p class="section-desc">Mistakes made under time pressure during an active collection run.</p>
+        </div>
+        <div class="details-grid">
+          <div class="detail-card border-red"><span class="tag pitfall">PITFALL</span>
+            <h3>Running Broad Collection Without Confirming Impact</h3>
+            <div class="card-sub">A large recursive scan at the wrong moment</div>
+            <div class="card-body">A broad <code>Get-ChildItem -Recurse</code> across a large file share during an active incident can affect host performance at exactly the moment it can least afford to.</div>
+          </div>
+          <div class="detail-card border-rose"><span class="tag pitfall">PITFALL</span>
+            <h3>PowerShell Version Differences</h3>
+            <div class="card-sub">5.1 and 7+ don't share every cmdlet</div>
+            <div class="card-body">Windows PowerShell 5.1 and PowerShell 7+ have different default cmdlet availability and module paths. A script that runs cleanly in one may not run at all in the other.</div>
+          </div>
+          <div class="detail-card border-orange"><span class="tag pitfall">PITFALL</span>
+            <h3>Execution Policy Blocking Collection</h3>
+            <div class="card-sub">A one-time bypass, not a permanent policy change</div>
+            <div class="card-body">Restricted or AllSigned execution policy blocks an ad hoc IR script outright. <code>-ExecutionPolicy Bypass</code> on the invocation itself is usually the right call for a one-time collection run, not editing the host's policy permanently.</div>
+          </div>
+          <div class="detail-card border-teal"><span class="tag pitfall">PITFALL</span>
+            <h3>An Empty Result Isn't Proof Of Nothing</h3>
+            <div class="card-sub">Same caveat as the ransomware and manual-triage playbooks</div>
+            <div class="card-body">Get-WinEvent needs the Security log's audit policy actually configured to return anything. An empty result on a default-audit-policy host is a coverage gap, not evidence that nothing happened.</div>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="back-link"><a href="https://h3ad-sec.github.io/H3AD-REF/">← Back to H3AD-REF</a></div>
+    </div>
+  </main>
+
+  <footer>
+    <span class="footer-left">H3AD-SEC © 2026 &nbsp;|&nbsp; H3AD-REF / GUIDES</span>
+    <span class="footer-right">POWERSHELL FOR INCIDENT RESPONSE GUIDE</span>
+    <div class="footer-credit-row">
+      <a class="footer-credit-pill" href="https://www.linkedin.com/in/hrushikesh-badgujar/" target="_blank" rel="noopener" title="Connect on LinkedIn">
+        <span class="credit-tool"><span class="xv-pill-accent">H3AD</span><span class="xv-pill-text">-REF</span></span>
+        <span class="credit-by">created by</span>
+        <span class="credit-name">H3AD</span>
+      </a>
+    </div>
+  </footer>
+
+  <script>
+    function toggleDrawer() { document.getElementById('navDrawer').classList.toggle('open'); } function closeDrawer() { document.getElementById('navDrawer').classList.remove('open'); }
+    document.addEventListener('click', e => { const d = document.getElementById('navDrawer'), h = document.getElementById('hamburger'); if (d.classList.contains('open') && !d.contains(e.target) && !h.contains(e.target)) closeDrawer(); });
+    function setLogo(t) { const el = document.getElementById('logoImg'); if (el) el.src = t === 'light' ? 'https://h3ad-sec.github.io/logo-light.png' : 'https://h3ad-sec.github.io/logo-dark.png'; }
+    function toggleTheme() { document.body.classList.toggle('light'); const t = document.body.classList.contains('light') ? 'light' : 'dark'; localStorage.setItem('h3ad-theme', t); setLogo(t); }
+    const saved = localStorage.getItem('h3ad-theme'); if (saved === 'light') { document.body.classList.add('light'); setLogo('light'); } else setLogo('dark');
+    (function(){var pill=document.getElementById('xv-nav-pill'),links=document.querySelector('.nav-links'),toggle=document.querySelector('.theme-toggle'),G=20;function check(){if(!links)return;document.body.classList.remove('nav-compact');links.style.visibility='hidden';var lr=links.getBoundingClientRect(),pr=pill?pill.getBoundingClientRect().right:60,tl=toggle?toggle.getBoundingClientRect().left:window.innerWidth-60;links.style.visibility='';document.body.classList.toggle('nav-compact',(pr+G>lr.left)||(lr.right+G>tl));}check();window.addEventListener('resize',check);})();
+
+    var hrCards = null;
+    function hrFilter() {
+      if (!hrCards) hrCards = Array.prototype.slice.call(document.querySelectorAll('#hr-guide .detail-card'));
+      var term = (document.getElementById('hrSearch').value || '').toLowerCase().trim();
+      var shown = 0;
+      hrCards.forEach(function (card) {
+        var hay = card.textContent.toLowerCase();
+        var match = !term || hay.indexOf(term) !== -1;
+        card.classList.toggle('hr-hidden', !match);
+        if (match) shown++;
+      });
+      var count = document.getElementById('hrCount');
+      count.innerHTML = term ? ('<span>' + shown + '</span> of ' + hrCards.length + ' cards') : '';
+      document.querySelectorAll('#hr-guide .details-grid').forEach(function (grid) {
+        var visible = Array.prototype.slice.call(grid.querySelectorAll('.detail-card')).some(function (c) { return !c.classList.contains('hr-hidden'); });
+        grid.style.display = (term && !visible) ? 'none' : '';
+      });
+    }
+    function hrJump(id) {
+      var el = document.getElementById(id);
+      if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+    document.addEventListener('keydown', function (e) {
+      if (e.key === '/' && document.activeElement.tagName !== 'INPUT' && document.activeElement.tagName !== 'TEXTAREA') {
+        e.preventDefault();
+        document.getElementById('hrSearch').focus();
+      }
+    });
+  </script>
+</body>
+
+</html>
