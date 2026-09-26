@@ -221,6 +221,9 @@
     #hr-guide .detail-card.border-purple { border-left: 3px solid var(--purple); }
     #hr-guide .detail-card.border-teal { border-left: 3px solid var(--teal); }
     #hr-guide .detail-card.border-rose { border-left: 3px solid var(--rose); }
+    #hr-guide .link-card { display: block; }
+    #hr-guide .link-card:hover .card-title-link { color: var(--accent); }
+    #hr-guide .card-title-link { transition: color 0.15s; }
 
     .back-link { margin-top: 3rem; }
     .back-link a { color: var(--muted); font-size: 0.72rem; border-bottom: 1px solid var(--border-dim); transition: color 0.15s, border-color 0.15s; }
@@ -633,6 +636,11 @@
             <div class="card-sub">Adversarial input turns a fast pattern into a hang</div>
             <div class="card-body">A nested-quantifier pattern that's fast on normal log lines can pin a CPU core for minutes on a crafted or malformed line, since the engine tries exponentially many ways to fail before giving up. This is exploitable as a denial-of-service against any parser that runs untrusted or attacker-influenced input through the pattern, so it's worth testing deliberately, not just against clean samples.</div>
           </div>
+          <a class="detail-card link-card border-teal" href="log-parsing-normalization.html">
+            <span class="tag strings">ONE LEVEL UPSTREAM</span>
+            <h3 class="card-title-link">This Assumes A Parseable Field. Getting There Is A Different Layer →</h3>
+            <div class="card-body">Every pattern on this page assumes the field you're matching against already exists in a queryable, consistent form. <strong>Log Parsing & Normalization</strong> covers the layer underneath — turning Syslog/CEF/LEEF/JSON from different vendors into that consistent schema in the first place, before any regex ever runs against it.</div>
+          </a>
         </div>
 
       </div>

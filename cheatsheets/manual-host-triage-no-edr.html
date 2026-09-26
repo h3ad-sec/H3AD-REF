@@ -10,11 +10,11 @@
   <title>Manual Host Triage Without EDR/XDR Playbook // H3AD-REF</title>
   <meta name="description"
     content="H3AD-REF playbook: manual host triage on Windows and Linux with zero EDR, XDR, or SIEM agent. Native OS commands only — process inspection, persistence checks, network connections, logon activity, and file system artifacts for locked-down or agent-restricted hosts.">
-  <link rel="canonical" href="https://h3ad-sec.github.io/H3AD-REF/playbooks/manual-host-triage-no-edr.html">
+  <link rel="canonical" href="https://h3ad-sec.github.io/H3AD-REF/cheatsheets/manual-host-triage-no-edr.html">
 
   <meta property="og:type" content="article">
   <meta property="og:site_name" content="H3AD-SEC">
-  <meta property="og:url" content="https://h3ad-sec.github.io/H3AD-REF/playbooks/manual-host-triage-no-edr.html">
+  <meta property="og:url" content="https://h3ad-sec.github.io/H3AD-REF/cheatsheets/manual-host-triage-no-edr.html">
   <meta property="og:title" content="Manual Host Triage Without EDR/XDR Playbook // H3AD-REF">
   <meta property="og:description" content="H3AD-REF playbook: manual host triage on Windows and Linux with zero EDR, XDR, or SIEM agent. Native OS commands only — process inspection, persistence checks, network connections, logon activity, and file system artifacts for locked-down or agent-restricted hosts.">
   <meta property="og:image" content="https://raw.githubusercontent.com/h3ad-sec/h3ad-sec.github.io/main/logo-dark.png">
@@ -33,7 +33,7 @@
     "@type": "TechArticle",
     "headline": "Manual Host Triage Without EDR/XDR",
     "description": "Native-only Windows and Linux triage commands for hosts with no EDR, XDR, or SIEM agent — process inspection, persistence checks, network connections, logon activity, and file system artifacts.",
-    "url": "https://h3ad-sec.github.io/H3AD-REF/playbooks/manual-host-triage-no-edr.html",
+    "url": "https://h3ad-sec.github.io/H3AD-REF/cheatsheets/manual-host-triage-no-edr.html",
     "articleSection": "Playbooks",
     "isPartOf": {
       "@type": "CollectionPage",
@@ -409,7 +409,7 @@
 
   <main>
     <div class="page">
-      <div class="yg-crumb"><a href="https://h3ad-sec.github.io/H3AD-REF/">H3AD-REF</a> / <a href="https://h3ad-sec.github.io/H3AD-REF/#playbooks">PLAYBOOKS</a> / MANUAL HOST TRIAGE</div>
+      <div class="yg-crumb"><a href="https://h3ad-sec.github.io/H3AD-REF/">H3AD-REF</a> / <a href="https://h3ad-sec.github.io/H3AD-REF/#cheatsheets">CHEATSHEETS</a> / MANUAL HOST TRIAGE</div>
       <h1 class="yg-hero-title">Manual Host Triage.<br><span>No EDR. No XDR. Native Tools Only.</span></h1>
       <p class="yg-hero-sub">You're looking at a Windows or Linux host with nothing installed — no EDR, no XDR, no SIEM agent. A locked-down environment, an air-gapped box, a client engagement without agent-deployment access, or a cloud instance you can't put anything on. This is triage with what's already on the host: built-in cmd.exe and PowerShell cmdlets, wmic, reg, net, schtasks, wevtutil on Windows; bash, coreutils, procps, ss, journalctl on Linux. No Sysinternals, no third-party downloads, no non-default PowerShell modules.</p>
 
@@ -723,12 +723,12 @@
           <div class="detail-card border-cyan"><span class="tag escalation">SEE ALSO</span>
             <h3>If Sysinternals Is Actually An Option</h3>
             <div class="card-sub">Portable, no-install downloads change what's possible</div>
-            <div class="card-body">Everything above assumes truly nothing beyond the OS. If a portable download is permitted — no install, no admin package manager — <a href="../cheatsheets/sysinternals-windows-cli-forensics.html">cheatsheets/sysinternals-windows-cli-forensics.html</a> goes considerably deeper on the Windows side: full command-line history, autoruns coverage beyond the standard registry keys, and process tree detail native tools can't match.</div>
+            <div class="card-body">Everything above assumes truly nothing beyond the OS. If a portable download is permitted — no install, no admin package manager — <a href="sysinternals-windows-cli-forensics.html">Sysinternals & Windows CLI Forensics</a> goes considerably deeper on the Windows side: full command-line history, autoruns coverage beyond the standard registry keys, and process tree detail native tools can't match.</div>
           </div>
           <div class="detail-card border-purple"><span class="tag escalation">SEE ALSO</span>
             <h3>When Live Inspection Isn't Enough</h3>
             <div class="card-sub">A running process list only shows what's still running</div>
-            <div class="card-body">Native tools show the current state of the box, not what happened before you got there or what a process already terminated. If a memory capture is possible, <a href="../cheatsheets/volatility3-commands.html">cheatsheets/volatility3-commands.html</a> covers the plugin set for pulling process, network, and injection evidence out of a memory image instead of the live host.</div>
+            <div class="card-body">Native tools show the current state of the box, not what happened before you got there or what a process already terminated. If a memory capture is possible, <a href="volatility3-commands.html">Volatility3 Commands</a> covers the plugin set for pulling process, network, and injection evidence out of a memory image instead of the live host.</div>
           </div>
         </div>
 
@@ -739,7 +739,7 @@
   </main>
 
   <footer>
-    <span class="footer-left">H3AD-SEC © 2026 &nbsp;|&nbsp; H3AD-REF / PLAYBOOKS</span>
+    <span class="footer-left">H3AD-SEC © 2026 &nbsp;|&nbsp; H3AD-REF / CHEATSHEETS</span>
     <span class="footer-right">MANUAL HOST TRIAGE PLAYBOOK</span>
     <div class="footer-credit-row">
       <a class="footer-credit-pill" href="https://www.linkedin.com/in/hrushikesh-badgujar/" target="_blank" rel="noopener" title="Connect on LinkedIn">

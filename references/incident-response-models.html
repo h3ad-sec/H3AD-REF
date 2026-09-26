@@ -7,21 +7,21 @@
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
   <meta http-equiv="Pragma" content="no-cache">
   <meta http-equiv="Expires" content="0">
-  <title>BEC & Phishing Response Playbook // H3AD-REF</title>
+  <title>Incident Response & Analysis Models // H3AD-REF</title>
   <meta name="description"
-    content="H3AD-REF playbook: BEC and phishing response. Common trigger sources, triage steps that separate a targeted user from a compromised one, true and false positive indicators, escalation criteria, and containment actions.">
-  <link rel="canonical" href="https://h3ad-sec.github.io/H3AD-REF/playbooks/bec-phishing-response.html">
+    content="H3AD-REF reference: OODA Loop, NIST 800-61 IR Lifecycle (+ SANS PICERL), Order of Volatility, and Malware Analysis Methodology — the decision cycle and its instances during an actual incident, each as a one-glance diagram.">
+  <link rel="canonical" href="https://h3ad-sec.github.io/H3AD-REF/references/incident-response-models.html">
 
   <meta property="og:type" content="article">
   <meta property="og:site_name" content="H3AD-SEC">
-  <meta property="og:url" content="https://h3ad-sec.github.io/H3AD-REF/playbooks/bec-phishing-response.html">
-  <meta property="og:title" content="BEC & Phishing Response Playbook // H3AD-REF">
-  <meta property="og:description" content="H3AD-REF playbook: BEC and phishing response. Common trigger sources, triage steps that separate a targeted user from a compromised one, true and false positive indicators, escalation criteria, and containment actions.">
+  <meta property="og:url" content="https://h3ad-sec.github.io/H3AD-REF/references/incident-response-models.html">
+  <meta property="og:title" content="Incident Response & Analysis Models // H3AD-REF">
+  <meta property="og:description" content="OODA Loop underneath, then NIST's phases, RFC 3227 volatility order, and malware analysis depth — the decision cycle running during an actual incident. One diagram each.">
   <meta property="og:image" content="https://raw.githubusercontent.com/h3ad-sec/h3ad-sec.github.io/main/logo-dark.png">
 
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="BEC & Phishing Response Playbook // H3AD-REF">
-  <meta name="twitter:description" content="H3AD-REF playbook: BEC and phishing response. Common trigger sources, triage steps that separate a targeted user from a compromised one, true and false positive indicators, escalation criteria, and containment actions.">
+  <meta name="twitter:title" content="Incident Response & Analysis Models // H3AD-REF">
+  <meta name="twitter:description" content="OODA Loop underneath, then NIST's phases, RFC 3227 volatility order, and malware analysis depth — the decision cycle running during an actual incident. One diagram each.">
   <meta name="twitter:image" content="https://raw.githubusercontent.com/h3ad-sec/h3ad-sec.github.io/main/logo-dark.png">
 
   <meta name="theme-color" content="#080c14">
@@ -31,10 +31,10 @@
   {
     "@context": "https://schema.org",
     "@type": "TechArticle",
-    "headline": "BEC & Phishing Response Playbook",
-    "description": "Common trigger sources, triage steps that separate a targeted user from a compromised one, true and false positive indicators, escalation criteria, and containment actions for business email compromise and phishing cases.",
-    "url": "https://h3ad-sec.github.io/H3AD-REF/playbooks/bec-phishing-response.html",
-    "articleSection": "Playbooks",
+    "headline": "Incident Response & Analysis Models",
+    "description": "OODA Loop, NIST 800-61 IR Lifecycle, Order of Volatility, and Malware Analysis Methodology, each as a one-glance diagram.",
+    "url": "https://h3ad-sec.github.io/H3AD-REF/references/incident-response-models.html",
+    "articleSection": "References",
     "isPartOf": {
       "@type": "CollectionPage",
       "name": "H3AD-REF",
@@ -143,6 +143,13 @@
     .yg-hero-title span { color: var(--accent); }
     .yg-hero-sub { font-family: var(--ui); font-size: 13px; color: var(--muted); max-width: 680px; line-height: 1.65; margin-bottom: 22px; }
 
+    .hr-series-nav { display: flex; flex-direction: column; gap: 5px; padding: 10px 14px; margin-bottom: 20px; border: 1px solid var(--border-dim); border-radius: 8px; background: var(--primary-dim); }
+    .hr-series-label { font-family: var(--mono); font-size: 9.5px; letter-spacing: 0.1em; color: var(--muted); }
+    .hr-series-links { font-family: var(--ui); font-size: 12px; color: var(--muted); line-height: 1.6; }
+    .hr-series-links a { color: var(--accent); }
+    .hr-series-links a:hover { text-decoration: underline; }
+    .hr-series-current { color: var(--text); font-weight: 600; }
+
     .hr-toolbar { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 14px; padding-bottom: 18px; border-bottom: 1px solid var(--border-dim); margin-bottom: 8px; }
     .hr-search-input { flex: 1 1 auto; max-width: 300px; background: var(--panel); border: 1px solid var(--border); border-radius: 6px;
       padding: 8px 12px; font-family: 'Exo 2', sans-serif; font-size: 13px; color: var(--text); }
@@ -152,6 +159,7 @@
     .hr-toc-pill { font-family: var(--mono); font-size: 10px; letter-spacing: 0.08em; background: transparent; color: var(--muted);
       border: 1px solid var(--border); border-radius: 20px; padding: 6px 13px; cursor: pointer; transition: all 0.15s; white-space: nowrap; }
     .hr-toc-pill:hover { color: var(--accent); border-color: var(--accent); background: var(--primary-dim); }
+    .hr-toc-pill.active { color: var(--accent); border-color: var(--accent); background: var(--primary-dim); }
     .hr-count { font-family: var(--mono); font-size: 10px; color: var(--muted); white-space: nowrap; margin-left: auto; }
     .hr-count span { color: var(--accent); }
 
@@ -194,8 +202,8 @@
     #hr-guide .details-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 18px; margin-top: 22px; }
     @media(max-width:768px) { #hr-guide .details-grid { grid-template-columns: 1fr; } }
 
-    #hr-guide .detail-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 10px; padding: 20px; transition: border-color 0.2s; }
-    #hr-guide .detail-card:hover { border-color: var(--border-active); }
+    #hr-guide .detail-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 10px; padding: 20px; transition: border-color 0.2s, transform 0.2s, box-shadow 0.2s; }
+    #hr-guide .detail-card:hover { border-color: var(--border-active); transform: translateY(-3px); box-shadow: 0 14px 28px -12px rgba(0,0,0,.45); }
     #hr-guide .detail-card.hr-hidden { display: none; }
     #hr-guide .detail-card h3 { font-family: 'Exo 2', sans-serif; font-size: 16.5px; font-weight: 600; color: var(--text-bright); margin-bottom: 4px; }
     #hr-guide .detail-card .card-sub { font-family: 'Exo 2', sans-serif; font-size: 13.5px; color: var(--text-dim); margin-bottom: 11px; letter-spacing: 0.2px; }
@@ -209,10 +217,10 @@
 
     #hr-guide .tag { font-family: 'Share Tech Mono', monospace; font-size: 10px; font-weight: 600; text-transform: uppercase;
       letter-spacing: 1px; padding: 3px 8px; border-radius: 4px; display: inline-block; margin-bottom: 8px; margin-right: 4px; }
-    #hr-guide .tag.step { background: rgba(6, 182, 212, .15); color: var(--cyan); }
-    #hr-guide .tag.checklist { background: rgba(245, 158, 11, .15); color: var(--orange); }
-    #hr-guide .tag.mistake { background: rgba(239, 68, 68, .15); color: var(--red); }
-    #hr-guide .tag.escalation { background: rgba(139, 92, 246, .15); color: var(--purple); }
+    #hr-guide .tag.strings { background: rgba(6, 182, 212, .15); color: var(--cyan); }
+    #hr-guide .tag.condition { background: rgba(245, 158, 11, .15); color: var(--orange); }
+    #hr-guide .tag.practice { background: rgba(16, 185, 129, .15); color: var(--green); }
+    #hr-guide .tag.pitfall { background: rgba(239, 68, 68, .15); color: var(--red); }
 
     #hr-guide .detail-card.border-red { border-left: 3px solid var(--red); }
     #hr-guide .detail-card.border-blue { border-left: 3px solid var(--blue); }
@@ -222,6 +230,88 @@
     #hr-guide .detail-card.border-purple { border-left: 3px solid var(--purple); }
     #hr-guide .detail-card.border-teal { border-left: 3px solid var(--teal); }
     #hr-guide .detail-card.border-rose { border-left: 3px solid var(--rose); }
+
+    /* ── This page's own additions: stage-flow, pyramid, diamond, meta-chips ── */
+    #hr-guide .stage-flow { display: flex; align-items: stretch; gap: 0; margin-top: 22px; }
+    #hr-guide .stage-box { flex: 1 1 0; background: var(--bg-card); border: 1px solid var(--border); border-radius: 10px; padding: 16px 14px; min-width: 0;
+      transition: transform 0.18s ease, border-color 0.18s ease, box-shadow 0.18s ease; position: relative; }
+    #hr-guide .stage-box:hover { transform: translateY(-4px); border-color: var(--border-active); box-shadow: 0 12px 26px -10px rgba(0,0,0,.5); z-index: 2; }
+    #hr-guide .stage-box.stage-danger { background: linear-gradient(165deg, rgba(239,68,68,.09), var(--bg-card) 65%); border-color: rgba(239,68,68,.35); }
+    #hr-guide .stage-box.stage-danger:hover { border-color: var(--red); box-shadow: 0 12px 26px -10px rgba(239,68,68,.4); }
+    #hr-guide .stage-num { display: inline-flex; align-items: center; justify-content: center; width: 22px; height: 22px; border-radius: 50%;
+      background: rgba(6, 182, 212, 0.12); color: var(--cyan); font-family: var(--mono); font-size: 10.5px; font-weight: 700; margin-bottom: 10px; }
+    #hr-guide .stage-box.stage-danger .stage-num { background: rgba(239, 68, 68, 0.15); color: var(--red); }
+    #hr-guide .stage-title { font-family: 'Exo 2', sans-serif; font-weight: 700; font-size: 13px; letter-spacing: 0.03em; color: var(--text-bright); margin-bottom: 7px; line-height: 1.3; }
+    #hr-guide .stage-desc { font-size: 12px; color: var(--text-dim); line-height: 1.55; }
+    #hr-guide .stage-arrow { flex: 0 0 26px; display: flex; align-items: center; justify-content: center; color: var(--border-active); font-size: 18px; opacity: 0.55; }
+    #hr-guide .stage-caption { text-align: center; font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.1em; color: var(--muted); margin-top: 12px; }
+    #hr-guide .cycle-loop { margin-top: 14px; text-align: center; font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.06em; color: var(--muted);
+      border: 1px dashed var(--border); border-radius: 30px; padding: 9px 18px; background: rgba(6, 182, 212, 0.04); }
+    #hr-guide .cycle-loop span { color: var(--cyan); }
+    @media(max-width:760px) {
+      #hr-guide .stage-flow { flex-direction: column; }
+      #hr-guide .stage-arrow { transform: rotate(90deg); flex-basis: 22px; }
+      #hr-guide .stage-box:hover { transform: translateX(4px); }
+    }
+
+    /* true SVG triangle chart, used by Pyramid of Pain */
+    #hr-guide .pyramid-chart { margin-top: 26px; background: var(--bg-card); border: 1px solid var(--border); border-radius: 10px; padding: 20px; }
+    #hr-guide .pyramid-chart svg { width: 100%; height: auto; max-width: 560px; display: block; margin: 0 auto; }
+    #hr-guide .pyramid-chart .pt-band { transition: filter 0.15s ease; }
+    #hr-guide .pyramid-chart .pt-band:hover { filter: brightness(1.35); }
+    #hr-guide .pyr-list { display: flex; flex-direction: column; gap: 6px; margin-top: 22px; }
+    #hr-guide .pyr-row { display: flex; align-items: center; gap: 12px; background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; padding: 11px 16px;
+      transition: transform 0.15s ease, border-color 0.15s ease; flex-wrap: wrap; }
+    #hr-guide .pyr-row:hover { transform: translateX(4px); border-color: var(--border-active); }
+    #hr-guide .pyr-swatch { width: 10px; height: 10px; border-radius: 50%; flex: 0 0 auto; }
+    #hr-guide .pyr-name { font-family: 'Exo 2', sans-serif; font-weight: 700; font-size: 13.5px; color: var(--text-bright); flex: 0 0 auto; min-width: 170px; }
+    #hr-guide .pyr-pain { font-family: var(--mono); font-size: 9.5px; letter-spacing: 0.08em; text-transform: uppercase; font-weight: 700; padding: 3px 8px; border-radius: 10px; background: rgba(255,255,255,.06); flex: 0 0 auto; }
+    #hr-guide .pyr-desc { font-size: 12px; color: var(--text-dim); flex: 1 1 220px; }
+    @media(max-width:600px) { #hr-guide .pyr-name { min-width: 0; flex-basis: 100%; } }
+
+    /* legacy stacked-bar pyramid, reused as-is for Order of Volatility (linear rank, not a taper) */
+    #hr-guide .pyramid-viz { display: flex; flex-direction: column; align-items: center; gap: 6px; margin-top: 26px; }
+    #hr-guide .pyr-tier { border-radius: 8px; padding: 12px 20px; display: flex; align-items: center; gap: 14px; flex-wrap: wrap; border: 1px solid var(--border);
+      transition: transform 0.18s ease, filter 0.18s ease; }
+    #hr-guide .pyr-tier:hover { transform: scale(1.012); filter: brightness(1.12); z-index: 2; }
+    #hr-guide .pyr-left { display: flex; align-items: center; gap: 10px; flex: 0 0 auto; }
+    #hr-guide .pyr-num { font-family: var(--mono); font-size: 10px; font-weight: 700; color: var(--text-dim); opacity: 0.7; }
+    #hr-guide .pyr-tier .pyr-desc { text-align: right; }
+    @media(max-width:600px) { #hr-guide .pyr-tier .pyr-desc { text-align: left; flex-basis: 100%; } }
+    #hr-guide .pyr-1 { width: 34%; min-width: 230px; background: rgba(139, 92, 246, .1); border-left: 4px solid var(--purple); }
+    #hr-guide .pyr-2 { width: 47%; min-width: 270px; background: rgba(20, 184, 166, .1); border-left: 4px solid var(--teal); }
+    #hr-guide .pyr-3 { width: 60%; min-width: 310px; background: rgba(16, 185, 129, .1); border-left: 4px solid var(--green); }
+    #hr-guide .pyr-4 { width: 73%; background: rgba(234, 179, 8, .1); border-left: 4px solid var(--yellow); }
+    #hr-guide .pyr-5 { width: 86%; background: rgba(245, 158, 11, .1); border-left: 4px solid var(--orange); }
+    #hr-guide .pyr-6 { width: 100%; background: rgba(239, 68, 68, .1); border-left: 4px solid var(--red); }
+
+    #hr-guide .diamond-wrap { margin-top: 26px; background: var(--bg-card); border: 1px solid var(--border); border-radius: 10px; padding: 24px 20px; }
+    #hr-guide .diamond-wrap svg { width: 100%; height: auto; max-width: 480px; display: block; margin: 0 auto; overflow: visible; }
+    #hr-guide .diamond-wrap svg circle.dm-node { filter: drop-shadow(0 4px 10px rgba(0,0,0,.35)); transition: filter 0.2s; }
+    #hr-guide .axis-caption { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px 20px; margin-top: 14px; }
+    #hr-guide .axis-caption span { font-family: var(--mono); font-size: 10px; letter-spacing: 0.06em; color: var(--muted); }
+    #hr-guide .axis-caption span b { color: var(--cyan); font-weight: 700; }
+    #hr-guide .diamond-core { text-align: center; font-family: var(--ui); font-size: 12.5px; color: var(--text-dim); margin-top: 14px; max-width: 520px; margin-left: auto; margin-right: auto; }
+    #hr-guide .diamond-core strong { color: var(--text-bright); font-weight: 600; }
+    #hr-guide .meta-chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 16px; justify-content: center; }
+    #hr-guide .meta-chip { font-family: var(--mono); font-size: 10px; letter-spacing: 0.06em; color: var(--text-dim); border: 1px solid var(--border); border-radius: 5px; padding: 5px 10px; transition: border-color 0.15s, color 0.15s; }
+    #hr-guide .meta-chip:hover { border-color: var(--cyan); color: var(--cyan); }
+
+    #hr-guide .link-card { display: block; }
+    #hr-guide .link-card:hover .card-title-link { color: var(--accent); }
+    #hr-guide .card-title-link { transition: color 0.15s; }
+
+    /* ── Table (kept for parity with other reference pages; cell-dot variant for matrices) ── */
+    #hr-guide .hr-table-wrap { overflow-x: auto; margin-top: 18px; border: 1px solid var(--border); border-radius: 10px; }
+    #hr-guide table.hr-table { width: 100%; border-collapse: collapse; background: var(--bg-card); font-family: 'Exo 2', sans-serif; font-size: 13.5px; min-width: 640px; }
+    #hr-guide table.hr-table thead th { text-align: left; font-family: 'Share Tech Mono', monospace; font-size: 10.5px; letter-spacing: 0.08em;
+      text-transform: uppercase; color: var(--cyan); background: rgba(6, 182, 212, 0.06); padding: 12px 16px; border-bottom: 1px solid var(--border); white-space: nowrap; }
+    #hr-guide table.hr-table td { padding: 11px 16px; border-bottom: 1px solid var(--border); color: var(--text-dim); vertical-align: top; line-height: 1.5; }
+    #hr-guide table.hr-table tbody tr:last-child td { border-bottom: none; }
+    #hr-guide table.hr-table tbody tr:hover td { background: var(--bg-card-hover); }
+    #hr-guide table.hr-table td.hr-coa-yes { text-align: center; font-family: var(--mono); font-size: 13px; color: var(--cyan); font-weight: 700; background: rgba(6, 182, 212, 0.05); }
+    #hr-guide table.hr-table td.hr-coa-no { text-align: center; color: var(--border); }
+    #hr-guide table.hr-table td.hr-row-label { font-family: 'Exo 2', sans-serif; font-weight: 700; color: var(--text-bright); white-space: nowrap; }
 
     .back-link { margin-top: 3rem; }
     .back-link a { color: var(--muted); font-size: 0.72rem; border-bottom: 1px solid var(--border-dim); transition: color 0.15s, border-color 0.15s; }
@@ -264,6 +354,7 @@
       .xv-pill-tagline { display: none; }
       .xv-nav-pill { margin-left: 6px; padding-left: 6px; }
       #hr-guide .data-flow-card, #hr-guide .detail-card { padding: 15px; }
+      #hr-guide table.hr-table td, #hr-guide table.hr-table thead th { padding: 9px 10px; }
     }
   </style>
 </head>
@@ -409,209 +500,105 @@
 
   <main>
     <div class="page">
-      <div class="yg-crumb"><a href="https://h3ad-sec.github.io/H3AD-REF/">H3AD-REF</a> / <a href="https://h3ad-sec.github.io/H3AD-REF/#playbooks">PLAYBOOKS</a> / BEC PHISHING RESPONSE</div>
-      <h1 class="yg-hero-title">BEC & Phishing Response.<br><span>Verify Before You Wire, Every Time.</span></h1>
-      <p class="yg-hero-sub">A static process reference: the sources a BEC or phishing case typically comes in through, the triage steps that separate a targeted user from a compromised mailbox, the true and false positive indicators that keep the queue honest, and the escalation and containment actions once a case is confirmed real. Not a substitute for an org's own IR plan or legal counsel, just the reference. For working an active case, see <a href="https://h3ad-sec.github.io/PHISHOPS/" target="_blank" rel="noopener">PHISHOPS</a>; for header/SPF/DKIM/DMARC analysis, see <a href="https://h3ad-sec.github.io/MAILSCOPE/" target="_blank" rel="noopener">MAILSCOPE</a>.</p>
+      <div class="yg-crumb"><a href="https://h3ad-sec.github.io/H3AD-REF/">H3AD-REF</a> / <a href="https://h3ad-sec.github.io/H3AD-REF/#references">REFERENCES</a> / INCIDENT RESPONSE & ANALYSIS MODELS</div>
+      <h1 class="yg-hero-title">One Decision Cycle Underneath Everything.<br><span>Then What You Do Inside It.</span></h1>
+      <p class="yg-hero-sub">OODA Loop opens this file on purpose — it's foundational, the observe/orient/decide/act cycle every other model here is a specific instance of. NIST's IR phases, RFC 3227's order for what to image first, and malware analysis' four escalating depths are all just that cycle running during an actual incident.</p>
+
+      <div class="hr-series-nav">
+        <span class="hr-series-label">PART OF A 4-FILE SERIES ON SECURITY FRAMEWORKS &amp; MODELS</span>
+        <span class="hr-series-links">
+          <a href="attack-lifecycle-models.html">Attack Lifecycle &amp; Adversary Models</a> ·
+          <span class="hr-series-current">Incident Response &amp; Analysis Models</span> ·
+          <a href="defensive-maturity-models.html">Defensive &amp; Hunting Maturity Models</a> ·
+          <a href="threat-intel-cycles.html">Threat Intel Cycles</a>
+        </span>
+      </div>
 
       <div class="hr-toolbar">
-        <input class="hr-search-input" id="hrSearch" type="text" placeholder="Search this playbook... ( / )" oninput="hrFilter()" autocomplete="off" spellcheck="false" />
+        <input class="hr-search-input" id="hrSearch" type="text" placeholder="Search this reference... ( / )" oninput="hrFilter()" autocomplete="off" spellcheck="false" />
         <div class="hr-toc">
-          <button class="hr-toc-pill" onclick="hrJump('hr-sec-overview')">ALERT OVERVIEW</button>
-          <button class="hr-toc-pill" onclick="hrJump('hr-sec-triage')">INITIAL TRIAGE</button>
-          <button class="hr-toc-pill" onclick="hrJump('hr-sec-tp')">TRUE POSITIVE</button>
-          <button class="hr-toc-pill" onclick="hrJump('hr-sec-fp')">FALSE POSITIVE</button>
-          <button class="hr-toc-pill" onclick="hrJump('hr-sec-escalation')">ESCALATION</button>
-          <button class="hr-toc-pill" onclick="hrJump('hr-sec-containment')">CONTAINMENT</button>
+          <button class="hr-toc-pill" data-target="hr-sec-ooda" onclick="hrJump('hr-sec-ooda')">OODA LOOP</button>
+          <button class="hr-toc-pill" data-target="hr-sec-nist" onclick="hrJump('hr-sec-nist')">IR LIFECYCLE</button>
+          <button class="hr-toc-pill" data-target="hr-sec-volatility" onclick="hrJump('hr-sec-volatility')">VOLATILITY</button>
+          <button class="hr-toc-pill" data-target="hr-sec-malware" onclick="hrJump('hr-sec-malware')">MALWARE ANALYSIS</button>
         </div>
         <div class="hr-count" id="hrCount"></div>
       </div>
 
       <div id="hr-guide">
 
-        <!-- ==================== ALERT & REPORT OVERVIEW ==================== -->
-        <div class="section-header" id="hr-sec-overview">
-          <h2>Alert & <span>Report</span> Overview</h2>
-          <p class="section-desc">A BEC or phishing case rarely starts from one clean signal. It shows up through several different channels, and each one implies a slightly different starting point for the investigation.</p>
+        <!-- ==================== OODA LOOP ==================== -->
+        <div class="section-header" id="hr-sec-ooda">
+          <h2>OODA <span class="cyan-text" style="color:var(--cyan)">Loop</span></h2>
+          <p class="section-desc">Colonel John Boyd, USAF. The decision cycle underneath every other framework on this page. Whoever completes it faster relative to the other side wins the exchange.</p>
         </div>
-        <div class="data-flow-card">
-          <h4>Common Trigger Sources <span class="val">[T1566 Phishing]</span></h4>
-          <pre><span class="key">User-reported suspicious email</span>
-├── An employee forwards or flags a message through the phish-report button or a support ticket
-    <span class="comment">// still the most common entry point, and often the fastest signal available</span>
-
-<span class="key">Mail gateway / SEG detection</span>
-├── The secure email gateway flags a message on spoofing, malicious link, or malicious attachment signatures
-    <span class="comment">// automated detection buys time, it doesn't replace a header review</span>
-
-<span class="key">Unusual mailbox rule creation alert</span>
-├── A rule engine or M365/Google Workspace alert fires on a newly created forwarding or hide-from-inbox rule
-    <span class="danger">A strong early signal of account compromise, not just a phishing attempt</span>
-
-<span class="key">Wire transfer request flagged by finance</span>
-├── A finance approval workflow flags an unusual or out-of-cycle payment request
-    <span class="comment">// often the first sign anyone catches on a BEC that's already partway through</span>
-
-<span class="key">New mail-forwarding rule added to a mailbox</span>
-├── Surfaced through mailbox audit logging rather than a user report
-    <span class="comment">// this one is frequently found only in retrospect, after the fact</span>
-
-<span class="key">Executive impersonation report ("CEO fraud")</span>
-├── A user reports a request that appears to come from a senior leader, usually urgent and out of the ordinary
-    <span class="comment">// authority plus urgency, the pattern that defines the whole category</span></pre>
+        <div class="stage-flow">
+          <div class="stage-box"><div class="stage-num">01</div><div class="stage-title">OBSERVE</div><div class="stage-desc">Raw data: alerts, telemetry, adversary indicators</div></div>
+          <div class="stage-arrow">›</div>
+          <div class="stage-box"><div class="stage-num">02</div><div class="stage-title">ORIENT</div><div class="stage-desc">Filter through experience and prior analysis — where bias creeps in</div></div>
+          <div class="stage-arrow">›</div>
+          <div class="stage-box"><div class="stage-num">03</div><div class="stage-title">DECIDE</div><div class="stage-desc">Choose a course of action from the oriented picture</div></div>
+          <div class="stage-arrow">›</div>
+          <div class="stage-box"><div class="stage-num">04</div><div class="stage-title">ACT</div><div class="stage-desc">Execute, then feed the result back into Observe</div></div>
         </div>
+        <div class="cycle-loop">↻ <span>CYCLE REPEATS</span> — faster loops than the adversary's own OODA win the exchange</div>
 
         <div class="separator"></div>
-
-        <!-- ==================== INITIAL TRIAGE STEPS ==================== -->
-        <div class="section-header" id="hr-sec-triage">
-          <h2>Initial <span class="orange">Triage</span> Steps</h2>
-          <p class="section-desc">The order matters. Evidence handling comes before analysis, and account-compromise checks come before you decide this is "just" a phishing report.</p>
+        <!-- ==================== NIST IR LIFECYCLE ==================== -->
+        <div class="section-header" id="hr-sec-nist">
+          <h2>NIST 800-61 <span class="green">IR Lifecycle</span></h2>
+          <p class="section-desc">Four phases, cyclical. Post-Incident Activity doesn't end the loop, it feeds the next Preparation phase.</p>
         </div>
-        <div class="data-flow-card">
-          <h4>Triage Steps, In Order</h4>
-          <pre><span class="key">1. Preserve the original message with full headers</span>
-├── Get the raw .eml/.msg file or the complete header text directly from the mailbox
-└── <span class="danger">Don't let the user forward it</span> — forwarding strips or rewrites the headers you need
-    <span class="comment">// this is the evidence the rest of the case depends on</span>
-
-<span class="key">2. Check sender authentication results</span>
-├── Review SPF, DKIM, and DMARC pass/fail on the original message
-└── Check the sending domain for lookalikes: character substitution, an added hyphen, a similar-looking TLD
-    <span class="comment">// authentication failures alone don't prove malice, but they narrow the field fast</span>
-
-<span class="key">3. Rule out account compromise, not just targeting</span>
-├── Check for new mailbox forwarding rules, new inbox rules, and recent sign-ins
-└── Flag any sign-in from an unfamiliar location or ASN
-    <span class="comment">// a targeted user and a compromised mailbox need very different responses</span>
-
-<span class="key">4. Identify exactly what was requested</span>
-├── A wire transfer, gift cards, a credential-harvesting link, or a malicious attachment
-    <span class="comment">// the ask drives urgency more than the lure itself does</span>
-
-<span class="key">5. Check the blast radius</span>
-├── Search for the same or a similar message across other mailboxes
-    <span class="comment">// one report is rarely the full picture</span></pre>
+        <div class="stage-flow">
+          <div class="stage-box"><div class="stage-num">01</div><div class="stage-title">PREPARATION</div><div class="stage-desc">Policies, tooling, training, baselines</div></div>
+          <div class="stage-arrow">›</div>
+          <div class="stage-box"><div class="stage-num">02</div><div class="stage-title">DETECTION & ANALYSIS</div><div class="stage-desc">Identify, scope, and validate the incident</div></div>
+          <div class="stage-arrow">›</div>
+          <div class="stage-box"><div class="stage-num">03</div><div class="stage-title">CONTAINMENT, ERADICATION & RECOVERY</div><div class="stage-desc">Stop the spread, remove root cause, restore</div></div>
+          <div class="stage-arrow">›</div>
+          <div class="stage-box"><div class="stage-num">04</div><div class="stage-title">POST-INCIDENT ACTIVITY</div><div class="stage-desc">Lessons learned, root-cause writeup</div></div>
         </div>
-
-        <div class="separator"></div>
-
-        <!-- ==================== TRUE POSITIVE INDICATORS ==================== -->
-        <div class="section-header" id="hr-sec-tp">
-          <h2>True <span class="red">Positive</span> Indicators</h2>
-          <p class="section-desc">Signals that point to a real attempt in progress, not a false alarm or an internal test.</p>
-        </div>
-        <div class="details-grid">
-          <div class="detail-card border-red"><span class="tag mistake">TRUE POSITIVE</span>
-            <h3>Authentication Failure Or Lookalike Domain</h3>
-            <div class="card-sub">The sending domain doesn't hold up under a second look</div>
-            <div class="card-body">The sender domain fails SPF, DKIM, or DMARC, or it's a newly registered or lookalike domain built to pass a glance. A domain that's a week old with no prior sending history is rarely legitimate.</div>
-          </div>
-          <div class="detail-card border-orange"><span class="tag mistake">TRUE POSITIVE</span>
-            <h3>Urgency Plus Authority Plus A Financial Ask</h3>
-            <div class="card-sub">The core BEC pattern, present in nearly every real case</div>
-            <div class="card-body">Pressure to act fast, framed as coming from someone senior, tied to moving money or data. When all three show up together, treat the message as malicious until proven otherwise.</div>
-          </div>
-          <div class="detail-card border-rose"><span class="tag mistake">TRUE POSITIVE</span>
-            <h3>Reply-To Differs From The Visible From Address</h3>
-            <div class="card-sub">A common BEC header manipulation technique</div>
-            <div class="card-body">The name and address shown to the user look right, but replies route somewhere else entirely. This single header mismatch is one of the most reliable tells in the category.</div>
-          </div>
-          <div class="detail-card border-purple"><span class="tag mistake">TRUE POSITIVE</span>
-            <h3>An Unexplained New Mailbox Rule</h3>
-            <div class="card-sub">Appeared around the same time as the report</div>
-            <div class="card-body">A forwarding rule, a hide-from-inbox rule, or an auto-delete rule that the user didn't create and can't explain. This shifts the case from phishing attempt to likely account compromise.</div>
-          </div>
-          <div class="detail-card border-cyan"><span class="tag mistake">TRUE POSITIVE</span>
-            <h3>Impossible Travel Or An Unfamiliar ASN</h3>
-            <div class="card-sub">Sign-in activity that doesn't match the user's normal pattern</div>
-            <div class="card-body">A sign-in from a country or ASN the account has never used, especially in the hours right before the suspicious message was sent, is a strong indicator the mailbox itself was the attacker's platform.</div>
+        <div class="cycle-loop">↻ <span>CYCLE REPEATS</span> — Post-Incident Activity feeds back into Preparation</div>
+        <div class="details-grid" style="margin-top:14px">
+          <div class="detail-card border-green"><span class="tag practice">RELATED MODEL</span>
+            <h3>SANS PICERL</h3>
+            <div class="card-sub">A 6-step variant of the same lifecycle</div>
+            <div class="card-body">SANS splits NIST's four phases into six: <strong>Preparation → Identification → Containment → Eradication → Recovery → Lessons Learned</strong>. Same cycle, finer granularity — the two get cited interchangeably, but only PICERL separates Identification from Detection & Analysis and gives Lessons Learned its own named step.</div>
           </div>
         </div>
 
         <div class="separator"></div>
-
-        <!-- ==================== FALSE POSITIVE INDICATORS ==================== -->
-        <div class="section-header" id="hr-sec-fp">
-          <h2>False <span class="green">Positive</span> Indicators</h2>
-          <p class="section-desc">Legitimate activity that looks suspicious out of context, and the checks that confirm it's benign.</p>
+        <!-- ==================== ORDER OF VOLATILITY ==================== -->
+        <div class="section-header" id="hr-sec-volatility">
+          <h2>Order <span class="red">of Volatility</span></h2>
+          <p class="section-desc">RFC 3227. Collect evidence most-volatile-first — anything below a running process is still there tomorrow; anything above it may not survive the next second.</p>
         </div>
-        <div class="details-grid">
-          <div class="detail-card border-green"><span class="tag step">FALSE POSITIVE</span>
-            <h3>Legitimate Vendor Or Account Change</h3>
-            <div class="card-sub">Reported through the proper channel, not discovered blind</div>
-            <div class="card-body">A vendor's account manager change or updated banking detail, reported by the requester through a known process and confirmed against existing account records rather than taken at face value from the email alone.</div>
-          </div>
-          <div class="detail-card border-teal"><span class="tag step">FALSE POSITIVE</span>
-            <h3>Internal Phishing Simulation</h3>
-            <div class="card-sub">A security awareness test, not a live attempt</div>
-            <div class="card-body">Check with the security awareness team before escalating anything that looks like a textbook phishing template. Simulation platforms leave recognizable markers once you know where to look.</div>
-          </div>
-          <div class="detail-card border-blue"><span class="tag step">FALSE POSITIVE</span>
-            <h3>Unusually Worded Internal Email</h3>
-            <div class="card-sub">Odd phrasing from a real colleague, misread as an attack</div>
-            <div class="card-body">A user flags a legitimate internal message because the tone or wording felt off. Confirm sender identity and header integrity, then close it out; not every awkward sentence is a lure.</div>
-          </div>
+        <div class="pyramid-viz">
+          <div class="pyr-tier pyr-1" style="width:100%;min-width:0"><div class="pyr-left"><span class="pyr-num">7</span><span class="pyr-name">Archival Media</span></div><span class="pyr-pain" style="color:var(--purple)">LEAST VOLATILE</span><span class="pyr-desc">Backup tapes, cold storage — survives indefinitely</span></div>
+          <div class="pyr-tier pyr-2" style="width:100%;min-width:0"><div class="pyr-left"><span class="pyr-num">6</span><span class="pyr-name">Physical Configuration / Topology</span></div><span class="pyr-pain" style="color:var(--teal)">STABLE</span><span class="pyr-desc">Network diagrams, wiring — changes rarely, slowly</span></div>
+          <div class="pyr-tier pyr-3" style="width:100%;min-width:0"><div class="pyr-left"><span class="pyr-num">5</span><span class="pyr-name">Remote Logging & Monitoring Data</span></div><span class="pyr-pain" style="color:var(--green)">RETAINED</span><span class="pyr-desc">SIEM, syslog — survives host compromise if shipped off-box</span></div>
+          <div class="pyr-tier pyr-4" style="width:100%;min-width:0"><div class="pyr-left"><span class="pyr-num">4</span><span class="pyr-name">Disk</span></div><span class="pyr-pain" style="color:var(--yellow)">PERSISTENT</span><span class="pyr-desc">Survives reboot, but can be overwritten by continued use</span></div>
+          <div class="pyr-tier pyr-5" style="width:100%;min-width:0"><div class="pyr-left"><span class="pyr-num">3</span><span class="pyr-name">Temporary File Systems</span></div><span class="pyr-pain" style="color:var(--orange)">VOLATILE</span><span class="pyr-desc">/tmp, swap — often gone at reboot</span></div>
+          <div class="pyr-tier pyr-6" style="width:100%;min-width:0"><div class="pyr-left"><span class="pyr-num">2</span><span class="pyr-name">Memory, Routing Table, ARP Cache, Process Table</span></div><span class="pyr-pain" style="color:var(--rose)">HIGHLY VOLATILE</span><span class="pyr-desc">Gone the moment power drops or the process exits</span></div>
         </div>
+        <div class="stage-caption">PLUS #1 — REGISTERS & CPU CACHE: GONE IN NANOSECONDS, RARELY COLLECTIBLE IN PRACTICE</div>
 
         <div class="separator"></div>
-
-        <!-- ==================== ESCALATION CRITERIA ==================== -->
-        <div class="section-header" id="hr-sec-escalation">
-          <h2><span class="purple">Escalation</span> Criteria</h2>
-          <p class="section-desc">The thresholds that move a case out of the SOC queue and into a room with finance, legal, and leadership.</p>
+        <!-- ==================== MALWARE ANALYSIS METHODOLOGY ==================== -->
+        <div class="section-header" id="hr-sec-malware">
+          <h2>Malware Analysis <span class="red">Methodology</span></h2>
+          <p class="section-desc">Sikorski & Honig, <em>Practical Malware Analysis</em>. Four techniques, increasing depth and effort — most analysis stops at the first two.</p>
         </div>
-        <div class="details-grid">
-          <div class="detail-card border-red"><span class="tag escalation">ESCALATE</span>
-            <h3>Financial Action Already Taken</h3>
-            <div class="card-sub">A wire was sent, or gift cards were purchased</div>
-            <div class="card-body">Escalate immediately to finance, legal, and IR. The window to recall a wire transfer is measured in hours, not days, and it closes fast once funds clear the receiving bank.</div>
-          </div>
-          <div class="detail-card border-purple"><span class="tag escalation">ESCALATE</span>
-            <h3>Evidence Of Account Compromise</h3>
-            <div class="card-sub">An attacker-created forwarding rule, or an unfamiliar sign-in</div>
-            <div class="card-body">Treat this as an active account compromise, not a phishing report. The response scope is different: credential reset, session revocation, and a mailbox audit, not just a message takedown.</div>
-          </div>
-          <div class="detail-card border-orange"><span class="tag escalation">ESCALATE</span>
-            <h3>Multiple Users Targeted With The Same Lure</h3>
-            <div class="card-sub">A pattern, not a coincidence</div>
-            <div class="card-body">Treat it as a campaign and escalate as an incident rather than working through a series of individual reports one at a time. The blast radius and the response plan both change at that point.</div>
-          </div>
+        <div class="stage-flow">
+          <div class="stage-box"><div class="stage-num">01</div><div class="stage-title">BASIC STATIC</div><div class="stage-desc">Hashes, strings, headers — no execution</div></div>
+          <div class="stage-arrow">›</div>
+          <div class="stage-box"><div class="stage-num">02</div><div class="stage-title">BASIC DYNAMIC</div><div class="stage-desc">Run it in a sandbox, observe behavior</div></div>
+          <div class="stage-arrow">›</div>
+          <div class="stage-box"><div class="stage-num">03</div><div class="stage-title">ADVANCED STATIC</div><div class="stage-desc">Disassemble and reverse the code itself</div></div>
+          <div class="stage-arrow">›</div>
+          <div class="stage-box stage-danger"><div class="stage-num">04</div><div class="stage-title">ADVANCED DYNAMIC</div><div class="stage-desc">Debug it live, step through execution</div></div>
         </div>
-
-        <div class="separator"></div>
-
-        <!-- ==================== CONTAINMENT ACTIONS ==================== -->
-        <div class="section-header" id="hr-sec-containment">
-          <h2>Containment <span class="teal">Actions</span></h2>
-          <p class="section-desc">Once a case is confirmed, these are the actions that stop it from continuing or repeating.</p>
-        </div>
-        <div class="details-grid">
-          <div class="detail-card border-teal"><span class="tag checklist">CONTAIN</span>
-            <h3>Reset Credentials And Revoke Sessions</h3>
-            <div class="card-sub">Immediately, for any compromised account</div>
-            <div class="card-body">Reset the password and revoke every active session and token, not just the ones currently visible. A stale token left alive is how an attacker keeps access after a password reset that looked clean.</div>
-          </div>
-          <div class="detail-card border-orange"><span class="tag checklist">CONTAIN</span>
-            <h3>Remove Malicious Mailbox Rules</h3>
-            <div class="card-sub">Forwarding, hiding, or auto-delete rules the attacker created</div>
-            <div class="card-body">Audit the full rule set on the mailbox, not just the rule that triggered the alert. Attackers sometimes leave a second, quieter rule as a fallback.</div>
-          </div>
-          <div class="detail-card border-cyan"><span class="tag checklist">CONTAIN</span>
-            <h3>Block IOCs And Purge The Message</h3>
-            <div class="card-sub">At the gateway first, then across every mailbox it reached</div>
-            <div class="card-body">Block the sender domain and any other indicators at the mail gateway, then search and purge the message org-wide. Blocking without purging leaves copies sitting in inboxes that already received it.</div>
-          </div>
-          <div class="detail-card border-purple"><span class="tag checklist">CONTAIN</span>
-            <h3>Contact The Receiving Bank</h3>
-            <div class="card-sub">Immediately, if a wire transfer occurred</div>
-            <div class="card-body">Attempt a recall through the receiving bank as fast as possible. This is a time-critical step that should happen in parallel with the rest of containment, not after it.</div>
-          </div>
-          <div class="detail-card border-green"><span class="tag checklist">CONTAIN</span>
-            <h3>Notify Affected Users And Leadership</h3>
-            <div class="card-sub">Directly, not informally</div>
-            <div class="card-body">Notify everyone the message reached. If executive impersonation was involved, brief leadership directly rather than letting it surface through a hallway conversation or a customer call.</div>
-          </div>
-        </div>
+        <div class="stage-caption">EACH LEVEL COSTS MORE TIME — ESCALATE ONLY AS FAR AS THE TRIAGE QUESTION REQUIRES</div>
 
       </div>
 
@@ -620,8 +607,8 @@
   </main>
 
   <footer>
-    <span class="footer-left">H3AD-SEC © 2026 &nbsp;|&nbsp; H3AD-REF / PLAYBOOKS</span>
-    <span class="footer-right">BEC PHISHING RESPONSE PLAYBOOK</span>
+    <span class="footer-left">H3AD-SEC © 2026 &nbsp;|&nbsp; H3AD-REF / REFERENCES</span>
+    <span class="footer-right">INCIDENT RESPONSE & ANALYSIS MODELS</span>
     <div class="footer-credit-row">
       <a class="footer-credit-pill" href="https://www.linkedin.com/in/hrushikesh-badgujar/" target="_blank" rel="noopener" title="Connect on LinkedIn">
         <span class="credit-tool"><span class="xv-pill-accent">H3AD</span><span class="xv-pill-text">-REF</span></span>
@@ -651,7 +638,7 @@
         if (match) shown++;
       });
       var count = document.getElementById('hrCount');
-      count.innerHTML = term ? ('<span>' + shown + '</span> of ' + hrCards.length + ' cards') : '';
+      count.innerHTML = term ? ('<span>' + shown + '</span> of ' + hrCards.length + ' cards (diagrams always shown)') : '';
       document.querySelectorAll('#hr-guide .details-grid').forEach(function (grid) {
         var visible = Array.prototype.slice.call(grid.querySelectorAll('.detail-card')).some(function (c) { return !c.classList.contains('hr-hidden'); });
         grid.style.display = (term && !visible) ? 'none' : '';
@@ -667,6 +654,27 @@
         document.getElementById('hrSearch').focus();
       }
     });
+
+    (function () {
+      var pills = Array.prototype.slice.call(document.querySelectorAll('.hr-toc-pill[data-target]'));
+      if (!pills.length || !('IntersectionObserver' in window)) return;
+      var map = {};
+      var sections = [];
+      pills.forEach(function (p) {
+        var el = document.getElementById(p.getAttribute('data-target'));
+        if (el) { map[el.id] = p; sections.push(el); }
+      });
+      var observer = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (!entry.isIntersecting) return;
+          var pill = map[entry.target.id];
+          if (!pill) return;
+          pills.forEach(function (p) { p.classList.remove('active'); });
+          pill.classList.add('active');
+        });
+      }, { rootMargin: '-15% 0px -75% 0px', threshold: 0 });
+      sections.forEach(function (s) { observer.observe(s); });
+    })();
   </script>
 </body>
 

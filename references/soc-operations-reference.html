@@ -222,6 +222,9 @@
     #hr-guide .detail-card.border-purple { border-left: 3px solid var(--purple); }
     #hr-guide .detail-card.border-teal { border-left: 3px solid var(--teal); }
     #hr-guide .detail-card.border-rose { border-left: 3px solid var(--rose); }
+    #hr-guide .link-card { display: block; }
+    #hr-guide .link-card:hover .card-title-link { color: var(--accent); }
+    #hr-guide .card-title-link { transition: color 0.15s; }
 
     /* ── Table (this page's own addition, tokens borrowed from the #hr-guide scope above) ── */
     #hr-guide .hr-table-wrap { overflow-x: auto; margin-top: 18px; border: 1px solid var(--border); border-radius: 10px; }
@@ -544,6 +547,11 @@
             <div class="card-sub">The trap of tracking one metric without its counterweights</div>
             <div class="card-body">Chasing MTTR down in isolation gives an analyst under pressure every reason to mark a ticket resolved before root cause is actually confirmed, closing fast looks identical to closing correctly on a dashboard that only tracks time. Pair MTTR with dwell time and a reopen rate: a fast MTTR next to a rising reopen rate means incidents are being closed, not fixed.</div>
           </div>
+          <a class="detail-card link-card border-purple" href="../soc-ops/escalation-matrix-severity.html">
+            <span class="tag practice">RELATED, NOT THE SAME AXIS</span>
+            <h3 class="card-title-link">This Is Who Owns It. Severity Is A Different Model →</h3>
+            <div class="card-body">This page answers "which tier handles this and when it escalates." <strong>Escalation Matrix & Severity Classification</strong> answers a separate question — how bad the incident is and what response SLA it earns. The two compose: severity decides how fast, the tier model decides who.</div>
+          </a>
         </div>
 
       </div>

@@ -222,6 +222,9 @@
     #hr-guide .detail-card.border-purple { border-left: 3px solid var(--purple); }
     #hr-guide .detail-card.border-teal { border-left: 3px solid var(--teal); }
     #hr-guide .detail-card.border-rose { border-left: 3px solid var(--rose); }
+    #hr-guide .link-card { display: block; }
+    #hr-guide .link-card:hover .card-title-link { color: var(--accent); }
+    #hr-guide .card-title-link { transition: color 0.15s; }
 
     /* ── Table (kept for parity with other reference pages) ── */
     #hr-guide .hr-table-wrap { overflow-x: auto; margin-top: 18px; border: 1px solid var(--border); border-radius: 10px; }
@@ -510,6 +513,11 @@
             <h3>These SLA Numbers Are A Reference, Not A Mandate</h3>
             <div class="card-body">No single external body sets a universal "15 minutes for Sev1" rule — NIST, SANS, and vendor frameworks describe the tiering concept but leave exact timings to each organization. The SLA column above is a defensible baseline to adapt to your team's staffing and tooling, then formalize in your own IR plan, not a number to cite as an industry requirement.</div>
           </div>
+          <a class="detail-card link-card border-teal" href="../references/soc-operations-reference.html">
+            <span class="tag distinction">RELATED, NOT THE SAME AXIS</span>
+            <h3 class="card-title-link">This Is Severity. Who Owns It Is A Different Model →</h3>
+            <div class="card-body">This page answers "how bad is it and how fast do we respond." <strong>SOC Operations Reference</strong> answers a separate question — which analyst tier picks it up and when it escalates from Tier 1 to Tier 2 to Tier 3. The two models compose: a Sev1 still starts wherever the tier model says triage begins.</div>
+          </a>
         </div>
 
       </div>

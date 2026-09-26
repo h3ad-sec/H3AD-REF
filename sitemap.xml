@@ -66,7 +66,22 @@
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://h3ad-sec.github.io/H3AD-REF/references/security-frameworks.html</loc>
+    <loc>https://h3ad-sec.github.io/H3AD-REF/references/attack-lifecycle-models.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://h3ad-sec.github.io/H3AD-REF/references/incident-response-models.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://h3ad-sec.github.io/H3AD-REF/references/defensive-maturity-models.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://h3ad-sec.github.io/H3AD-REF/references/threat-intel-cycles.html</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
@@ -136,7 +151,7 @@
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://h3ad-sec.github.io/H3AD-REF/playbooks/manual-host-triage-no-edr.html</loc>
+    <loc>https://h3ad-sec.github.io/H3AD-REF/cheatsheets/manual-host-triage-no-edr.html</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>

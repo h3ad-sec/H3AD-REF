@@ -7,21 +7,21 @@
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
   <meta http-equiv="Pragma" content="no-cache">
   <meta http-equiv="Expires" content="0">
-  <title>KQL vs XQL vs SPL Syntax Guide // H3AD-REF</title>
+  <title>KQL vs XQL vs SPL Syntax Cheatsheet // H3AD-REF</title>
   <meta name="description"
-    content="H3AD-REF guide: KQL vs XQL vs SPL side by side. Query structure, field selection, filtering operators, aggregation, joins, and sorting across Microsoft Sentinel/Defender, Cortex XDR/XSIAM, and Splunk — plus the case-sensitivity and default-join gotchas that trip analysts switching between them.">
+    content="H3AD-REF cheatsheet: KQL vs XQL vs SPL side by side. Query structure, field selection, filtering operators, aggregation, joins, and sorting across Microsoft Sentinel/Defender, Cortex XDR/XSIAM, and Splunk — plus the case-sensitivity and default-join gotchas that trip analysts switching between them.">
   <link rel="canonical" href="https://h3ad-sec.github.io/H3AD-REF/cheatsheets/kql-xql-spl-syntax.html">
 
   <meta property="og:type" content="article">
   <meta property="og:site_name" content="H3AD-SEC">
   <meta property="og:url" content="https://h3ad-sec.github.io/H3AD-REF/cheatsheets/kql-xql-spl-syntax.html">
-  <meta property="og:title" content="KQL vs XQL vs SPL Syntax Guide // H3AD-REF">
-  <meta property="og:description" content="H3AD-REF guide: KQL vs XQL vs SPL side by side. Query structure, filtering, aggregation, joins, and sorting across Sentinel/Defender, Cortex XDR/XSIAM, and Splunk — plus the gotchas that trip analysts switching between them.">
+  <meta property="og:title" content="KQL vs XQL vs SPL Syntax Cheatsheet // H3AD-REF">
+  <meta property="og:description" content="H3AD-REF cheatsheet: KQL vs XQL vs SPL side by side. Query structure, filtering, aggregation, joins, and sorting across Sentinel/Defender, Cortex XDR/XSIAM, and Splunk — plus the gotchas that trip analysts switching between them.">
   <meta property="og:image" content="https://raw.githubusercontent.com/h3ad-sec/h3ad-sec.github.io/main/logo-dark.png">
 
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="KQL vs XQL vs SPL Syntax Guide // H3AD-REF">
-  <meta name="twitter:description" content="H3AD-REF guide: KQL vs XQL vs SPL side by side. Query structure, filtering, aggregation, joins, and sorting across Sentinel/Defender, Cortex XDR/XSIAM, and Splunk — plus the gotchas that trip analysts switching between them.">
+  <meta name="twitter:title" content="KQL vs XQL vs SPL Syntax Cheatsheet // H3AD-REF">
+  <meta name="twitter:description" content="H3AD-REF cheatsheet: KQL vs XQL vs SPL side by side. Query structure, filtering, aggregation, joins, and sorting across Sentinel/Defender, Cortex XDR/XSIAM, and Splunk — plus the gotchas that trip analysts switching between them.">
   <meta name="twitter:image" content="https://raw.githubusercontent.com/h3ad-sec/h3ad-sec.github.io/main/logo-dark.png">
 
   <meta name="theme-color" content="#080c14">
@@ -31,9 +31,10 @@
   {
     "@context": "https://schema.org",
     "@type": "TechArticle",
-    "headline": "KQL vs XQL vs SPL Syntax Guide",
+    "headline": "KQL vs XQL vs SPL Syntax Cheatsheet",
     "description": "Query structure, field selection, filtering operators, aggregation, joins, and sorting compared side by side across KQL (Microsoft Sentinel/Defender), XQL (Cortex XDR/XSIAM), and SPL (Splunk), plus the case-sensitivity and default-join gotchas that trip analysts switching between them.",
     "url": "https://h3ad-sec.github.io/H3AD-REF/cheatsheets/kql-xql-spl-syntax.html",
+    "articleSection": "Cheatsheets",
     "isPartOf": {
       "@type": "CollectionPage",
       "name": "H3AD-REF",
@@ -419,7 +420,7 @@
       <p class="yg-hero-sub">A side-by-side reference for the query you run every shift, translated across Kusto (Microsoft Sentinel / Defender), XQL (Cortex XDR / XSIAM), and SPL (Splunk): filtering, projection, aggregation, joins, and sorting the same event log three different ways. No query runner here, just the syntax and the default behaviors that trip an analyst switching platforms mid-shift. For ready-to-run queries in these same languages, see <a href="https://h3ad-sec.github.io/TRACERULES/" target="_blank" rel="noopener">TRACERULES</a>.</p>
 
       <div class="hr-toolbar">
-        <input class="hr-search-input" id="hrSearch" type="text" placeholder="Search this guide... ( / )" oninput="hrFilter()" autocomplete="off" spellcheck="false" />
+        <input class="hr-search-input" id="hrSearch" type="text" placeholder="Search this cheatsheet... ( / )" oninput="hrFilter()" autocomplete="off" spellcheck="false" />
         <div class="hr-toc">
           <button class="hr-toc-pill" onclick="hrJump('hr-sec-structure')">QUERY STRUCTURE</button>
           <button class="hr-toc-pill" onclick="hrJump('hr-sec-fields')">FIELD SELECTION</button>
@@ -677,7 +678,7 @@ earliest=-24h latest=now                     <span class="comment">// time range
 
   <footer>
     <span class="footer-left">H3AD-SEC © 2026 &nbsp;|&nbsp; H3AD-REF / CHEATSHEETS</span>
-    <span class="footer-right">KQL / XQL / SPL SYNTAX GUIDE</span>
+    <span class="footer-right">KQL / XQL / SPL SYNTAX CHEATSHEET</span>
     <div class="footer-credit-row">
       <a class="footer-credit-pill" href="https://www.linkedin.com/in/hrushikesh-badgujar/" target="_blank" rel="noopener" title="Connect on LinkedIn">
         <span class="credit-tool"><span class="xv-pill-accent">H3AD</span><span class="xv-pill-text">-REF</span></span>

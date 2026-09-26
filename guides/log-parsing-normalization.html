@@ -221,6 +221,9 @@
     #hr-guide .detail-card.border-purple { border-left: 3px solid var(--purple); }
     #hr-guide .detail-card.border-teal { border-left: 3px solid var(--teal); }
     #hr-guide .detail-card.border-rose { border-left: 3px solid var(--rose); }
+    #hr-guide .link-card { display: block; }
+    #hr-guide .link-card:hover .card-title-link { color: var(--accent); }
+    #hr-guide .card-title-link { transition: color 0.15s; }
 
     .back-link { margin-top: 3rem; }
     .back-link a { color: var(--muted); font-size: 0.72rem; border-bottom: 1px solid var(--border-dim); transition: color 0.15s, border-color 0.15s; }
@@ -543,6 +546,11 @@ Fully structured, nested JSON: source.ip, destination.port, event.action
             <div class="card-sub">A vendor update can break a mapping without warning</div>
             <div class="card-body">A vendor changing their log format in a product update silently breaks a mapping built against the old format, and the failure looks like missing data rather than an obvious parsing error.</div>
           </div>
+          <a class="detail-card link-card border-cyan" href="regex-log-parsing.html">
+            <span class="tag strings">ONE LEVEL DOWNSTREAM</span>
+            <h3 class="card-title-link">This Is Ingest. Query-Time Extraction Is A Different Layer →</h3>
+            <div class="card-body">This guide covers normalizing a log into a consistent schema before it's queryable at all. <strong>Regex For Log Parsing</strong> covers the layer above it — writing extraction patterns against fields that already exist. If you're pulling an IP or hash out of raw text at query time instead of at ingest, that guide is the one that applies.</div>
+          </a>
         </div>
 
       </div>

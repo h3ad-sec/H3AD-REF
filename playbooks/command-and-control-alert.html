@@ -222,6 +222,9 @@
     #hr-guide .detail-card.border-purple { border-left: 3px solid var(--purple); }
     #hr-guide .detail-card.border-teal { border-left: 3px solid var(--teal); }
     #hr-guide .detail-card.border-rose { border-left: 3px solid var(--rose); }
+    #hr-guide .link-card { display: block; }
+    #hr-guide .link-card:hover .card-title-link { color: var(--accent); }
+    #hr-guide .card-title-link { transition: color 0.15s; }
 
     .back-link { margin-top: 3rem; }
     .back-link a { color: var(--muted); font-size: 0.72rem; border-bottom: 1px solid var(--border-dim); transition: color 0.15s, border-color 0.15s; }
@@ -450,6 +453,13 @@ Query names matching a DGA pattern, or excessive TXT/NULL record queries consist
 <span class="key">TLS Fingerprint Match</span>
 JA3/JA4 client fingerprint or certificate matches a known C2 framework's default profile
     <span class="comment">// each of these can fire alone; the strongest cases have two or more agreeing on the same host</span></pre>
+        </div>
+        <div class="details-grid" style="margin-top:14px">
+          <a class="detail-card link-card border-purple" href="network-connection-alert.html">
+            <span class="tag mistake">C2 NOT YET CONFIRMED?</span>
+            <h3 class="card-title-link">Start One Level Broader If The Signal Is Still Ambiguous →</h3>
+            <div class="card-body">This page assumes C2 is already the leading hypothesis. If the trigger is more general — a protocol mismatch, a geo-anomaly, a shared-CDN IP that might just be a false positive — <strong>Network Connection Alert</strong> is the broader first-pass triage this page's confirmed-C2 depth builds on.</div>
+          </a>
         </div>
 
         <div class="separator"></div>
