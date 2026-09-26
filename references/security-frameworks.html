@@ -508,6 +508,7 @@
           <button class="hr-toc-pill" data-target="hr-sec-nist" onclick="hrJump('hr-sec-nist')">IR LIFECYCLE</button>
           <button class="hr-toc-pill" data-target="hr-sec-volatility" onclick="hrJump('hr-sec-volatility')">VOLATILITY</button>
           <button class="hr-toc-pill" data-target="hr-sec-cti" onclick="hrJump('hr-sec-cti')">CTI LIFECYCLE</button>
+          <button class="hr-toc-pill" data-target="hr-sec-f3ead" onclick="hrJump('hr-sec-f3ead')">F3EAD</button>
           <button class="hr-toc-pill" data-target="hr-sec-scale" onclick="hrJump('hr-sec-scale')">SLIDING SCALE</button>
           <button class="hr-toc-pill" data-target="hr-sec-triad" onclick="hrJump('hr-sec-triad')">SOC TRIAD</button>
           <button class="hr-toc-pill" data-target="hr-sec-peak" onclick="hrJump('hr-sec-peak')">PEAK</button>
@@ -776,6 +777,28 @@
           <div class="stage-box"><div class="stage-num">06</div><div class="stage-title">FEEDBACK</div><div class="stage-desc">Consumers rate usefulness, refine scope</div></div>
         </div>
         <div class="cycle-loop">↻ <span>CYCLE REPEATS</span> — Feedback reshapes the next Direction phase</div>
+
+        <div class="separator"></div>
+
+        <!-- ==================== F3EAD ==================== -->
+        <div class="section-header" id="hr-sec-f3ead">
+          <h2>F3EAD</h2>
+          <p class="section-desc">Military-derived operational intel cycle. Where the CTI Lifecycle above is strategic (requirements → dissemination over weeks), F3EAD is tactical — built to run per-target, fast, feeding straight back into the next operation.</p>
+        </div>
+        <div class="stage-flow">
+          <div class="stage-box"><div class="stage-num">01</div><div class="stage-title">FIND</div><div class="stage-desc">Locate the target — a host, an actor, an infrastructure node</div></div>
+          <div class="stage-arrow">›</div>
+          <div class="stage-box"><div class="stage-num">02</div><div class="stage-title">FIX</div><div class="stage-desc">Confirm identity and position with enough precision to act</div></div>
+          <div class="stage-arrow">›</div>
+          <div class="stage-box stage-danger"><div class="stage-num">03</div><div class="stage-title">FINISH</div><div class="stage-desc">Act — contain, block, or take down the target</div></div>
+          <div class="stage-arrow">›</div>
+          <div class="stage-box"><div class="stage-num">04</div><div class="stage-title">EXPLOIT</div><div class="stage-desc">Extract everything the action just revealed — artifacts, infra, TTPs</div></div>
+          <div class="stage-arrow">›</div>
+          <div class="stage-box"><div class="stage-num">05</div><div class="stage-title">ANALYZE</div><div class="stage-desc">Turn what was exploited into assessed intelligence</div></div>
+          <div class="stage-arrow">›</div>
+          <div class="stage-box"><div class="stage-num">06</div><div class="stage-title">DISSEMINATE</div><div class="stage-desc">Push findings back out — often straight into the next Find</div></div>
+        </div>
+        <div class="cycle-loop">↻ <span>CYCLE REPEATS</span> — Disseminate feeds the next Find, often within the same engagement</div>
 
         <div class="separator"></div>
 

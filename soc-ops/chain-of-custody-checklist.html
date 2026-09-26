@@ -7,21 +7,21 @@
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
   <meta http-equiv="Pragma" content="no-cache">
   <meta http-equiv="Expires" content="0">
-  <title>KQL vs XQL vs SPL Syntax Guide // H3AD-REF</title>
+  <title>Chain Of Custody Checklist // H3AD-REF</title>
   <meta name="description"
-    content="H3AD-REF guide: KQL vs XQL vs SPL side by side. Query structure, field selection, filtering operators, aggregation, joins, and sorting across Microsoft Sentinel/Defender, Cortex XDR/XSIAM, and Splunk — plus the case-sensitivity and default-join gotchas that trip analysts switching between them.">
-  <link rel="canonical" href="https://h3ad-sec.github.io/H3AD-REF/guides/kql-xql-spl-syntax.html">
+    content="H3AD-REF SOC Ops reference: chain of custody for digital evidence. What to document for every piece of evidence, the collection sequence that preserves integrity, and why a broken chain makes otherwise-solid evidence unusable.">
+  <link rel="canonical" href="https://h3ad-sec.github.io/H3AD-REF/soc-ops/chain-of-custody-checklist.html">
 
   <meta property="og:type" content="article">
   <meta property="og:site_name" content="H3AD-SEC">
-  <meta property="og:url" content="https://h3ad-sec.github.io/H3AD-REF/guides/kql-xql-spl-syntax.html">
-  <meta property="og:title" content="KQL vs XQL vs SPL Syntax Guide // H3AD-REF">
-  <meta property="og:description" content="H3AD-REF guide: KQL vs XQL vs SPL side by side. Query structure, filtering, aggregation, joins, and sorting across Sentinel/Defender, Cortex XDR/XSIAM, and Splunk — plus the gotchas that trip analysts switching between them.">
+  <meta property="og:url" content="https://h3ad-sec.github.io/H3AD-REF/soc-ops/chain-of-custody-checklist.html">
+  <meta property="og:title" content="Chain Of Custody Checklist // H3AD-REF">
+  <meta property="og:description" content="H3AD-REF SOC Ops reference: chain of custody for digital evidence. What to document for every piece of evidence, the collection sequence that preserves integrity, and why a broken chain makes otherwise-solid evidence unusable.">
   <meta property="og:image" content="https://raw.githubusercontent.com/h3ad-sec/h3ad-sec.github.io/main/logo-dark.png">
 
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="KQL vs XQL vs SPL Syntax Guide // H3AD-REF">
-  <meta name="twitter:description" content="H3AD-REF guide: KQL vs XQL vs SPL side by side. Query structure, filtering, aggregation, joins, and sorting across Sentinel/Defender, Cortex XDR/XSIAM, and Splunk — plus the gotchas that trip analysts switching between them.">
+  <meta name="twitter:title" content="Chain Of Custody Checklist // H3AD-REF">
+  <meta name="twitter:description" content="H3AD-REF SOC Ops reference: chain of custody for digital evidence. What to document for every piece of evidence, the collection sequence that preserves integrity, and why a broken chain makes otherwise-solid evidence unusable.">
   <meta name="twitter:image" content="https://raw.githubusercontent.com/h3ad-sec/h3ad-sec.github.io/main/logo-dark.png">
 
   <meta name="theme-color" content="#080c14">
@@ -31,9 +31,10 @@
   {
     "@context": "https://schema.org",
     "@type": "TechArticle",
-    "headline": "KQL vs XQL vs SPL Syntax Guide",
-    "description": "Query structure, field selection, filtering operators, aggregation, joins, and sorting compared side by side across KQL (Microsoft Sentinel/Defender), XQL (Cortex XDR/XSIAM), and SPL (Splunk), plus the case-sensitivity and default-join gotchas that trip analysts switching between them.",
-    "url": "https://h3ad-sec.github.io/H3AD-REF/guides/kql-xql-spl-syntax.html",
+    "headline": "Chain Of Custody Checklist",
+    "description": "What must be documented for every piece of evidence, the step-by-step collection sequence that preserves integrity, and why a broken chain of custody makes otherwise-solid evidence unusable.",
+    "url": "https://h3ad-sec.github.io/H3AD-REF/soc-ops/chain-of-custody-checklist.html",
+    "articleSection": "SOC Ops",
     "isPartOf": {
       "@type": "CollectionPage",
       "name": "H3AD-REF",
@@ -190,12 +191,6 @@
     #hr-guide .data-flow-card pre .type { color: var(--purple); }
     #hr-guide .data-flow-card pre .danger { color: var(--red); }
 
-    #hr-guide .lang-block { margin-top: 20px; }
-    #hr-guide .lang-block:first-child { margin-top: 0; }
-    #hr-guide .lang-label { font-family: 'Share Tech Mono', monospace; font-size: 10.5px; font-weight: 700; letter-spacing: 0.12em;
-      color: var(--cyan); margin-bottom: 7px; text-transform: uppercase; }
-    #hr-guide .lang-label .lang-sub { color: var(--text-dim); font-weight: 400; letter-spacing: 0.04em; text-transform: none; }
-
     #hr-guide .details-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 18px; margin-top: 22px; }
     @media(max-width:768px) { #hr-guide .details-grid { grid-template-columns: 1fr; } }
 
@@ -214,10 +209,10 @@
 
     #hr-guide .tag { font-family: 'Share Tech Mono', monospace; font-size: 10px; font-weight: 600; text-transform: uppercase;
       letter-spacing: 1px; padding: 3px 8px; border-radius: 4px; display: inline-block; margin-bottom: 8px; margin-right: 4px; }
-    #hr-guide .tag.strings { background: rgba(6, 182, 212, .15); color: var(--cyan); }
-    #hr-guide .tag.condition { background: rgba(245, 158, 11, .15); color: var(--orange); }
-    #hr-guide .tag.practice { background: rgba(16, 185, 129, .15); color: var(--green); }
-    #hr-guide .tag.pitfall { background: rgba(239, 68, 68, .15); color: var(--red); }
+    #hr-guide .tag.step { background: rgba(6, 182, 212, .15); color: var(--cyan); }
+    #hr-guide .tag.checklist { background: rgba(245, 158, 11, .15); color: var(--orange); }
+    #hr-guide .tag.mistake { background: rgba(239, 68, 68, .15); color: var(--red); }
+    #hr-guide .tag.escalation { background: rgba(139, 92, 246, .15); color: var(--purple); }
 
     #hr-guide .detail-card.border-red { border-left: 3px solid var(--red); }
     #hr-guide .detail-card.border-blue { border-left: 3px solid var(--blue); }
@@ -414,258 +409,126 @@
 
   <main>
     <div class="page">
-      <div class="yg-crumb"><a href="https://h3ad-sec.github.io/H3AD-REF/">H3AD-REF</a> / <a href="https://h3ad-sec.github.io/H3AD-REF/#guides">GUIDES</a> / KQL XQL SPL SYNTAX</div>
-      <h1 class="yg-hero-title">KQL. XQL. SPL.<br><span>Same Query, Three Accents.</span></h1>
-      <p class="yg-hero-sub">A side-by-side reference for the query you run every shift, translated across Kusto (Microsoft Sentinel / Defender), XQL (Cortex XDR / XSIAM), and SPL (Splunk): filtering, projection, aggregation, joins, and sorting the same event log three different ways. No query runner here, just the syntax and the default behaviors that trip an analyst switching platforms mid-shift. For ready-to-run queries in these same languages, see <a href="https://h3ad-sec.github.io/TRACERULES/" target="_blank" rel="noopener">TRACERULES</a>.</p>
+      <div class="yg-crumb"><a href="https://h3ad-sec.github.io/H3AD-REF/">H3AD-REF</a> / <a href="https://h3ad-sec.github.io/H3AD-REF/#socops">SOC OPS</a> / CHAIN OF CUSTODY CHECKLIST</div>
+      <h1 class="yg-hero-title">Chain Of Custody.<br><span>Evidence Is Only As Good As Its Trail.</span></h1>
+      <p class="yg-hero-sub">A standing process reference, not an alert-triggered playbook: what to document for every piece of evidence collected during an incident, the collection sequence that keeps integrity intact, and why the trail matters as much as the evidence itself. Applies across every incident type, not just the ones that end up in court. See the <a href="https://h3ad-sec.github.io/H3AD-REF/playbooks/ransomware-ir.html">Ransomware IR</a> playbook for a case where this checklist gets used in the field.</p>
 
       <div class="hr-toolbar">
-        <input class="hr-search-input" id="hrSearch" type="text" placeholder="Search this guide... ( / )" oninput="hrFilter()" autocomplete="off" spellcheck="false" />
+        <input class="hr-search-input" id="hrSearch" type="text" placeholder="Search this checklist... ( / )" oninput="hrFilter()" autocomplete="off" spellcheck="false" />
         <div class="hr-toc">
-          <button class="hr-toc-pill" onclick="hrJump('hr-sec-structure')">QUERY STRUCTURE</button>
-          <button class="hr-toc-pill" onclick="hrJump('hr-sec-fields')">FIELD SELECTION</button>
-          <button class="hr-toc-pill" onclick="hrJump('hr-sec-filtering')">FILTERING & OPERATORS</button>
-          <button class="hr-toc-pill" onclick="hrJump('hr-sec-aggregation')">AGGREGATION</button>
-          <button class="hr-toc-pill" onclick="hrJump('hr-sec-joins')">JOINS</button>
-          <button class="hr-toc-pill" onclick="hrJump('hr-sec-sorting')">SORTING & LIMITING</button>
-          <button class="hr-toc-pill" onclick="hrJump('hr-sec-gotchas')">GOTCHAS</button>
+          <button class="hr-toc-pill" onclick="hrJump('hr-sec-fields')">DOCUMENTATION FIELDS</button>
+          <button class="hr-toc-pill" onclick="hrJump('hr-sec-sequence')">COLLECTION SEQUENCE</button>
+          <button class="hr-toc-pill" onclick="hrJump('hr-sec-why')">WHY IT MATTERS</button>
         </div>
         <div class="hr-count" id="hrCount"></div>
       </div>
 
       <div id="hr-guide">
 
-        <!-- ==================== QUERY STRUCTURE ==================== -->
-        <div class="section-header" id="hr-sec-structure">
-          <h2>Query <span>Structure</span></h2>
-          <p class="section-desc">Every query starts by naming a data source, then narrows it. The three languages disagree hard on how explicit that first step has to be.</p>
-        </div>
-        <div class="data-flow-card">
-          <h4>Filter Process-Creation Events For powershell.exe</h4>
-
-          <div class="lang-block">
-            <div class="lang-label">KQL <span class="lang-sub">— Microsoft Sentinel / Defender</span></div>
-            <pre><span class="key">DeviceProcessEvents</span>
-<span class="key">| where</span> <span class="val">FileName == "powershell.exe"</span>
-<span class="comment">// table name first, then pipe — the query only ever narrows from that starting table</span></pre>
-          </div>
-
-          <div class="lang-block">
-            <div class="lang-label">XQL <span class="lang-sub">— Cortex XDR / XSIAM</span></div>
-            <pre><span class="key">dataset</span> = <span class="val">xdr_data</span>
-<span class="key">| filter</span> <span class="val">event_type = ENUM.PROCESS and action_process_image_name = "powershell.exe"</span>
-<span class="comment">// dataset is its own stage and always comes first — xdr_data is the default correlated dataset</span></pre>
-          </div>
-
-          <div class="lang-block">
-            <div class="lang-label">SPL <span class="lang-sub">— Splunk</span></div>
-            <pre><span class="key">index</span>=<span class="val">main</span> <span class="key">sourcetype</span>=<span class="val">sysmon</span> <span class="val">EventCode=1 Image="*\powershell.exe"</span>
-<span class="comment">// no explicit "search" keyword needed — SPL assumes search as the implied first pipeline stage</span></pre>
-          </div>
-        </div>
-
-        <div class="separator"></div>
-
-        <!-- ==================== FIELD SELECTION ==================== -->
+        <!-- ==================== DOCUMENTATION FIELDS ==================== -->
         <div class="section-header" id="hr-sec-fields">
-          <h2>Field <span class="orange">Selection</span></h2>
-          <p class="section-desc">Same job, different verb — and in Splunk, two verbs that look interchangeable but aren't.</p>
+          <h2>What Must Be <span>Documented</span></h2>
+          <p class="section-desc">Every piece of evidence needs the same fields recorded, whether it's a disk image, a log export, or a single file. Missing any one of these is what turns solid evidence into a disputed one later.</p>
         </div>
         <div class="data-flow-card">
-          <h4>Keep Only The Fields That Matter</h4>
+          <h4>Evidence Record, Field By Field</h4>
+          <pre><span class="key">Identification</span> — <span class="val">what the evidence is</span>
+├── Hostname, asset tag, disk image name, file path, or log export — described specifically enough
+│   that a reader six months later doesn't have to guess what it refers to
+└── A unique evidence ID assigned at collection, referenced on every subsequent record
+    <span class="comment">// vague descriptions ("the laptop") are the first thing that gets challenged</span>
 
-          <div class="lang-block">
-            <div class="lang-label">KQL</div>
-            <pre>DeviceProcessEvents
-| where FileName == "powershell.exe"
-<span class="key">| project</span> <span class="val">TimeGenerated, DeviceName, FileName, ProcessCommandLine</span>
-<span class="comment">// project also reorders and can rename inline: project NewName = OldName</span></pre>
-          </div>
+<span class="key">Collection details</span> — <span class="val">who, when, how</span>
+├── Collector's full name, exact date and time (with timezone), and the method or tool used
+│   (e.g. FTK Imager, dd, a specific log export query)
+└── Location the evidence was collected from
+    <span class="comment">// "sometime that afternoon" isn't a timestamp — record to the minute</span>
 
-          <div class="lang-block">
-            <div class="lang-label">XQL</div>
-            <pre>dataset = xdr_data
-| filter event_type = ENUM.PROCESS and action_process_image_name = "powershell.exe"
-<span class="key">| fields</span> <span class="val">agent_hostname, action_process_image_name, action_process_image_command_line</span>
-<span class="comment">// fields narrows the result set the same way project does — supports "as" for aliasing</span></pre>
-          </div>
+<span class="key">Hash value at collection</span> — <span class="val">the integrity anchor</span>
+├── MD5 and/or SHA-256 calculated immediately after acquisition, before the evidence moves anywhere
+└── <span class="danger">This is the single field everything else depends on</span> — without it, there's no way to later
+    prove the evidence wasn't altered
+    <span class="comment">// re-verify the hash at every handoff, not just once at collection</span>
 
-          <div class="lang-block">
-            <div class="lang-label">SPL</div>
-            <pre>index=main sourcetype=sysmon EventCode=1 Image="*\powershell.exe"
-<span class="key">| table</span> <span class="val">_time, host, Image, CommandLine</span>
-<span class="comment">// table formats output for display; fields keeps/drops columns without reformatting —
-// the two commands are not interchangeable, table is heavier and meant for the final stage</span></pre>
-          </div>
+<span class="key">Storage location</span> — <span class="val">specific, not vague</span>
+├── The exact secured location or system (evidence locker, encrypted share, case management system),
+│   never "in my office" or "on my desktop"
+└── Access controls in place at that location noted alongside it
+    <span class="comment">// if it can't be pointed to, it can't be verified</span>
+
+<span class="key">Every transfer</span> — <span class="val">custody changes, logged in full</span>
+├── Who received it from whom, the exact date/time, and the stated reason for the transfer
+└── A gap in this log is a gap in the chain — there's no such thing as an implied transfer
+    <span class="comment">// a one-line log entry per handoff is cheap insurance against a much bigger problem later</span>
+
+<span class="key">Access log</span> — <span class="val">every view, every analysis</span>
+├── Anyone who opened, viewed, or ran analysis against the evidence, with date/time and purpose
+└── Applies to the working copy as much as the original — analysis activity is part of the record too
+    <span class="comment">// "who looked at this and why" needs an answer for every single access, not just transfers</span></pre>
         </div>
 
         <div class="separator"></div>
 
-        <!-- ==================== FILTERING & COMPARISON OPERATORS ==================== -->
-        <div class="section-header" id="hr-sec-filtering">
-          <h2>Filtering <span class="purple">& Comparison</span></h2>
-          <p class="section-desc">The highest-value section on this page — operator names diverge the most here, and the case-sensitivity defaults diverge in the direction most analysts don't expect. See the gotchas section below for the specifics.</p>
+        <!-- ==================== COLLECTION SEQUENCE ==================== -->
+        <div class="section-header" id="hr-sec-sequence">
+          <h2>Collection <span class="orange">Sequence</span></h2>
+          <p class="section-desc">The order these steps happen in is what preserves the evidence's integrity. Skipping ahead, even with good intentions, is how chains get broken.</p>
         </div>
         <div class="data-flow-card">
-          <h4>Equals, Substring, Regex, IN, Time Range</h4>
+          <h4>When You Collect Evidence, Do This</h4>
+          <pre><span class="key">1. Identify and document the original state, before touching anything</span>
+├── Photograph or screen-capture the evidence in place — screen contents, physical state, file metadata
+└── This is the baseline everything else gets compared against
+    <span class="comment">// document first, act second — the order matters more than the tool used</span>
 
-          <div class="lang-block">
-            <div class="lang-label">KQL</div>
-            <pre><span class="key">| where</span> FileName == "powershell.exe"              <span class="comment">// case-sensitive equals</span>
-<span class="key">| where</span> FileName =~ "PowerShell.exe"              <span class="comment">// case-insensitive equals</span>
-<span class="key">| where</span> ProcessCommandLine contains "-enc"       <span class="comment">// case-insensitive substring</span>
-<span class="key">| where</span> ProcessCommandLine matches regex @"-[Ee]nc\w*"
-<span class="key">| where</span> FileName in ("powershell.exe","pwsh.exe") <span class="comment">// case-sensitive IN</span>
-<span class="key">| where</span> TimeGenerated &gt; ago(24h)                 <span class="comment">// relative time range, must be explicit</span></pre>
-          </div>
+<span class="key">2. Calculate and record a hash immediately after acquisition</span>
+├── MD5 and/or SHA-256, captured the moment the acquisition completes, written into the evidence record
+└── <span class="danger">A hash calculated later, after the evidence has already changed hands, proves nothing</span>
+    <span class="comment">// this is the step that makes every later integrity claim possible — don't defer it</span>
 
-          <div class="lang-block">
-            <div class="lang-label">XQL</div>
-            <pre><span class="key">filter</span> action_process_image_name = "powershell.exe"
-<span class="key">filter</span> action_process_image_command_line contains "-enc"
-<span class="key">filter</span> action_process_image_command_line ~= "-[Ee]nc\w*"   <span class="comment">// ~= is the regex-match operator</span>
-<span class="key">filter</span> action_process_image_name in ("powershell.exe","pwsh.exe")</pre>
-          </div>
+<span class="key">3. Label and tag with a unique ID</span>
+├── Assign the evidence ID at this point and use it consistently across every record from here forward
+└── Physical evidence gets a physical tag; digital evidence gets the ID embedded in the filename and case record
+    <span class="comment">// inconsistent naming across records is how evidence gets "lost" administratively</span>
 
-          <div class="lang-block">
-            <div class="lang-label">SPL</div>
-            <pre>Image="powershell.exe"                       <span class="comment">// equals; wildcards work directly: Image="*\powershell.exe"</span>
-<span class="key">| where</span> match(CommandLine, "-[Ee]nc\\w*")   <span class="comment">// regex via the match() eval function</span>
-<span class="key">| regex</span> CommandLine="-[Ee]nc\\w*"          <span class="comment">// regex via the dedicated regex command</span>
-<span class="key">| where</span> Image IN ("powershell.exe", "pwsh.exe")
-earliest=-24h latest=now                     <span class="comment">// time range as search-time modifiers, not a piped filter</span></pre>
-          </div>
+<span class="key">4. Store in a secured, access-controlled location</span>
+├── Evidence locker, encrypted storage, or case management system with logged access — not a general share
+└── Record exactly where, and who has access to that location
+    <span class="comment">// "secured" means access-controlled and logged, not just password-protected</span>
 
-          <p style="margin-top:14px; font-size:13px; color:var(--text-dim); line-height:1.65;">Time-range handling is the one place all three diverge structurally, not just syntactically: KQL needs an explicit <code>ago()</code> comparison inside <code>where</code> or the query is unbounded; SPL's <code>earliest</code>/<code>latest</code> prune the index before the pipeline runs at all; XQL is typically time-boxed through the query's <code>timeframe</code> parameter or the UI time picker rather than an inline filter clause — confirm the exact inline syntax against your own Cortex XQL reference before relying on it.</p>
+<span class="key">5. Log every access or transfer from this point forward</span>
+├── No exceptions for "just a quick look" — every view, copy, or handoff gets an entry
+└── This log is what closes the loop between collection and eventual use of the evidence
+    <span class="comment">// the log is worthless if it has gaps — treat every access as mandatory to record</span>
+
+<span class="key">6. Never analyze the original — work from a verified copy</span>
+├── Create a working copy, hash it, and confirm that hash matches the original's hash exactly
+└── <span class="danger">All analysis happens on the copy</span> — the original stays untouched in storage as the reference point
+    <span class="comment">// if the copy's hash doesn't match, stop and re-image — don't proceed on a copy you can't verify</span></pre>
         </div>
 
         <div class="separator"></div>
 
-        <!-- ==================== AGGREGATION & GROUPING ==================== -->
-        <div class="section-header" id="hr-sec-aggregation">
-          <h2>Aggregation <span class="green">& Grouping</span></h2>
-          <p class="section-desc">Count events per value of a field — the one operation every SIEM makes fast, worded three different ways.</p>
-        </div>
-        <div class="data-flow-card">
-          <h4>Count Matching Events, Grouped By Host</h4>
-
-          <div class="lang-block">
-            <div class="lang-label">KQL</div>
-            <pre>DeviceProcessEvents
-| where FileName == "powershell.exe"
-<span class="key">| summarize</span> <span class="val">Count = count() by DeviceName</span></pre>
-          </div>
-
-          <div class="lang-block">
-            <div class="lang-label">XQL</div>
-            <pre>dataset = xdr_data
-| filter event_type = ENUM.PROCESS and action_process_image_name = "powershell.exe"
-<span class="key">| comp</span> <span class="val">count() as event_count by agent_hostname</span></pre>
-          </div>
-
-          <div class="lang-block">
-            <div class="lang-label">SPL</div>
-            <pre>index=main sourcetype=sysmon EventCode=1 Image="*\powershell.exe"
-<span class="key">| stats</span> <span class="val">count by host</span></pre>
-          </div>
-        </div>
-
-        <div class="separator"></div>
-
-        <!-- ==================== JOINS ==================== -->
-        <div class="section-header" id="hr-sec-joins">
-          <h2>Joins</h2>
-          <p class="section-desc">One example each — enough to recognize the shape when it shows up in a real query, not a full join reference.</p>
-        </div>
-        <div class="data-flow-card">
-          <h4>Correlate The Process Event With A Network Event</h4>
-
-          <div class="lang-block">
-            <div class="lang-label">KQL</div>
-            <pre>DeviceProcessEvents
-| where FileName == "powershell.exe"
-<span class="key">| join kind=inner</span> <span class="val">(DeviceNetworkEvents) on DeviceId</span>
-<span class="comment">// kind must be stated explicitly — see the gotchas section for why that matters</span></pre>
-          </div>
-
-          <div class="lang-block">
-            <div class="lang-label">XQL</div>
-            <pre>dataset = xdr_data | filter event_type = ENUM.PROCESS and action_process_image_name = "powershell.exe"
-<span class="key">| join type = inner</span> <span class="val">((dataset = xdr_data | filter event_type = ENUM.NETWORK) as net_evt agent_id = net_evt.agent_id)</span>
-<span class="comment">// the right side is itself a full XQL query, aliased with "as" and matched on a boolean expression</span></pre>
-          </div>
-
-          <div class="lang-block">
-            <div class="lang-label">SPL</div>
-            <pre>index=main sourcetype=sysmon EventCode=1 Image="*\powershell.exe"
-<span class="key">| join type=inner</span> <span class="val">host [search index=main sourcetype=sysmon EventCode=3]</span>
-<span class="comment">// the bracketed clause is a subsearch — join runs it independently, then stitches results
-// together on the shared field named before the bracket</span></pre>
-          </div>
-        </div>
-
-        <div class="separator"></div>
-
-        <!-- ==================== SORTING & LIMITING ==================== -->
-        <div class="section-header" id="hr-sec-sorting">
-          <h2>Sorting <span class="teal">& Limiting</span></h2>
-          <p class="section-desc">Newest first, top N only — the pattern that closes almost every hunting query.</p>
-        </div>
-        <div class="data-flow-card">
-          <h4>Newest 10 Matching Events</h4>
-
-          <div class="lang-block">
-            <div class="lang-label">KQL</div>
-            <pre>DeviceProcessEvents
-| where FileName == "powershell.exe"
-<span class="key">| sort by</span> <span class="val">TimeGenerated desc</span>
-<span class="key">| take</span> <span class="val">10</span>
-<span class="comment">// top 10 by TimeGenerated desc does the sort and the limit in a single operator</span></pre>
-          </div>
-
-          <div class="lang-block">
-            <div class="lang-label">XQL</div>
-            <pre>dataset = xdr_data | filter event_type = ENUM.PROCESS and action_process_image_name = "powershell.exe"
-<span class="key">| sort</span> <span class="val">desc _time</span>
-<span class="key">| limit</span> <span class="val">10</span>
-<span class="comment">// limit caps the result set — if omitted, XQL defaults to a very high ceiling, not "all"</span></pre>
-          </div>
-
-          <div class="lang-block">
-            <div class="lang-label">SPL</div>
-            <pre>index=main sourcetype=sysmon EventCode=1 Image="*\powershell.exe"
-<span class="key">| sort</span> <span class="val">-_time</span>
-<span class="key">| head</span> <span class="val">10</span>
-<span class="comment">// the leading "-" means descending; sort with no sign defaults to ascending</span></pre>
-          </div>
-        </div>
-
-        <div class="separator"></div>
-
-        <!-- ==================== CROSS-LANGUAGE GOTCHAS ==================== -->
-        <div class="section-header" id="hr-sec-gotchas">
-          <h2>Cross-Language <span class="red">Gotchas</span></h2>
-          <p class="section-desc">Defaults that read fine, pass a quick test, and then behave differently than the analyst expected the first time it actually matters.</p>
+        <!-- ==================== WHY IT MATTERS ==================== -->
+        <div class="section-header" id="hr-sec-why">
+          <h2>Why It <span class="purple">Matters</span></h2>
+          <p class="section-desc">The documentation feels like overhead during a live incident. It's the difference between evidence that holds up and evidence that gets thrown out.</p>
         </div>
         <div class="details-grid">
-          <div class="detail-card border-red"><span class="tag pitfall">PITFALL</span>
-            <h3>KQL's Case-Sensitivity Runs Backwards</h3>
-            <div class="card-sub">The operator that looks strict (==) is the case-sensitive one — most string operators aren't</div>
-            <div class="card-body"><code>==</code> and <code>in</code> are case-sensitive by default in KQL. <code>contains</code>, <code>has</code>, <code>startswith</code>, <code>endswith</code> and their relatives are case-<strong>in</strong>sensitive by default, and only become case-sensitive with the <code>_cs</code> suffix (<code>contains_cs</code>, <code>has_cs</code>...). An analyst assuming the reverse gets a query that silently under-matches instead of erroring.</div>
+          <div class="detail-card border-red"><span class="tag mistake">RISK</span>
+            <h3>A Broken Chain Makes Solid Evidence Unusable</h3>
+            <div class="card-sub">The finding can be completely correct and still not matter</div>
+            <div class="card-body">A gap in custody, an unlogged access, or a hash that was never recorded gives anyone challenging the finding — opposing counsel, an HR respondent, even a skeptical stakeholder — a legitimate reason to question whether the evidence is what it's claimed to be. The technical conclusion doesn't get a chance to matter if the trail behind it doesn't hold up.</div>
           </div>
-          <div class="detail-card border-orange"><span class="tag pitfall">PITFALL</span>
-            <h3>KQL Join Defaults To innerunique, Not inner</h3>
-            <div class="card-sub">Omitting kind= doesn't fall back to a standard SQL-style inner join</div>
-            <div class="card-body">If <code>kind</code> is left off entirely, KQL's <code>join</code> operator defaults to <code>innerunique</code>, which deduplicates the left table down to one row per join key before matching — not the inner join most analysts expect coming from SQL. Rows that should have matched can silently disappear. Write <code>kind=inner</code> explicitly whenever that's the behavior actually wanted.</div>
+          <div class="detail-card border-purple"><span class="tag escalation">SCOPE</span>
+            <h3>Live SOC Investigation Vs. Formal Legal/HR Case</h3>
+            <div class="card-sub">The bar is higher once a case is formal, but the habit should start earlier</div>
+            <div class="card-body">Routine SOC investigation work can tolerate a looser standard day to day, but any case that might escalate to legal action, HR discipline, or law enforcement involvement needs the full standard from the start. The problem is that escalation potential is rarely obvious at hour one — treating every collection with the full checklist means there's nothing to scramble to reconstruct later if a case does escalate.</div>
           </div>
-          <div class="detail-card border-purple"><span class="tag pitfall">PITFALL</span>
-            <h3>SPL's Case Sensitivity Splits By Command</h3>
-            <div class="card-sub">The same value can match case-insensitively in one stage and case-sensitively two lines later</div>
-            <div class="card-body"><code>search</code> matches field values case-insensitively, but <code>stats</code> and <code>sort</code> treat those same values as case-sensitive — two events differing only in case can land in separate <code>stats</code> groups even though the <code>search</code> stage that found them treated them as identical. Field <strong>names</strong> themselves are always case-sensitive, in every command, with no exceptions.</div>
-          </div>
-          <div class="detail-card border-cyan"><span class="tag pitfall">PITFALL</span>
-            <h3>Implicit Search vs Explicit Source</h3>
-            <div class="card-sub">SPL assumes a starting point; KQL and XQL both require naming one</div>
-            <div class="card-body">SPL treats the start of a pipeline as an implied <code>search</code> command, so <code>index=main sourcetype=x field=y</code> works with no keyword at all, and <code>earliest</code>/<code>latest</code> prune the index before the pipeline runs. KQL and XQL both require an explicit source first — a table name, or <code>dataset =</code> — and time-boxing is a query-body concern from there: KQL needs an explicit <code>where ... &gt; ago()</code> clause or the result set is unbounded by design. XQL time-boxing is normally set through the query's timeframe parameter or the UI time picker rather than an inline filter operator — this is the one corner of this page not fully confirmed from public docs, so verify it against your own tenant before relying on it.</div>
+          <div class="detail-card border-cyan"><span class="tag step">SEE ALSO</span>
+            <h3>Where This Gets Used</h3>
+            <div class="card-sub">A checklist without a scenario is easy to skip</div>
+            <div class="card-body">The <a href="../playbooks/ransomware-ir.html">Ransomware IR playbook</a> is a concrete example: its immediate-triage step calls for imaging a representative affected host before remediation. This checklist is what governs how that image, and everything derived from it, gets documented from that point forward.</div>
           </div>
         </div>
 
@@ -676,8 +539,8 @@ earliest=-24h latest=now                     <span class="comment">// time range
   </main>
 
   <footer>
-    <span class="footer-left">H3AD-SEC © 2026 &nbsp;|&nbsp; H3AD-REF / GUIDES</span>
-    <span class="footer-right">KQL / XQL / SPL SYNTAX GUIDE</span>
+    <span class="footer-left">H3AD-SEC © 2026 &nbsp;|&nbsp; H3AD-REF / SOC OPS</span>
+    <span class="footer-right">CHAIN OF CUSTODY CHECKLIST</span>
     <div class="footer-credit-row">
       <a class="footer-credit-pill" href="https://www.linkedin.com/in/hrushikesh-badgujar/" target="_blank" rel="noopener" title="Connect on LinkedIn">
         <span class="credit-tool"><span class="xv-pill-accent">H3AD</span><span class="xv-pill-text">-REF</span></span>

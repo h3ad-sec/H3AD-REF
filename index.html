@@ -60,7 +60,7 @@
       --sans: 'Exo 2', sans-serif;
       --ui: 'IBM Plex Sans', sans-serif;
       --fs-xs: 11px; --fs-sm: 13px; --fs-base: 15px; --fs-md: 16px; --fs-lg: 18px;
-      --cat-guides: #00d4ff; --cat-cheatsheets: #f59e0b; --cat-references: #8b5cf6; --cat-playbooks: #14b8a6;
+      --cat-guides: #00d4ff; --cat-cheatsheets: #f59e0b; --cat-references: #8b5cf6; --cat-playbooks: #14b8a6; --cat-socops: #f43f5e;
     }
 
     body.light {
@@ -83,7 +83,7 @@
       --surface: #C9CDD2;
       --text-dim: #2E343B;
       --border-dim: #BBC0C6;
-      --cat-guides: #0A6EA8; --cat-cheatsheets: #B45309; --cat-references: #7c3aed; --cat-playbooks: #0d9488;
+      --cat-guides: #0A6EA8; --cat-cheatsheets: #B45309; --cat-references: #7c3aed; --cat-playbooks: #0d9488; --cat-socops: #be123c;
       font-weight: 500;
     }
     body.light .hero-sub {
@@ -195,6 +195,7 @@
     .hr-tab.tab-cheatsheets.active { color: var(--cat-cheatsheets); border-color: var(--cat-cheatsheets); background: color-mix(in srgb, var(--cat-cheatsheets) 10%, transparent); }
     .hr-tab.tab-references.active { color: var(--cat-references); border-color: var(--cat-references); background: color-mix(in srgb, var(--cat-references) 10%, transparent); }
     .hr-tab.tab-playbooks.active { color: var(--cat-playbooks); border-color: var(--cat-playbooks); background: color-mix(in srgb, var(--cat-playbooks) 10%, transparent); }
+    .hr-tab.tab-socops.active { color: var(--cat-socops); border-color: var(--cat-socops); background: color-mix(in srgb, var(--cat-socops) 10%, transparent); }
 
     .hr-view[hidden] { display: none !important; }
 
@@ -436,6 +437,7 @@
         <button class="hr-tab tab-cheatsheets" data-cat="cheatsheets" onclick="hrSetCategory('cheatsheets')">CHEATSHEETS</button>
         <button class="hr-tab tab-references" data-cat="references" onclick="hrSetCategory('references')">REFERENCES</button>
         <button class="hr-tab tab-playbooks" data-cat="playbooks" onclick="hrSetCategory('playbooks')">PLAYBOOKS</button>
+        <button class="hr-tab tab-socops" data-cat="socops" onclick="hrSetCategory('socops')">SOC OPS</button>
       </div>
 
       <div class="hr-view" id="hrViewGuides">
@@ -456,15 +458,19 @@
             <div class="hr-card-top"><span class="hr-card-title">Suricata & Snort Rule Writing</span><span class="hr-card-badge live">LIVE</span></div>
             <div class="hr-card-desc">Header anatomy, sticky buffers vs deprecated modifiers, detection keywords, and the pitfalls that leave a rule blind.</div>
           </a>
-          <a class="hr-card" href="guides/kql-xql-spl-syntax.html">
-            <div class="hr-card-top"><span class="hr-card-title">KQL / XQL / SPL Syntax</span><span class="hr-card-badge live">LIVE</span></div>
-            <div class="hr-card-desc">The same query written in Sentinel/Defender KQL, Cortex XQL, and Splunk SPL, side by side.</div>
+          <a class="hr-card" href="guides/structured-analytic-techniques.html">
+            <div class="hr-card-top"><span class="hr-card-title">Structured Analytic Techniques</span><span class="hr-card-badge live">LIVE</span></div>
+            <div class="hr-card-desc">ACH, Key Assumptions Check, Devil's Advocacy, and Indicators of Change — bias-reduction methods for CTI calls.</div>
           </a>
         </div>
       </div>
 
       <div class="hr-view" id="hrViewCheatsheets" hidden>
         <div class="hr-card-grid">
+          <a class="hr-card" href="cheatsheets/kql-xql-spl-syntax.html">
+            <div class="hr-card-top"><span class="hr-card-title">KQL / XQL / SPL Syntax</span><span class="hr-card-badge live">LIVE</span></div>
+            <div class="hr-card-desc">The same query written in Sentinel/Defender KQL, Cortex XQL, and Splunk SPL, side by side.</div>
+          </a>
           <a class="hr-card" href="cheatsheets/wireshark-filters.html">
             <div class="hr-card-top"><span class="hr-card-title">Wireshark Display Filters</span><span class="hr-card-badge live">LIVE</span></div>
             <div class="hr-card-desc">Filter syntax basics plus scenario-grouped filters for spoofing, tunneling, beaconing, and cleartext creds.</div>
@@ -518,6 +524,18 @@
             <div class="hr-card-top"><span class="hr-card-title">Admiralty Code & TLP</span><span class="hr-card-badge live">LIVE</span></div>
             <div class="hr-card-desc">Source reliability (A-F), info credibility (1-6), and TLP 2.0's five sharing levels.</div>
           </a>
+          <a class="hr-card" href="references/threat-actor-naming.html">
+            <div class="hr-card-top"><span class="hr-card-title">Threat Actor Naming Cross-Reference</span><span class="hr-card-badge live">LIVE</span></div>
+            <div class="hr-card-desc">Mandiant, CrowdStrike, Microsoft, and MITRE names for the same 15 well-tracked groups.</div>
+          </a>
+          <a class="hr-card" href="references/cti-analyst-reference.html">
+            <div class="hr-card-top"><span class="hr-card-title">CTI Analyst Reference</span><span class="hr-card-badge live">LIVE</span></div>
+            <div class="hr-card-desc">ICD 203 words of estimative probability, plus STIX 2.1 object types and TAXII.</div>
+          </a>
+          <a class="hr-card" href="references/soc-operations-reference.html">
+            <div class="hr-card-top"><span class="hr-card-title">SOC Operations Reference</span><span class="hr-card-badge live">LIVE</span></div>
+            <div class="hr-card-desc">Tier 1/2/3 analyst responsibilities and escalation, plus the MTTD/MTTA/MTTR/dwell-time glossary.</div>
+          </a>
         </div>
       </div>
 
@@ -566,6 +584,23 @@
         </div>
       </div>
 
+      <div class="hr-view" id="hrViewSocOps" hidden>
+        <div class="hr-card-grid">
+          <a class="hr-card" href="soc-ops/escalation-matrix-severity.html">
+            <div class="hr-card-top"><span class="hr-card-title">Escalation Matrix & Severity Classification</span><span class="hr-card-badge live">LIVE</span></div>
+            <div class="hr-card-desc">Sev1-Sev4 definitions, response SLAs, and escalation paths every alert playbook points back to.</div>
+          </a>
+          <a class="hr-card" href="soc-ops/shift-handover-template.html">
+            <div class="hr-card-top"><span class="hr-card-title">Shift Handover Template</span><span class="hr-card-badge live">LIVE</span></div>
+            <div class="hr-card-desc">Open incidents, watch items, and pending escalations — structured for 24/7 shift handoff.</div>
+          </a>
+          <a class="hr-card" href="soc-ops/chain-of-custody-checklist.html">
+            <div class="hr-card-top"><span class="hr-card-title">Chain of Custody Checklist</span><span class="hr-card-badge live">LIVE</span></div>
+            <div class="hr-card-desc">Documentation fields and collection sequence that keep digital evidence defensible.</div>
+          </a>
+        </div>
+      </div>
+
       <div class="back-link"><a href="https://h3ad-sec.github.io/">← Back to H3AD-SEC Platform</a></div>
     </div>
   </main>
@@ -589,7 +624,7 @@
     (function(){var pill=document.getElementById('xv-nav-pill'),links=document.querySelector('.nav-links'),toggle=document.querySelector('.theme-toggle'),G=20;function check(){if(!links)return;document.body.classList.remove('nav-compact');links.style.visibility='hidden';var lr=links.getBoundingClientRect(),pr=pill?pill.getBoundingClientRect().right:60,tl=toggle?toggle.getBoundingClientRect().left:window.innerWidth-60;links.style.visibility='';document.body.classList.toggle('nav-compact',(pr+G>lr.left)||(lr.right+G>tl));}check();window.addEventListener('resize',check);})();
 
     /* ── Top-level category tabs ── */
-    var HR_VIEWS = { guides: 'hrViewGuides', cheatsheets: 'hrViewCheatsheets', references: 'hrViewReferences', playbooks: 'hrViewPlaybooks' };
+    var HR_VIEWS = { guides: 'hrViewGuides', cheatsheets: 'hrViewCheatsheets', references: 'hrViewReferences', playbooks: 'hrViewPlaybooks', socops: 'hrViewSocOps' };
     function hrSetCategory(cat) {
       Object.keys(HR_VIEWS).forEach(function (name) {
         document.getElementById(HR_VIEWS[name]).hidden = (name !== cat);

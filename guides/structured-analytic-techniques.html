@@ -7,21 +7,21 @@
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
   <meta http-equiv="Pragma" content="no-cache">
   <meta http-equiv="Expires" content="0">
-  <title>Admiralty Code & TLP Quick Reference // H3AD-REF</title>
+  <title>Structured Analytic Techniques Guide // H3AD-REF</title>
   <meta name="description"
-    content="H3AD-REF reference: the Admiralty Code (NATO source reliability A-F, information credibility 1-6) and Traffic Light Protocol 2.0 (RED/AMBER+STRICT/AMBER/GREEN/CLEAR), with worked rating examples and handling rules for SOC and CTI.">
-  <link rel="canonical" href="https://h3ad-sec.github.io/H3AD-REF/references/admiralty-code-tlp.html">
+    content="H3AD-REF guide: structured analytic techniques for CTI. Analysis of Competing Hypotheses, Key Assumptions Check, Devil's Advocacy, What If Analysis, and Indicators of Change, plus when each one is actually worth the time in a SOC workflow.">
+  <link rel="canonical" href="https://h3ad-sec.github.io/H3AD-REF/guides/structured-analytic-techniques.html">
 
   <meta property="og:type" content="article">
   <meta property="og:site_name" content="H3AD-SEC">
-  <meta property="og:url" content="https://h3ad-sec.github.io/H3AD-REF/references/admiralty-code-tlp.html">
-  <meta property="og:title" content="Admiralty Code & TLP Quick Reference // H3AD-REF">
-  <meta property="og:description" content="The Admiralty Code (source reliability A-F, information credibility 1-6) and Traffic Light Protocol 2.0 (RED/AMBER+STRICT/AMBER/GREEN/CLEAR) in one reference, with worked examples and handling rules.">
+  <meta property="og:url" content="https://h3ad-sec.github.io/H3AD-REF/guides/structured-analytic-techniques.html">
+  <meta property="og:title" content="Structured Analytic Techniques Guide // H3AD-REF">
+  <meta property="og:description" content="H3AD-REF guide: structured analytic techniques for CTI. ACH, Key Assumptions Check, Devil's Advocacy, What If Analysis, Indicators of Change, and when each is worth the time.">
   <meta property="og:image" content="https://raw.githubusercontent.com/h3ad-sec/h3ad-sec.github.io/main/logo-dark.png">
 
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Admiralty Code & TLP Quick Reference // H3AD-REF">
-  <meta name="twitter:description" content="The Admiralty Code (source reliability A-F, information credibility 1-6) and Traffic Light Protocol 2.0 (RED/AMBER+STRICT/AMBER/GREEN/CLEAR) in one reference, with worked examples and handling rules.">
+  <meta name="twitter:title" content="Structured Analytic Techniques Guide // H3AD-REF">
+  <meta name="twitter:description" content="H3AD-REF guide: structured analytic techniques for CTI. ACH, Key Assumptions Check, Devil's Advocacy, What If Analysis, Indicators of Change, and when each is worth the time.">
   <meta name="twitter:image" content="https://raw.githubusercontent.com/h3ad-sec/h3ad-sec.github.io/main/logo-dark.png">
 
   <meta name="theme-color" content="#080c14">
@@ -31,10 +31,9 @@
   {
     "@context": "https://schema.org",
     "@type": "TechArticle",
-    "headline": "Admiralty Code & TLP Quick Reference",
-    "description": "The Admiralty Code (source reliability A-F, information credibility 1-6) and Traffic Light Protocol 2.0 (RED/AMBER+STRICT/AMBER/GREEN/CLEAR) in one reference, with worked examples and handling rules.",
-    "url": "https://h3ad-sec.github.io/H3AD-REF/references/admiralty-code-tlp.html",
-    "articleSection": "References",
+    "headline": "Structured Analytic Techniques Guide",
+    "description": "Analysis of Competing Hypotheses, Key Assumptions Check, Devil's Advocacy, What If Analysis, and Indicators of Change, plus when each one is actually worth the time in a SOC or CTI workflow.",
+    "url": "https://h3ad-sec.github.io/H3AD-REF/guides/structured-analytic-techniques.html",
     "isPartOf": {
       "@type": "CollectionPage",
       "name": "H3AD-REF",
@@ -223,17 +222,6 @@
     #hr-guide .detail-card.border-teal { border-left: 3px solid var(--teal); }
     #hr-guide .detail-card.border-rose { border-left: 3px solid var(--rose); }
 
-    /* ── Table (this page's own addition, tokens borrowed from the #hr-guide scope above) ── */
-    #hr-guide .hr-table-wrap { overflow-x: auto; margin-top: 18px; border: 1px solid var(--border); border-radius: 10px; }
-    #hr-guide table.hr-table { width: 100%; border-collapse: collapse; background: var(--bg-card); font-family: 'Exo 2', sans-serif; font-size: 13.5px; min-width: 640px; }
-    #hr-guide table.hr-table thead th { text-align: left; font-family: 'Share Tech Mono', monospace; font-size: 10.5px; letter-spacing: 0.08em;
-      text-transform: uppercase; color: var(--cyan); background: rgba(6, 182, 212, 0.06); padding: 12px 16px; border-bottom: 1px solid var(--border); white-space: nowrap; }
-    #hr-guide table.hr-table td { padding: 11px 16px; border-bottom: 1px solid var(--border); color: var(--text-dim); vertical-align: top; line-height: 1.5; }
-    #hr-guide table.hr-table tbody tr:last-child td { border-bottom: none; }
-    #hr-guide table.hr-table tbody tr:hover td { background: var(--bg-card-hover); }
-    #hr-guide table.hr-table td.hr-port { font-family: 'Share Tech Mono', monospace; color: var(--text-bright); font-weight: 600; white-space: nowrap; }
-    #hr-guide table.hr-table td.hr-proto { color: var(--text); font-weight: 500; white-space: nowrap; }
-
     .back-link { margin-top: 3rem; }
     .back-link a { color: var(--muted); font-size: 0.72rem; border-bottom: 1px solid var(--border-dim); transition: color 0.15s, border-color 0.15s; }
     .back-link a:hover { color: var(--accent); border-color: var(--accent); }
@@ -275,7 +263,6 @@
       .xv-pill-tagline { display: none; }
       .xv-nav-pill { margin-left: 6px; padding-left: 6px; }
       #hr-guide .data-flow-card, #hr-guide .detail-card { padding: 15px; }
-      #hr-guide table.hr-table td, #hr-guide table.hr-table thead th { padding: 9px 10px; }
     }
   </style>
 </head>
@@ -421,195 +408,226 @@
 
   <main>
     <div class="page">
-      <div class="yg-crumb"><a href="https://h3ad-sec.github.io/H3AD-REF/">H3AD-REF</a> / <a href="https://h3ad-sec.github.io/H3AD-REF/#references">REFERENCES</a> / ADMIRALTY CODE & TLP</div>
-      <h1 class="yg-hero-title">Rate The Source.<br><span>Label The Sharing.</span></h1>
-      <p class="yg-hero-sub">Two classification systems that show up in almost every intel report you'll write or read: the Admiralty Code for grading a source and the information it handed you, and the Traffic Light Protocol for marking how far that information is allowed to travel. Static definitions, worked examples, no ambiguity about what a letter, number, or color actually permits. Every indicator on the <a href="https://h3ad-sec.github.io/H3AD-REF/references/ioc-ioa-reference.html">IOC vs IOA</a> reference should carry a grade from this page before it gets actioned.</p>
+      <div class="yg-crumb"><a href="https://h3ad-sec.github.io/H3AD-REF/">H3AD-REF</a> / <a href="https://h3ad-sec.github.io/H3AD-REF/#guides">GUIDES</a> / STRUCTURED ANALYTIC TECHNIQUES</div>
+      <h1 class="yg-hero-title">Structured Analytic Techniques.<br><span>Pressure-Test The Call Before It Ships.</span></h1>
+      <p class="yg-hero-sub">A static reference for the structured analytic techniques (SATs) intelligence analysts use to catch their own bias before a judgment goes out the door. These methods trace back to Richards Heuer's <em>Psychology of Intelligence Analysis</em> and the CIA's <em>Tradecraft Primer</em>, written for the intelligence community but built for exactly the problem a CTI analyst has: a conclusion that has to survive contact with someone who'll act on it. No scoring engine here, just the methods, the actual steps, and which one earns its hour when the queue doesn't have hours to spare.</p>
 
       <div class="hr-toolbar">
-        <input class="hr-search-input" id="hrSearch" type="text" placeholder="Search this reference... ( / )" oninput="hrFilter()" autocomplete="off" spellcheck="false" />
+        <input class="hr-search-input" id="hrSearch" type="text" placeholder="Search this guide... ( / )" oninput="hrFilter()" autocomplete="off" spellcheck="false" />
         <div class="hr-toc">
-          <button class="hr-toc-pill" onclick="hrJump('hr-sec-admiralty')">ADMIRALTY CODE</button>
-          <button class="hr-toc-pill" onclick="hrJump('hr-sec-practice')">APPLYING IT</button>
-          <button class="hr-toc-pill" onclick="hrJump('hr-sec-tlp')">TLP 2.0</button>
-          <button class="hr-toc-pill" onclick="hrJump('hr-sec-usage')">DAILY USE</button>
+          <button class="hr-toc-pill" onclick="hrJump('hr-sec-ach')">ACH</button>
+          <button class="hr-toc-pill" onclick="hrJump('hr-sec-kac')">KEY ASSUMPTIONS CHECK</button>
+          <button class="hr-toc-pill" onclick="hrJump('hr-sec-devil')">DEVIL'S ADVOCACY</button>
+          <button class="hr-toc-pill" onclick="hrJump('hr-sec-indicators')">INDICATORS OF CHANGE</button>
+          <button class="hr-toc-pill" onclick="hrJump('hr-sec-worth')">WHEN IT'S WORTH IT</button>
         </div>
         <div class="hr-count" id="hrCount"></div>
       </div>
 
       <div id="hr-guide">
 
-        <!-- ==================== ADMIRALTY CODE ==================== -->
-        <div class="section-header" id="hr-sec-admiralty">
-          <h2>The <span>Admiralty Code</span></h2>
-          <p class="section-desc">A two-character grade, one letter and one number, first used by British naval intelligence and now standard across NATO, law enforcement fusion centers, and CTI shops. The letter rates the source. The number rates the specific piece of information in front of you. They are scored separately, then combined, such as <code style="font-family:'Share Tech Mono',monospace;font-size:11.5px;background:rgba(6,182,212,0.08);color:#06b6d4;padding:2px 6px;border-radius:3px;">B2</code> or <code style="font-family:'Share Tech Mono',monospace;font-size:11.5px;background:rgba(6,182,212,0.08);color:#06b6d4;padding:2px 6px;border-radius:3px;">F6</code>.</p>
+        <!-- ==================== ANALYSIS OF COMPETING HYPOTHESES ==================== -->
+        <div class="section-header" id="hr-sec-ach">
+          <h2>Analysis of <span>Competing Hypotheses</span></h2>
+          <p class="section-desc">The best-known SAT, built by CIA veteran Richards Heuer specifically to counter confirmation bias. Use it when two or more hypotheses are genuinely plausible and the evidence is thin enough that whichever one you favor first could quietly steer the analysis.</p>
+        </div>
+        <div class="data-flow-card">
+          <h4>The Eight Steps (Heuer)</h4>
+          <pre><span class="key">1. Identify the hypotheses:</span>
+<span class="val">List every plausible hypothesis, not just the front-runner</span>
+└── Best done with a small group covering different perspectives, not solo
+    <span class="comment">// a hypothesis that never gets written down never gets tested against the evidence</span>
+
+<span class="key">2. List the evidence:</span>
+<span class="val">Significant evidence and arguments, for and against each hypothesis</span>
+└── Includes assumptions and logical deductions, not just hard evidence
+    <span class="comment">// what "counts" as evidence here is broader than it first looks</span>
+
+<span class="key">3. Build the matrix:</span>
+<span class="val">Hypotheses across the top, evidence down the side</span>
+└── Mark each item as consistent, inconsistent, or not diagnostic against each hypothesis
+    <span class="comment">// work across one piece of evidence at a time against every hypothesis, not down one hypothesis at a time</span>
+
+<span class="key">4. Refine the matrix:</span>
+<span class="val">Reconsider the hypotheses, drop evidence that doesn't discriminate</span>
+└── Non-diagnostic evidence, the kind that's consistent with every hypothesis, adds noise, not signal
+    <span class="comment">// this is also where a hypothesis nobody thought of in step 1 usually surfaces</span>
+
+<span class="key">5. Draw tentative conclusions:</span>
+<span class="val">Work to disprove hypotheses rather than prove the favored one</span>
+└── The hypothesis with the least evidence against it wins, not the one with the most evidence for it
+    <span class="danger">// this step is the whole point of ACH, and the one people skip under time pressure</span>
+
+<span class="key">6. Test sensitivity:</span>
+<span class="val">Check how much the conclusion depends on a small number of critical items</span>
+└── If one or two pieces of evidence turn out wrong, does the conclusion flip too
+    <span class="comment">// a conclusion that rests on one uncorroborated report is not the same confidence as one backed by ten sources</span>
+
+<span class="key">7. Report the conclusions:</span>
+<span class="val">Give the relative likelihood of all hypotheses, not just the winner</span>
+└── Say why the rejected ones were rejected, not just what the answer is
+    <span class="comment">// this is what lets a reader push back on the reasoning instead of just the verdict</span>
+
+<span class="key">8. Identify future indicators:</span>
+<span class="val">Define what future evidence would signal the conclusion is wrong</span>
+└── So the team notices the shift instead of being the last to know
+    <span class="comment">// this step is what connects ACH to the Indicators technique further down this page</span></pre>
+        </div>
+
+        <div class="separator"></div>
+
+        <!-- ==================== KEY ASSUMPTIONS CHECK ==================== -->
+        <div class="section-header" id="hr-sec-kac">
+          <h2>Key <span class="orange">Assumptions Check</span></h2>
+          <p class="section-desc">Listing and testing the premises a judgment actually rests on, most of which were never written down because nobody thought to question them. Run it at the start of an analytic effort, or any time before a judgment goes final.</p>
+        </div>
+        <div class="data-flow-card">
+          <h4>The Four Steps</h4>
+          <pre><span class="key">1. Write down the current line:</span>
+<span class="val">State the judgment as it stands right now, in one place everyone can see</span>
+└── Not the polished write-up, just the working conclusion
+    <span class="comment">// you can't check assumptions against a judgment that's still only in someone's head</span>
+
+<span class="key">2. List every premise it depends on:</span>
+<span class="val">Both the assumptions stated in the write-up and the ones nobody wrote down</span>
+└── The unstated ones are the point of this exercise, not the stated ones
+    <span class="comment">// an assumption held unconsciously is, by definition, one that was never examined</span>
+
+<span class="key">3. Challenge each one:</span>
+<span class="val">Ask why it has to be true, and whether it holds in every scenario under consideration</span>
+└── Not just the expected scenario, the edge cases too
+    <span class="comment">// "this has always held before" is not the same claim as "this must hold now"</span>
+
+<span class="key">4. Refine the list:</span>
+<span class="val">Keep only what the judgment can't survive without</span>
+└── For each one, note what evidence or event would break it
+    <span class="comment">// this is the list that gets rechecked if new information contradicts the call later</span></pre>
+        </div>
+
+        <div class="separator"></div>
+
+        <!-- ==================== DEVIL'S ADVOCACY / WHAT IF ANALYSIS ==================== -->
+        <div class="section-header" id="hr-sec-devil">
+          <h2>Devil's Advocacy <span class="purple">& "What If?" Analysis</span></h2>
+          <p class="section-desc">Two ways of deliberately arguing against your own conclusion. Devil's Advocacy stress-tests the case you already built; What If Analysis stress-tests it by assuming the opposite conclusion already happened and working backwards to see if that's plausible too. Use either one when a team converges on an answer suspiciously fast.</p>
+        </div>
+        <div class="data-flow-card">
+          <h4>Devil's Advocacy</h4>
+          <pre><span class="key">1. Outline the mainline judgment:</span>
+<span class="val">State it plus its key assumptions, and characterize the evidence backing it</span>
+└── This is the target the devil's advocate argues against
+    <span class="comment">// you can't argue against a position that was never pinned down precisely</span>
+
+<span class="key">2. Pick the weakest assumptions:</span>
+<span class="val">Select one or more that look most susceptible to challenge</span>
+└── Not every assumption is worth attacking, some are genuinely solid
+    <span class="comment">// spend the effort where the case is actually thin</span>
+
+<span class="key">3. Review the evidence behind it:</span>
+<span class="val">Look for gaps, questionable sourcing, or the possibility of deception</span>
+└── Same evidence the mainline judgment used, read with an adversarial eye
+    <span class="comment">// this is where a single-source claim that got treated as fact usually gets caught</span>
+
+<span class="key">4. Surface the contrary evidence:</span>
+<span class="val">What supports an alternative hypothesis, or contradicts current thinking outright</span>
+└── Evidence that was present all along but didn't fit the narrative getting built
+    <span class="comment">// this is the evidence confirmation bias quietly deprioritized the first time through</span>
+
+<span class="key">5. Present the findings:</span>
+<span class="val">Flawed assumptions, thin evidence, or plausible deception, presented to the team</span>
+└── On the record, before the judgment ships, not after
+    <span class="comment">// the goal isn't to win the argument, it's to make sure the argument happened</span>
+
+<span class="key">6. Draft the alternative, if warranted:</span>
+<span class="val">A contrarian paper laying out the opposing conclusion, not just a footnote</span>
+└── Only if the review actually turned up something serious
+    <span class="comment">// most devil's advocacy exercises end with the original call surviving, stronger for having been tested</span></pre>
+        </div>
+        <div class="data-flow-card">
+          <h4>"What If?" Analysis</h4>
+          <pre><span class="key">1. Assume the event already happened:</span>
+<span class="val">Treat the low-probability outcome as fact, not as one possibility among many</span>
+└── The whole technique depends on committing to this premise
+    <span class="comment">// arguing "if it happened" keeps the exercise hypothetical and toothless</span>
+
+<span class="key">2. Pick a triggering event:</span>
+<span class="val">Something plausible that could have set the scenario in motion</span>
+└── Makes the "what if" concrete instead of abstract
+    <span class="comment">// a vague trigger produces a vague chain of argument</span>
+
+<span class="key">3. Build the chain of argument backwards:</span>
+<span class="val">What had to happen at each stage for this to be where things ended up</span>
+└── As much logic as evidence, since the event hasn't actually happened
+    <span class="comment">// this is "thinking backwards" from the outcome, not forecasting forwards from today</span>
+
+<span class="key">4. Lay out plausible pathways:</span>
+<span class="val">One or more routes that could get from today to that outcome</span>
+└── More than one pathway if more than one looks plausible
+    <span class="comment">// a single forced pathway is a sign the scenario was reverse-engineered too hard</span>
+
+<span class="key">5. Pull indicators from each pathway:</span>
+<span class="val">The observables that would show the scenario is starting to unfold</span>
+└── This is what turns the exercise into something actionable, not just a thought experiment
+    <span class="comment">// feeds directly into the Indicators technique below</span>
+
+<span class="key">6. Monitor those indicators going forward:</span>
+<span class="val">Not just for this exercise, but as an ongoing watch list</span>
+└── The value of the exercise compounds the longer the indicators get checked
+    <span class="comment">// a what-if exercise that ends when the meeting ends wasted the meeting</span></pre>
+        </div>
+
+        <div class="separator"></div>
+
+        <!-- ==================== INDICATORS / SIGNPOSTS OF CHANGE ==================== -->
+        <div class="section-header" id="hr-sec-indicators">
+          <h2>Indicators <span class="teal">& Signposts of Change</span></h2>
+          <p class="section-desc">Defining observable indicators ahead of time so a shift in the situation gets noticed as it happens, instead of being reconstructed after the fact. Use it any time a judgment is meant to hold for more than a single report cycle.</p>
         </div>
         <div class="details-grid">
-          <div class="detail-card border-cyan"><span class="tag strings">SCALE</span>
-            <h3>Source Reliability (A–F)</h3>
-            <div class="hr-table-wrap">
-              <table class="hr-table">
-                <thead>
-                  <tr><th>Grade</th><th>Label</th><th>Description</th></tr>
-                </thead>
-                <tbody>
-                  <tr><td class="hr-port">A</td><td class="hr-proto">Completely reliable</td><td>No doubt of authenticity, trustworthiness, or competency; history of complete reliability.</td></tr>
-                  <tr><td class="hr-port">B</td><td class="hr-proto">Usually reliable</td><td>Minor doubt about authenticity, trustworthiness, or competency; history of valid information most of the time.</td></tr>
-                  <tr><td class="hr-port">C</td><td class="hr-proto">Fairly reliable</td><td>Doubt of authenticity, trustworthiness, or competency, but has provided valid information in the past.</td></tr>
-                  <tr><td class="hr-port">D</td><td class="hr-proto">Not usually reliable</td><td>Significant doubt about authenticity, trustworthiness, or competency, but has provided valid information in the past.</td></tr>
-                  <tr><td class="hr-port">E</td><td class="hr-proto">Unreliable</td><td>Lacking in authenticity, trustworthiness, and competency; history of invalid information.</td></tr>
-                  <tr><td class="hr-port">F</td><td class="hr-proto">Reliability cannot be judged</td><td>No basis exists for evaluating the reliability of the source.</td></tr>
-                </tbody>
-              </table>
-            </div>
+          <div class="detail-card border-teal"><span class="tag strings">STEP 1</span>
+            <h3>Identify Competing Hypotheses</h3>
+            <div class="card-sub">The same set ACH or What If Analysis would have already produced</div>
+            <div class="card-body">Start from the hypotheses or scenarios already on the table. This technique isn't meant to generate them from scratch, it's meant to track which one is actually happening.</div>
           </div>
-          <div class="detail-card border-purple"><span class="tag condition">SCALE</span>
-            <h3>Information Credibility (1–6)</h3>
-            <div class="hr-table-wrap">
-              <table class="hr-table">
-                <thead>
-                  <tr><th>Grade</th><th>Label</th><th>Description</th></tr>
-                </thead>
-                <tbody>
-                  <tr><td class="hr-port">1</td><td class="hr-proto">Confirmed</td><td>Confirmed by other independent sources; logical in itself; consistent with other information on the subject.</td></tr>
-                  <tr><td class="hr-port">2</td><td class="hr-proto">Probably true</td><td>Not confirmed; logical in itself; consistent with other information on the subject.</td></tr>
-                  <tr><td class="hr-port">3</td><td class="hr-proto">Possibly true</td><td>Not confirmed; reasonably logical in itself; agrees with some other information on the subject.</td></tr>
-                  <tr><td class="hr-port">4</td><td class="hr-proto">Doubtful</td><td>Not confirmed; possible but not logical in itself; no other information on the subject.</td></tr>
-                  <tr><td class="hr-port">5</td><td class="hr-proto">Improbable</td><td>Not confirmed; not logical in itself; contradicted by other information on the subject.</td></tr>
-                  <tr><td class="hr-port">6</td><td class="hr-proto">Cannot be judged</td><td>No basis exists for evaluating the validity of the information.</td></tr>
-                </tbody>
-              </table>
-            </div>
+          <div class="detail-card border-teal"><span class="tag strings">STEP 2</span>
+            <h3>Build A List Per Hypothesis</h3>
+            <div class="card-sub">Separate, hypothesis-specific indicator lists, not one shared list</div>
+            <div class="card-body">List the activities, statements, or events you'd expect to observe if that specific hypothesis were the correct one. An indicator that fits every hypothesis equally isn't doing any work.</div>
           </div>
-        </div>
-        <div class="details-grid">
-          <div class="detail-card border-cyan"><span class="tag practice">WORKED EXAMPLE</span>
-            <h3>B2 — A Trusted Feed, Not Yet Corroborated</h3>
-            <div class="card-sub">The grade you'll write down most often in practice</div>
-            <div class="card-body">A commercial threat feed with a solid track record reports a new C2 domain tied to a known actor. The feed itself has been right often enough to earn <strong>B</strong>, usually reliable. This specific domain hasn't been confirmed by a second independent source yet, but it's logical and fits the actor's known infrastructure pattern, so the information gets <strong>2</strong>, probably true. Combined grade: <strong>B2</strong>. Actionable, worth blocking, still flagged as unconfirmed in the write-up.</div>
+          <div class="detail-card border-teal"><span class="tag strings">STEP 3</span>
+            <h3>Review On A Set Cadence</h3>
+            <div class="card-sub">A one-time list is a snapshot, not a warning system</div>
+            <div class="card-body">Check the lists regularly against what's actually being observed. The point is catching the indicator that changed, not the one that was already expected.</div>
           </div>
-          <div class="detail-card border-red"><span class="tag pitfall">WORKED EXAMPLE</span>
-            <h3>F6 — An Unvetted Anonymous Tip</h3>
-            <div class="card-sub">The grade that means "don't act on this alone"</div>
-            <div class="card-body">An anonymous submission lands in a tip line with no prior history to judge and no way to verify who sent it: the source gets <strong>F</strong>, reliability cannot be judged. The claim inside it also has nothing to check it against, no corroboration, no known pattern to compare it to: the information gets <strong>6</strong>, cannot be judged. <strong>F6</strong> doesn't mean discard it, it means it needs independent verification before it drives any decision.</div>
+          <div class="detail-card border-teal"><span class="tag strings">STEP 4</span>
+            <h3>Weight By Confirmed Indicators</h3>
+            <div class="card-sub">Let the observed indicators move the call, not the original favorite</div>
+            <div class="card-body">Treat the hypothesis with the most confirmed indicators as the most likely one, even if it wasn't the one the team expected going in. That reversal is the technique working as intended, not a failure of the original analysis.</div>
           </div>
         </div>
 
         <div class="separator"></div>
 
-        <!-- ==================== APPLYING IT IN PRACTICE ==================== -->
-        <div class="section-header" id="hr-sec-practice">
-          <h2>Applying It <span class="green">In Practice</span></h2>
-          <p class="section-desc">The scale is simple. Using it correctly over time, across a team, is where most of the actual discipline lives. See SANS's <a href="https://www.sans.org/blog/enhance-your-cyber-threat-intelligence-with-the-admiralty-system" target="_blank" rel="noopener">Enhance Your Cyber Threat Intelligence With The Admiralty System</a> for the source this section draws from.</p>
+        <!-- ==================== WHEN SATS ARE WORTH THE TIME ==================== -->
+        <div class="section-header" id="hr-sec-worth">
+          <h2>When SATs Are <span class="green">Worth The Time</span></h2>
+          <p class="section-desc">A SOC or CTI queue doesn't have hours to spare for every ticket, and it doesn't need to. These techniques earn their keep on the judgments that get acted on, not on routine triage.</p>
         </div>
         <div class="details-grid">
-          <div class="detail-card border-green"><span class="tag practice">PRACTICE</span>
-            <h3>Grade The Source And The Claim Independently</h3>
-            <div class="card-sub">Don't let one number infect the other</div>
-            <div class="card-body">A source's letter grade and a claim's number grade are scored separately on purpose. A generally reliable source can still hand you an unconfirmed claim, and an unreliable source can occasionally be right. Grading them together produces a false sense of confidence, or a false dismissal, in either direction.</div>
+          <div class="detail-card border-orange"><span class="tag practice">FIT</span>
+            <h3>ACH For A Genuinely Ambiguous Attribution Call</h3>
+            <div class="card-sub">Not for the IOC enrichment ticket that closes itself</div>
+            <div class="card-body">Run the matrix when two or three actors are all plausible and the evidence is thin enough that whichever hypothesis you reach for first could quietly win by default. A ninety-minute ACH session before an attribution line goes into a report is cheaper than walking that line back after a customer acted on it.</div>
           </div>
-          <div class="detail-card border-teal"><span class="tag practice">PRACTICE</span>
-            <h3>Ratings Are Not Static</h3>
-            <div class="card-sub">A source's track record changes, sometimes fast</div>
-            <div class="card-body">A newly identified threat actor's reporting can move from an <strong>F6</strong> to a <strong>B2</strong> in a matter of days as corroboration accumulates. A source rated <strong>A</strong> on one subject is not automatically <strong>A</strong> on an unrelated one; reliability is per-topic, not a permanent label on the source itself.</div>
+          <div class="detail-card border-green"><span class="tag practice">FIT</span>
+            <h3>Key Assumptions Check Before It Reaches Leadership</h3>
+            <div class="card-sub">The cheapest insurance in this guide, reserved for judgments that get acted on</div>
+            <div class="card-body">Fifteen minutes listing what a high-stakes assessment assumes to be true, run right before it goes out, catches the premise nobody questioned. Save it for the report leadership will make a decision from, not for the daily digest that gets skimmed and archived.</div>
           </div>
-          <div class="detail-card border-purple"><span class="tag practice">PRACTICE</span>
-            <h3>Don't Customize The Scale</h3>
-            <div class="card-sub">Consistency is what makes it shareable</div>
-            <div class="card-body">The Admiralty System is meant to mean the same thing everywhere it's used. Adjusting the criteria per team or per organization breaks compatibility the moment that intelligence gets shared externally. Define how a grade should change your team's response internally, without changing what the grade itself means.</div>
-          </div>
-          <div class="detail-card border-orange"><span class="tag pitfall">PITFALL</span>
-            <h3>An A1 Is Still Not A Guarantee</h3>
-            <div class="card-sub">The highest grade reduces risk, it doesn't eliminate it</div>
-            <div class="card-body">Even a source and claim graded <strong>A1</strong> can be wrong. Treat a top grade as license to act with confidence, not as a reason to skip verification entirely when the stakes are high enough to justify a second check.</div>
-          </div>
-        </div>
-
-        <div class="separator"></div>
-
-        <!-- ==================== TLP 2.0 ==================== -->
-        <div class="section-header" id="hr-sec-tlp">
-          <h2>Traffic Light <span class="orange">Protocol (TLP 2.0)</span></h2>
-          <p class="section-desc">TLP marks how far a piece of shared information is allowed to travel, not how sensitive it is on its own. Five levels as of TLP 2.0 (FIRST.org, current standard): TLP:RED, TLP:AMBER+STRICT, TLP:AMBER, TLP:GREEN, TLP:CLEAR. TLP:CLEAR replaced the older TLP:WHITE, and AMBER+STRICT was added to give AMBER a tighter option.</p>
-        </div>
-        <div class="hr-table-wrap">
-          <table class="hr-table">
-            <thead>
-              <tr><th>Level</th><th>Badge</th><th>Who Can See It</th><th>Typical Use Case</th></tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td class="hr-proto">TLP:RED</td>
-                <td><span class="tag pitfall">RED</span></td>
-                <td>Named recipients only, in the exchange it was shared in. No further disclosure.</td>
-                <td>Active-compromise specifics shared live with an incident bridge, before containment is confirmed.</td>
-              </tr>
-              <tr>
-                <td class="hr-proto">TLP:AMBER+STRICT</td>
-                <td><span class="tag condition">AMBER+STRICT</span></td>
-                <td>The recipient's own organization only. No client or partner sharing.</td>
-                <td>Vendor-shared indicators under a contract that forbids re-sharing beyond your org.</td>
-              </tr>
-              <tr>
-                <td class="hr-proto">TLP:AMBER</td>
-                <td><span class="tag condition">AMBER</span></td>
-                <td>The recipient's organization and its clients, need-to-know basis only.</td>
-                <td>An MSSP advisory that needs to reach the client's own security team to be actioned.</td>
-              </tr>
-              <tr>
-                <td class="hr-proto">TLP:GREEN</td>
-                <td><span class="tag practice">GREEN</span></td>
-                <td>Peers and partner organizations within the community, never public channels.</td>
-                <td>ISAC bulletin or sector threat-sharing group post.</td>
-              </tr>
-              <tr>
-                <td class="hr-proto">TLP:CLEAR</td>
-                <td><span class="tag strings">CLEAR</span></td>
-                <td>No restriction, subject to standard copyright.</td>
-                <td>A published blog post, public CVE writeup, or conference talk.</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-        <div class="details-grid">
-          <div class="detail-card border-red"><span class="tag pitfall">HANDLING</span>
-            <h3>TLP:RED Stays In The Room</h3>
-            <div class="card-sub">No forwarding, no paraphrasing into a broader channel</div>
-            <div class="card-body">TLP:RED means the named recipients and no one else, not even a summarized version dropped into a wider ticket or channel. If information can't be effectively acted on without real risk to privacy, reputation, or operations if it leaks, it's RED, full stop.</div>
-          </div>
-          <div class="detail-card border-orange"><span class="tag condition">HANDLING</span>
-            <h3>AMBER vs. AMBER+STRICT</h3>
-            <div class="card-sub">The distinction that trips people up most</div>
-            <div class="card-body">Plain TLP:AMBER allows sharing with your own organization <strong>and</strong> its clients, on a need-to-know basis. TLP:AMBER+STRICT removes the client clause entirely: it's restricted to the recipient's own organization only. When a vendor or partner marks something AMBER+STRICT, forwarding it to a client, even one who needs to know, is a violation of the marking.</div>
-          </div>
-          <div class="detail-card border-cyan"><span class="tag strings">HANDLING</span>
-            <h3>TLP:CLEAR Has No Gate</h3>
-            <div class="card-sub">The only level meant for public release</div>
-            <div class="card-body">TLP:CLEAR is for information that carries minimal or no foreseeable risk of misuse and is meant for public release. It can be shared without restriction, subject to ordinary copyright, which is exactly why it's the wrong marking for anything still under active investigation.</div>
-          </div>
-        </div>
-
-        <div class="separator"></div>
-
-        <!-- ==================== DAILY USE ==================== -->
-        <div class="section-header" id="hr-sec-usage">
-          <h2>Where This Shows Up <span class="green">In Daily SOC/CTI Work</span></h2>
-          <p class="section-desc">Neither system is academic. Both get written down, every day, on the reports and feeds that leave your desk.</p>
-        </div>
-        <div class="details-grid">
-          <div class="detail-card border-green"><span class="tag practice">CTI</span>
-            <h3>Rating An Intel Report Before Dissemination</h3>
-            <div class="card-sub">The Admiralty grade an analyst attaches before it goes out</div>
-            <div class="card-body">A finished intel product gets an Admiralty grade on every claim inside it, source letter plus information number, so the reader downstream knows exactly how much weight to put on each line without having to ask the analyst who wrote it.</div>
-          </div>
-          <div class="detail-card border-purple"><span class="tag practice">FEED HYGIENE</span>
-            <h3>Labeling A Shared IOC Feed</h3>
-            <div class="card-sub">TLP travels with the indicators, not just the report</div>
-            <div class="card-body">An IOC feed shared with a partner or an ISAC carries a TLP marking on the feed itself, and every consumer downstream is bound by it. Re-exporting AMBER indicators into a public feed is a policy breach even if the indicators themselves look harmless.</div>
-          </div>
-          <div class="detail-card border-teal"><span class="tag practice">IR</span>
-            <h3>Handling Instructions On An Incident Report</h3>
-            <div class="card-sub">Where TLP and Admiralty sit side by side</div>
-            <div class="card-body">A post-incident report commonly carries both: a TLP marking at the top setting who's allowed to read it, and Admiralty grades on the individual findings inside setting how much confidence to put in each one.</div>
+          <div class="detail-card border-purple"><span class="tag practice">FIT</span>
+            <h3>Devil's Advocacy When Consensus Forms Too Fast</h3>
+            <div class="card-sub">Fast agreement with no pushback is the signal, not proof the call was right</div>
+            <div class="card-body">If a team lands on the same conclusion in the first ten minutes with no real disagreement, that's the moment to assign someone the counter-argument. Skip it for findings with hard technical evidence behind them, like a hash match against a known sample or a validated signed binary, there's nothing left to argue against.</div>
           </div>
         </div>
 
@@ -620,8 +638,8 @@
   </main>
 
   <footer>
-    <span class="footer-left">H3AD-SEC © 2026 &nbsp;|&nbsp; H3AD-REF / REFERENCES</span>
-    <span class="footer-right">ADMIRALTY CODE & TLP QUICK REFERENCE</span>
+    <span class="footer-left">H3AD-SEC © 2026 &nbsp;|&nbsp; H3AD-REF / GUIDES</span>
+    <span class="footer-right">STRUCTURED ANALYTIC TECHNIQUES GUIDE</span>
     <div class="footer-credit-row">
       <a class="footer-credit-pill" href="https://www.linkedin.com/in/hrushikesh-badgujar/" target="_blank" rel="noopener" title="Connect on LinkedIn">
         <span class="credit-tool"><span class="xv-pill-accent">H3AD</span><span class="xv-pill-text">-REF</span></span>
@@ -650,19 +668,8 @@
         card.classList.toggle('hr-hidden', !match);
         if (match) shown++;
       });
-      var rows = Array.prototype.slice.call(document.querySelectorAll('#hr-guide table.hr-table tbody tr'));
-      var rowsShown = 0;
-      rows.forEach(function (row) {
-        var hay = row.textContent.toLowerCase();
-        var match = !term || hay.indexOf(term) !== -1;
-        row.classList.toggle('hr-hidden', !match);
-        row.style.display = match ? '' : 'none';
-        if (match) rowsShown++;
-      });
       var count = document.getElementById('hrCount');
-      var total = hrCards.length + rows.length;
-      var totalShown = shown + rowsShown;
-      count.innerHTML = term ? ('<span>' + totalShown + '</span> of ' + total + ' entries') : '';
+      count.innerHTML = term ? ('<span>' + shown + '</span> of ' + hrCards.length + ' cards') : '';
       document.querySelectorAll('#hr-guide .details-grid').forEach(function (grid) {
         var visible = Array.prototype.slice.call(grid.querySelectorAll('.detail-card')).some(function (c) { return !c.classList.contains('hr-hidden'); });
         grid.style.display = (term && !visible) ? 'none' : '';

@@ -7,21 +7,21 @@
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
   <meta http-equiv="Pragma" content="no-cache">
   <meta http-equiv="Expires" content="0">
-  <title>Admiralty Code & TLP Quick Reference // H3AD-REF</title>
+  <title>Shift Handover Template // H3AD-REF</title>
   <meta name="description"
-    content="H3AD-REF reference: the Admiralty Code (NATO source reliability A-F, information credibility 1-6) and Traffic Light Protocol 2.0 (RED/AMBER+STRICT/AMBER/GREEN/CLEAR), with worked rating examples and handling rules for SOC and CTI.">
-  <link rel="canonical" href="https://h3ad-sec.github.io/H3AD-REF/references/admiralty-code-tlp.html">
+    content="H3AD-REF SOC Ops: shift handover template. A structured checklist for open incidents, active investigations, watch items, pending escalations, environmental notes, and time-sensitive items, plus the reasoning behind each field.">
+  <link rel="canonical" href="https://h3ad-sec.github.io/H3AD-REF/soc-ops/shift-handover-template.html">
 
   <meta property="og:type" content="article">
   <meta property="og:site_name" content="H3AD-SEC">
-  <meta property="og:url" content="https://h3ad-sec.github.io/H3AD-REF/references/admiralty-code-tlp.html">
-  <meta property="og:title" content="Admiralty Code & TLP Quick Reference // H3AD-REF">
-  <meta property="og:description" content="The Admiralty Code (source reliability A-F, information credibility 1-6) and Traffic Light Protocol 2.0 (RED/AMBER+STRICT/AMBER/GREEN/CLEAR) in one reference, with worked examples and handling rules.">
+  <meta property="og:url" content="https://h3ad-sec.github.io/H3AD-REF/soc-ops/shift-handover-template.html">
+  <meta property="og:title" content="Shift Handover Template // H3AD-REF">
+  <meta property="og:description" content="H3AD-REF SOC Ops: shift handover template. A structured checklist for open incidents, active investigations, watch items, pending escalations, environmental notes, and time-sensitive items, plus the reasoning behind each field.">
   <meta property="og:image" content="https://raw.githubusercontent.com/h3ad-sec/h3ad-sec.github.io/main/logo-dark.png">
 
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Admiralty Code & TLP Quick Reference // H3AD-REF">
-  <meta name="twitter:description" content="The Admiralty Code (source reliability A-F, information credibility 1-6) and Traffic Light Protocol 2.0 (RED/AMBER+STRICT/AMBER/GREEN/CLEAR) in one reference, with worked examples and handling rules.">
+  <meta name="twitter:title" content="Shift Handover Template // H3AD-REF">
+  <meta name="twitter:description" content="H3AD-REF SOC Ops: shift handover template. A structured checklist for open incidents, active investigations, watch items, pending escalations, environmental notes, and time-sensitive items, plus the reasoning behind each field.">
   <meta name="twitter:image" content="https://raw.githubusercontent.com/h3ad-sec/h3ad-sec.github.io/main/logo-dark.png">
 
   <meta name="theme-color" content="#080c14">
@@ -31,10 +31,10 @@
   {
     "@context": "https://schema.org",
     "@type": "TechArticle",
-    "headline": "Admiralty Code & TLP Quick Reference",
-    "description": "The Admiralty Code (source reliability A-F, information credibility 1-6) and Traffic Light Protocol 2.0 (RED/AMBER+STRICT/AMBER/GREEN/CLEAR) in one reference, with worked examples and handling rules.",
-    "url": "https://h3ad-sec.github.io/H3AD-REF/references/admiralty-code-tlp.html",
-    "articleSection": "References",
+    "headline": "Shift Handover Template",
+    "description": "A structured checklist for open incidents, active investigations, watch items, pending escalations, environmental notes, and time-sensitive items, plus the reasoning behind each field.",
+    "url": "https://h3ad-sec.github.io/H3AD-REF/soc-ops/shift-handover-template.html",
+    "articleSection": "SOC Ops",
     "isPartOf": {
       "@type": "CollectionPage",
       "name": "H3AD-REF",
@@ -209,10 +209,10 @@
 
     #hr-guide .tag { font-family: 'Share Tech Mono', monospace; font-size: 10px; font-weight: 600; text-transform: uppercase;
       letter-spacing: 1px; padding: 3px 8px; border-radius: 4px; display: inline-block; margin-bottom: 8px; margin-right: 4px; }
-    #hr-guide .tag.strings { background: rgba(6, 182, 212, .15); color: var(--cyan); }
-    #hr-guide .tag.condition { background: rgba(245, 158, 11, .15); color: var(--orange); }
-    #hr-guide .tag.practice { background: rgba(16, 185, 129, .15); color: var(--green); }
-    #hr-guide .tag.pitfall { background: rgba(239, 68, 68, .15); color: var(--red); }
+    #hr-guide .tag.step { background: rgba(6, 182, 212, .15); color: var(--cyan); }
+    #hr-guide .tag.checklist { background: rgba(245, 158, 11, .15); color: var(--orange); }
+    #hr-guide .tag.mistake { background: rgba(239, 68, 68, .15); color: var(--red); }
+    #hr-guide .tag.escalation { background: rgba(139, 92, 246, .15); color: var(--purple); }
 
     #hr-guide .detail-card.border-red { border-left: 3px solid var(--red); }
     #hr-guide .detail-card.border-blue { border-left: 3px solid var(--blue); }
@@ -222,17 +222,6 @@
     #hr-guide .detail-card.border-purple { border-left: 3px solid var(--purple); }
     #hr-guide .detail-card.border-teal { border-left: 3px solid var(--teal); }
     #hr-guide .detail-card.border-rose { border-left: 3px solid var(--rose); }
-
-    /* ── Table (this page's own addition, tokens borrowed from the #hr-guide scope above) ── */
-    #hr-guide .hr-table-wrap { overflow-x: auto; margin-top: 18px; border: 1px solid var(--border); border-radius: 10px; }
-    #hr-guide table.hr-table { width: 100%; border-collapse: collapse; background: var(--bg-card); font-family: 'Exo 2', sans-serif; font-size: 13.5px; min-width: 640px; }
-    #hr-guide table.hr-table thead th { text-align: left; font-family: 'Share Tech Mono', monospace; font-size: 10.5px; letter-spacing: 0.08em;
-      text-transform: uppercase; color: var(--cyan); background: rgba(6, 182, 212, 0.06); padding: 12px 16px; border-bottom: 1px solid var(--border); white-space: nowrap; }
-    #hr-guide table.hr-table td { padding: 11px 16px; border-bottom: 1px solid var(--border); color: var(--text-dim); vertical-align: top; line-height: 1.5; }
-    #hr-guide table.hr-table tbody tr:last-child td { border-bottom: none; }
-    #hr-guide table.hr-table tbody tr:hover td { background: var(--bg-card-hover); }
-    #hr-guide table.hr-table td.hr-port { font-family: 'Share Tech Mono', monospace; color: var(--text-bright); font-weight: 600; white-space: nowrap; }
-    #hr-guide table.hr-table td.hr-proto { color: var(--text); font-weight: 500; white-space: nowrap; }
 
     .back-link { margin-top: 3rem; }
     .back-link a { color: var(--muted); font-size: 0.72rem; border-bottom: 1px solid var(--border-dim); transition: color 0.15s, border-color 0.15s; }
@@ -275,7 +264,6 @@
       .xv-pill-tagline { display: none; }
       .xv-nav-pill { margin-left: 6px; padding-left: 6px; }
       #hr-guide .data-flow-card, #hr-guide .detail-card { padding: 15px; }
-      #hr-guide table.hr-table td, #hr-guide table.hr-table thead th { padding: 9px 10px; }
     }
   </style>
 </head>
@@ -421,195 +409,108 @@
 
   <main>
     <div class="page">
-      <div class="yg-crumb"><a href="https://h3ad-sec.github.io/H3AD-REF/">H3AD-REF</a> / <a href="https://h3ad-sec.github.io/H3AD-REF/#references">REFERENCES</a> / ADMIRALTY CODE & TLP</div>
-      <h1 class="yg-hero-title">Rate The Source.<br><span>Label The Sharing.</span></h1>
-      <p class="yg-hero-sub">Two classification systems that show up in almost every intel report you'll write or read: the Admiralty Code for grading a source and the information it handed you, and the Traffic Light Protocol for marking how far that information is allowed to travel. Static definitions, worked examples, no ambiguity about what a letter, number, or color actually permits. Every indicator on the <a href="https://h3ad-sec.github.io/H3AD-REF/references/ioc-ioa-reference.html">IOC vs IOA</a> reference should carry a grade from this page before it gets actioned.</p>
+      <div class="yg-crumb"><a href="https://h3ad-sec.github.io/H3AD-REF/">H3AD-REF</a> / <a href="https://h3ad-sec.github.io/H3AD-REF/#socops">SOC OPS</a> / SHIFT HANDOVER TEMPLATE</div>
+      <h1 class="yg-hero-title">Shift Handover.<br><span>Context Doesn't Survive A Bad Handover.</span></h1>
+      <p class="yg-hero-sub">A structured template for what a SOC shift handover should cover, and why each field matters. A 24/7 SOC runs on what makes it across the shift boundary: an open investigation, a "watch this" item, an escalation that hasn't been answered yet. A rushed or verbal-only handover is one of the most common ways that context gets lost between analysts who rarely overlap in person. For how pending escalations logged here map to response-time expectations, see the <a href="escalation-matrix-severity.html">Escalation Matrix</a>.</p>
 
       <div class="hr-toolbar">
-        <input class="hr-search-input" id="hrSearch" type="text" placeholder="Search this reference... ( / )" oninput="hrFilter()" autocomplete="off" spellcheck="false" />
+        <input class="hr-search-input" id="hrSearch" type="text" placeholder="Search this page... ( / )" oninput="hrFilter()" autocomplete="off" spellcheck="false" />
         <div class="hr-toc">
-          <button class="hr-toc-pill" onclick="hrJump('hr-sec-admiralty')">ADMIRALTY CODE</button>
-          <button class="hr-toc-pill" onclick="hrJump('hr-sec-practice')">APPLYING IT</button>
-          <button class="hr-toc-pill" onclick="hrJump('hr-sec-tlp')">TLP 2.0</button>
-          <button class="hr-toc-pill" onclick="hrJump('hr-sec-usage')">DAILY USE</button>
+          <button class="hr-toc-pill" onclick="hrJump('hr-sec-template')">HANDOVER TEMPLATE</button>
+          <button class="hr-toc-pill" onclick="hrJump('hr-sec-context')">ENVIRONMENTAL NOTES</button>
+          <button class="hr-toc-pill" onclick="hrJump('hr-sec-discipline')">HANDOVER DISCIPLINE</button>
         </div>
         <div class="hr-count" id="hrCount"></div>
       </div>
 
       <div id="hr-guide">
 
-        <!-- ==================== ADMIRALTY CODE ==================== -->
-        <div class="section-header" id="hr-sec-admiralty">
-          <h2>The <span>Admiralty Code</span></h2>
-          <p class="section-desc">A two-character grade, one letter and one number, first used by British naval intelligence and now standard across NATO, law enforcement fusion centers, and CTI shops. The letter rates the source. The number rates the specific piece of information in front of you. They are scored separately, then combined, such as <code style="font-family:'Share Tech Mono',monospace;font-size:11.5px;background:rgba(6,182,212,0.08);color:#06b6d4;padding:2px 6px;border-radius:3px;">B2</code> or <code style="font-family:'Share Tech Mono',monospace;font-size:11.5px;background:rgba(6,182,212,0.08);color:#06b6d4;padding:2px 6px;border-radius:3px;">F6</code>.</p>
+        <!-- ==================== HANDOVER TEMPLATE ==================== -->
+        <div class="section-header" id="hr-sec-template">
+          <h2>The Handover <span>Template</span></h2>
+          <p class="section-desc">Fill this in at the end of every shift, before the incoming analyst logs on. Every field exists because something was lost when it wasn't captured.</p>
         </div>
-        <div class="details-grid">
-          <div class="detail-card border-cyan"><span class="tag strings">SCALE</span>
-            <h3>Source Reliability (A–F)</h3>
-            <div class="hr-table-wrap">
-              <table class="hr-table">
-                <thead>
-                  <tr><th>Grade</th><th>Label</th><th>Description</th></tr>
-                </thead>
-                <tbody>
-                  <tr><td class="hr-port">A</td><td class="hr-proto">Completely reliable</td><td>No doubt of authenticity, trustworthiness, or competency; history of complete reliability.</td></tr>
-                  <tr><td class="hr-port">B</td><td class="hr-proto">Usually reliable</td><td>Minor doubt about authenticity, trustworthiness, or competency; history of valid information most of the time.</td></tr>
-                  <tr><td class="hr-port">C</td><td class="hr-proto">Fairly reliable</td><td>Doubt of authenticity, trustworthiness, or competency, but has provided valid information in the past.</td></tr>
-                  <tr><td class="hr-port">D</td><td class="hr-proto">Not usually reliable</td><td>Significant doubt about authenticity, trustworthiness, or competency, but has provided valid information in the past.</td></tr>
-                  <tr><td class="hr-port">E</td><td class="hr-proto">Unreliable</td><td>Lacking in authenticity, trustworthiness, and competency; history of invalid information.</td></tr>
-                  <tr><td class="hr-port">F</td><td class="hr-proto">Reliability cannot be judged</td><td>No basis exists for evaluating the reliability of the source.</td></tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
-          <div class="detail-card border-purple"><span class="tag condition">SCALE</span>
-            <h3>Information Credibility (1–6)</h3>
-            <div class="hr-table-wrap">
-              <table class="hr-table">
-                <thead>
-                  <tr><th>Grade</th><th>Label</th><th>Description</th></tr>
-                </thead>
-                <tbody>
-                  <tr><td class="hr-port">1</td><td class="hr-proto">Confirmed</td><td>Confirmed by other independent sources; logical in itself; consistent with other information on the subject.</td></tr>
-                  <tr><td class="hr-port">2</td><td class="hr-proto">Probably true</td><td>Not confirmed; logical in itself; consistent with other information on the subject.</td></tr>
-                  <tr><td class="hr-port">3</td><td class="hr-proto">Possibly true</td><td>Not confirmed; reasonably logical in itself; agrees with some other information on the subject.</td></tr>
-                  <tr><td class="hr-port">4</td><td class="hr-proto">Doubtful</td><td>Not confirmed; possible but not logical in itself; no other information on the subject.</td></tr>
-                  <tr><td class="hr-port">5</td><td class="hr-proto">Improbable</td><td>Not confirmed; not logical in itself; contradicted by other information on the subject.</td></tr>
-                  <tr><td class="hr-port">6</td><td class="hr-proto">Cannot be judged</td><td>No basis exists for evaluating the validity of the information.</td></tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
-        </div>
-        <div class="details-grid">
-          <div class="detail-card border-cyan"><span class="tag practice">WORKED EXAMPLE</span>
-            <h3>B2 — A Trusted Feed, Not Yet Corroborated</h3>
-            <div class="card-sub">The grade you'll write down most often in practice</div>
-            <div class="card-body">A commercial threat feed with a solid track record reports a new C2 domain tied to a known actor. The feed itself has been right often enough to earn <strong>B</strong>, usually reliable. This specific domain hasn't been confirmed by a second independent source yet, but it's logical and fits the actor's known infrastructure pattern, so the information gets <strong>2</strong>, probably true. Combined grade: <strong>B2</strong>. Actionable, worth blocking, still flagged as unconfirmed in the write-up.</div>
-          </div>
-          <div class="detail-card border-red"><span class="tag pitfall">WORKED EXAMPLE</span>
-            <h3>F6 — An Unvetted Anonymous Tip</h3>
-            <div class="card-sub">The grade that means "don't act on this alone"</div>
-            <div class="card-body">An anonymous submission lands in a tip line with no prior history to judge and no way to verify who sent it: the source gets <strong>F</strong>, reliability cannot be judged. The claim inside it also has nothing to check it against, no corroboration, no known pattern to compare it to: the information gets <strong>6</strong>, cannot be judged. <strong>F6</strong> doesn't mean discard it, it means it needs independent verification before it drives any decision.</div>
-          </div>
+        <div class="data-flow-card">
+          <h4>Open Work</h4>
+          <pre><span class="key">1. Open Incidents / Tickets</span>
+├── Ticket ID: <span class="val">[ INC-XXXX ]</span>
+├── Current status: <span class="val">[ triage / contained / eradication / monitoring ]</span>
+├── Next action: <span class="val">[ what the incoming analyst does first ]</span>
+└── Owner after handover: <span class="val">[ name ]</span>
+    <span class="comment">// one block per open ticket — don't collapse multiple incidents into a single line</span>
+
+<span class="key">2. Active Investigations, Not Yet Ticketed</span>
+├── What's being looked at: <span class="val">[ alert / anomaly / user report ]</span>
+├── Why it's being looked at: <span class="val">[ trigger, initial reasoning ]</span>
+└── What's inconclusive: <span class="val">[ the specific unanswered question, not "still checking" ]</span>
+    <span class="comment">// this is the category most likely to get dropped — nothing forces anyone to track it</span>
+
+<span class="key">3. Watch Items</span>
+├── What's flagged: <span class="val">[ metric spike / suspicious-but-unconfirmed pattern ]</span>
+├── Condition that would escalate it: <span class="val">[ e.g. "second occurrence = open a ticket" ]</span>
+└── <span class="danger">Not yet an incident — say so explicitly, don't let it read like one</span>
+    <span class="comment">// a watch item with no defined trigger just sits there until someone finally asks if it's still a thing</span>
+
+<span class="key">4. Pending Escalations</span>
+├── Escalated to: <span class="val">[ team / individual / vendor ]</span>
+├── Escalated at: <span class="val">[ timestamp ]</span>
+└── Response received: <span class="val">[ yes / no — if no, this is still the incoming shift's problem ]</span>
+    <span class="comment">// an unacknowledged escalation isn't "handled" just because it was sent</span></pre>
         </div>
 
         <div class="separator"></div>
 
-        <!-- ==================== APPLYING IT IN PRACTICE ==================== -->
-        <div class="section-header" id="hr-sec-practice">
-          <h2>Applying It <span class="green">In Practice</span></h2>
-          <p class="section-desc">The scale is simple. Using it correctly over time, across a team, is where most of the actual discipline lives. See SANS's <a href="https://www.sans.org/blog/enhance-your-cyber-threat-intelligence-with-the-admiralty-system" target="_blank" rel="noopener">Enhance Your Cyber Threat Intelligence With The Admiralty System</a> for the source this section draws from.</p>
+        <!-- ==================== ENVIRONMENTAL & TIME-SENSITIVE NOTES ==================== -->
+        <div class="section-header" id="hr-sec-context">
+          <h2>Environmental & <span class="orange">Time-Sensitive</span> Notes</h2>
+          <p class="section-desc">Context that isn't a ticket or an investigation, but changes how the incoming analyst should interpret what they see.</p>
         </div>
-        <div class="details-grid">
-          <div class="detail-card border-green"><span class="tag practice">PRACTICE</span>
-            <h3>Grade The Source And The Claim Independently</h3>
-            <div class="card-sub">Don't let one number infect the other</div>
-            <div class="card-body">A source's letter grade and a claim's number grade are scored separately on purpose. A generally reliable source can still hand you an unconfirmed claim, and an unreliable source can occasionally be right. Grading them together produces a false sense of confidence, or a false dismissal, in either direction.</div>
-          </div>
-          <div class="detail-card border-teal"><span class="tag practice">PRACTICE</span>
-            <h3>Ratings Are Not Static</h3>
-            <div class="card-sub">A source's track record changes, sometimes fast</div>
-            <div class="card-body">A newly identified threat actor's reporting can move from an <strong>F6</strong> to a <strong>B2</strong> in a matter of days as corroboration accumulates. A source rated <strong>A</strong> on one subject is not automatically <strong>A</strong> on an unrelated one; reliability is per-topic, not a permanent label on the source itself.</div>
-          </div>
-          <div class="detail-card border-purple"><span class="tag practice">PRACTICE</span>
-            <h3>Don't Customize The Scale</h3>
-            <div class="card-sub">Consistency is what makes it shareable</div>
-            <div class="card-body">The Admiralty System is meant to mean the same thing everywhere it's used. Adjusting the criteria per team or per organization breaks compatibility the moment that intelligence gets shared externally. Define how a grade should change your team's response internally, without changing what the grade itself means.</div>
-          </div>
-          <div class="detail-card border-orange"><span class="tag pitfall">PITFALL</span>
-            <h3>An A1 Is Still Not A Guarantee</h3>
-            <div class="card-sub">The highest grade reduces risk, it doesn't eliminate it</div>
-            <div class="card-body">Even a source and claim graded <strong>A1</strong> can be wrong. Treat a top grade as license to act with confidence, not as a reason to skip verification entirely when the stakes are high enough to justify a second check.</div>
-          </div>
+        <div class="data-flow-card">
+          <h4>Environment, Deadlines & Status</h4>
+          <pre><span class="key">5. Environmental Notes</span>
+├── Active maintenance windows: <span class="val">[ system, start/end time ]</span>
+├── Known false-positive sources active right now: <span class="val">[ rule/source + why it's noisy today ]</span>
+└── Tooling or detection outages during the shift: <span class="val">[ what's down, since when, coverage gap it creates ]</span>
+    <span class="comment">// the incoming analyst needs this before they burn an hour chasing something already known</span>
+
+<span class="key">6. Time-Sensitive Items For Incoming Shift</span>
+├── Scheduled calls: <span class="val">[ who, what time, what it's about ]</span>
+├── Expected callbacks: <span class="val">[ stakeholder, what they were asked, when they said they'd respond ]</span>
+└── Deadlines: <span class="val">[ what's due, when, consequence of missing it ]</span>
+    <span class="comment">// these are the items where a missed handover has a visible external consequence, not just an internal one</span>
+
+<span class="key">7. Shift Summary Status</span>
+└── <span class="danger">State it explicitly: "Nothing to report" or "See items above" — never leave this blank</span>
+    <span class="comment">// a blank handover is indistinguishable from a rushed one; an explicit "nothing to report" is a status, silence is not</span></pre>
         </div>
 
         <div class="separator"></div>
 
-        <!-- ==================== TLP 2.0 ==================== -->
-        <div class="section-header" id="hr-sec-tlp">
-          <h2>Traffic Light <span class="orange">Protocol (TLP 2.0)</span></h2>
-          <p class="section-desc">TLP marks how far a piece of shared information is allowed to travel, not how sensitive it is on its own. Five levels as of TLP 2.0 (FIRST.org, current standard): TLP:RED, TLP:AMBER+STRICT, TLP:AMBER, TLP:GREEN, TLP:CLEAR. TLP:CLEAR replaced the older TLP:WHITE, and AMBER+STRICT was added to give AMBER a tighter option.</p>
-        </div>
-        <div class="hr-table-wrap">
-          <table class="hr-table">
-            <thead>
-              <tr><th>Level</th><th>Badge</th><th>Who Can See It</th><th>Typical Use Case</th></tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td class="hr-proto">TLP:RED</td>
-                <td><span class="tag pitfall">RED</span></td>
-                <td>Named recipients only, in the exchange it was shared in. No further disclosure.</td>
-                <td>Active-compromise specifics shared live with an incident bridge, before containment is confirmed.</td>
-              </tr>
-              <tr>
-                <td class="hr-proto">TLP:AMBER+STRICT</td>
-                <td><span class="tag condition">AMBER+STRICT</span></td>
-                <td>The recipient's own organization only. No client or partner sharing.</td>
-                <td>Vendor-shared indicators under a contract that forbids re-sharing beyond your org.</td>
-              </tr>
-              <tr>
-                <td class="hr-proto">TLP:AMBER</td>
-                <td><span class="tag condition">AMBER</span></td>
-                <td>The recipient's organization and its clients, need-to-know basis only.</td>
-                <td>An MSSP advisory that needs to reach the client's own security team to be actioned.</td>
-              </tr>
-              <tr>
-                <td class="hr-proto">TLP:GREEN</td>
-                <td><span class="tag practice">GREEN</span></td>
-                <td>Peers and partner organizations within the community, never public channels.</td>
-                <td>ISAC bulletin or sector threat-sharing group post.</td>
-              </tr>
-              <tr>
-                <td class="hr-proto">TLP:CLEAR</td>
-                <td><span class="tag strings">CLEAR</span></td>
-                <td>No restriction, subject to standard copyright.</td>
-                <td>A published blog post, public CVE writeup, or conference talk.</td>
-              </tr>
-            </tbody>
-          </table>
+        <!-- ==================== HANDOVER DISCIPLINE ==================== -->
+        <div class="section-header" id="hr-sec-discipline">
+          <h2>Handover <span class="purple">Discipline</span></h2>
+          <p class="section-desc">The template only works if it's used with intent. The habits below are what separate a handover that actually transfers context from one that just looks like it did.</p>
         </div>
         <div class="details-grid">
-          <div class="detail-card border-red"><span class="tag pitfall">HANDLING</span>
-            <h3>TLP:RED Stays In The Room</h3>
-            <div class="card-sub">No forwarding, no paraphrasing into a broader channel</div>
-            <div class="card-body">TLP:RED means the named recipients and no one else, not even a summarized version dropped into a wider ticket or channel. If information can't be effectively acted on without real risk to privacy, reputation, or operations if it leaks, it's RED, full stop.</div>
+          <div class="detail-card border-orange"><span class="tag checklist">DISCIPLINE</span>
+            <h3>Verbal Handover Alone Isn't Enough</h3>
+            <div class="card-sub">A conversation ends when the conversation ends</div>
+            <div class="card-body">A spoken handover carries tone and nuance, but it leaves nothing the next shift — or a third shift two days later, reviewing what happened — can reference back to. A written artifact, filled in and time-stamped, is what survives past the five minutes after the outgoing analyst logs off.</div>
           </div>
-          <div class="detail-card border-orange"><span class="tag condition">HANDLING</span>
-            <h3>AMBER vs. AMBER+STRICT</h3>
-            <div class="card-sub">The distinction that trips people up most</div>
-            <div class="card-body">Plain TLP:AMBER allows sharing with your own organization <strong>and</strong> its clients, on a need-to-know basis. TLP:AMBER+STRICT removes the client clause entirely: it's restricted to the recipient's own organization only. When a vendor or partner marks something AMBER+STRICT, forwarding it to a client, even one who needs to know, is a violation of the marking.</div>
+          <div class="detail-card border-cyan"><span class="tag checklist">DISCIPLINE</span>
+            <h3>Confirm Understanding, Not Just Delivery</h3>
+            <div class="card-sub">Telling someone isn't the same as them knowing</div>
+            <div class="card-body">The outgoing analyst's job isn't done when the items are read out loud — it's done when the incoming analyst can restate the open items back, unprompted. A quick "what's your understanding of INC-1042" catches gaps a one-way readout won't.</div>
           </div>
-          <div class="detail-card border-cyan"><span class="tag strings">HANDLING</span>
-            <h3>TLP:CLEAR Has No Gate</h3>
-            <div class="card-sub">The only level meant for public release</div>
-            <div class="card-body">TLP:CLEAR is for information that carries minimal or no foreseeable risk of misuse and is meant for public release. It can be shared without restriction, subject to ordinary copyright, which is exactly why it's the wrong marking for anything still under active investigation.</div>
+          <div class="detail-card border-purple"><span class="tag checklist">DISCIPLINE</span>
+            <h3>"Nothing To Report" Is Still A Status</h3>
+            <div class="card-sub">Silence and a quiet shift look identical until they don't</div>
+            <div class="card-body">A blank handover field is ambiguous: did nothing happen, or did the handover get rushed and skipped? Explicitly stating "nothing to report" for a section removes that ambiguity and confirms the section was actually reviewed, not just left empty.</div>
           </div>
-        </div>
-
-        <div class="separator"></div>
-
-        <!-- ==================== DAILY USE ==================== -->
-        <div class="section-header" id="hr-sec-usage">
-          <h2>Where This Shows Up <span class="green">In Daily SOC/CTI Work</span></h2>
-          <p class="section-desc">Neither system is academic. Both get written down, every day, on the reports and feeds that leave your desk.</p>
-        </div>
-        <div class="details-grid">
-          <div class="detail-card border-green"><span class="tag practice">CTI</span>
-            <h3>Rating An Intel Report Before Dissemination</h3>
-            <div class="card-sub">The Admiralty grade an analyst attaches before it goes out</div>
-            <div class="card-body">A finished intel product gets an Admiralty grade on every claim inside it, source letter plus information number, so the reader downstream knows exactly how much weight to put on each line without having to ask the analyst who wrote it.</div>
-          </div>
-          <div class="detail-card border-purple"><span class="tag practice">FEED HYGIENE</span>
-            <h3>Labeling A Shared IOC Feed</h3>
-            <div class="card-sub">TLP travels with the indicators, not just the report</div>
-            <div class="card-body">An IOC feed shared with a partner or an ISAC carries a TLP marking on the feed itself, and every consumer downstream is bound by it. Re-exporting AMBER indicators into a public feed is a policy breach even if the indicators themselves look harmless.</div>
-          </div>
-          <div class="detail-card border-teal"><span class="tag practice">IR</span>
-            <h3>Handling Instructions On An Incident Report</h3>
-            <div class="card-sub">Where TLP and Admiralty sit side by side</div>
-            <div class="card-body">A post-incident report commonly carries both: a TLP marking at the top setting who's allowed to read it, and Admiralty grades on the individual findings inside setting how much confidence to put in each one.</div>
+          <div class="detail-card border-green"><span class="tag checklist">DISCIPLINE</span>
+            <h3>How This Interacts With The Escalation Matrix</h3>
+            <div class="card-sub">The handover records what's pending; the matrix decides what happens next</div>
+            <div class="card-body">Pending escalations logged in this template should map to a severity in the <a href="escalation-matrix-severity.html">Escalation Matrix</a>. If an item has sat unacknowledged past the response window that severity defines, that's the trigger to re-escalate now, not wait for the next handover to raise it again.</div>
           </div>
         </div>
 
@@ -620,8 +521,8 @@
   </main>
 
   <footer>
-    <span class="footer-left">H3AD-SEC © 2026 &nbsp;|&nbsp; H3AD-REF / REFERENCES</span>
-    <span class="footer-right">ADMIRALTY CODE & TLP QUICK REFERENCE</span>
+    <span class="footer-left">H3AD-SEC © 2026 &nbsp;|&nbsp; H3AD-REF / SOC OPS</span>
+    <span class="footer-right">SHIFT HANDOVER TEMPLATE</span>
     <div class="footer-credit-row">
       <a class="footer-credit-pill" href="https://www.linkedin.com/in/hrushikesh-badgujar/" target="_blank" rel="noopener" title="Connect on LinkedIn">
         <span class="credit-tool"><span class="xv-pill-accent">H3AD</span><span class="xv-pill-text">-REF</span></span>
@@ -650,19 +551,8 @@
         card.classList.toggle('hr-hidden', !match);
         if (match) shown++;
       });
-      var rows = Array.prototype.slice.call(document.querySelectorAll('#hr-guide table.hr-table tbody tr'));
-      var rowsShown = 0;
-      rows.forEach(function (row) {
-        var hay = row.textContent.toLowerCase();
-        var match = !term || hay.indexOf(term) !== -1;
-        row.classList.toggle('hr-hidden', !match);
-        row.style.display = match ? '' : 'none';
-        if (match) rowsShown++;
-      });
       var count = document.getElementById('hrCount');
-      var total = hrCards.length + rows.length;
-      var totalShown = shown + rowsShown;
-      count.innerHTML = term ? ('<span>' + totalShown + '</span> of ' + total + ' entries') : '';
+      count.innerHTML = term ? ('<span>' + shown + '</span> of ' + hrCards.length + ' cards') : '';
       document.querySelectorAll('#hr-guide .details-grid').forEach(function (grid) {
         var visible = Array.prototype.slice.call(grid.querySelectorAll('.detail-card')).some(function (c) { return !c.classList.contains('hr-hidden'); });
         grid.style.display = (term && !visible) ? 'none' : '';

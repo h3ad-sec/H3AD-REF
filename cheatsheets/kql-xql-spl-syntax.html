@@ -7,21 +7,21 @@
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
   <meta http-equiv="Pragma" content="no-cache">
   <meta http-equiv="Expires" content="0">
-  <title>Admiralty Code & TLP Quick Reference // H3AD-REF</title>
+  <title>KQL vs XQL vs SPL Syntax Guide // H3AD-REF</title>
   <meta name="description"
-    content="H3AD-REF reference: the Admiralty Code (NATO source reliability A-F, information credibility 1-6) and Traffic Light Protocol 2.0 (RED/AMBER+STRICT/AMBER/GREEN/CLEAR), with worked rating examples and handling rules for SOC and CTI.">
-  <link rel="canonical" href="https://h3ad-sec.github.io/H3AD-REF/references/admiralty-code-tlp.html">
+    content="H3AD-REF guide: KQL vs XQL vs SPL side by side. Query structure, field selection, filtering operators, aggregation, joins, and sorting across Microsoft Sentinel/Defender, Cortex XDR/XSIAM, and Splunk — plus the case-sensitivity and default-join gotchas that trip analysts switching between them.">
+  <link rel="canonical" href="https://h3ad-sec.github.io/H3AD-REF/cheatsheets/kql-xql-spl-syntax.html">
 
   <meta property="og:type" content="article">
   <meta property="og:site_name" content="H3AD-SEC">
-  <meta property="og:url" content="https://h3ad-sec.github.io/H3AD-REF/references/admiralty-code-tlp.html">
-  <meta property="og:title" content="Admiralty Code & TLP Quick Reference // H3AD-REF">
-  <meta property="og:description" content="The Admiralty Code (source reliability A-F, information credibility 1-6) and Traffic Light Protocol 2.0 (RED/AMBER+STRICT/AMBER/GREEN/CLEAR) in one reference, with worked examples and handling rules.">
+  <meta property="og:url" content="https://h3ad-sec.github.io/H3AD-REF/cheatsheets/kql-xql-spl-syntax.html">
+  <meta property="og:title" content="KQL vs XQL vs SPL Syntax Guide // H3AD-REF">
+  <meta property="og:description" content="H3AD-REF guide: KQL vs XQL vs SPL side by side. Query structure, filtering, aggregation, joins, and sorting across Sentinel/Defender, Cortex XDR/XSIAM, and Splunk — plus the gotchas that trip analysts switching between them.">
   <meta property="og:image" content="https://raw.githubusercontent.com/h3ad-sec/h3ad-sec.github.io/main/logo-dark.png">
 
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Admiralty Code & TLP Quick Reference // H3AD-REF">
-  <meta name="twitter:description" content="The Admiralty Code (source reliability A-F, information credibility 1-6) and Traffic Light Protocol 2.0 (RED/AMBER+STRICT/AMBER/GREEN/CLEAR) in one reference, with worked examples and handling rules.">
+  <meta name="twitter:title" content="KQL vs XQL vs SPL Syntax Guide // H3AD-REF">
+  <meta name="twitter:description" content="H3AD-REF guide: KQL vs XQL vs SPL side by side. Query structure, filtering, aggregation, joins, and sorting across Sentinel/Defender, Cortex XDR/XSIAM, and Splunk — plus the gotchas that trip analysts switching between them.">
   <meta name="twitter:image" content="https://raw.githubusercontent.com/h3ad-sec/h3ad-sec.github.io/main/logo-dark.png">
 
   <meta name="theme-color" content="#080c14">
@@ -31,10 +31,9 @@
   {
     "@context": "https://schema.org",
     "@type": "TechArticle",
-    "headline": "Admiralty Code & TLP Quick Reference",
-    "description": "The Admiralty Code (source reliability A-F, information credibility 1-6) and Traffic Light Protocol 2.0 (RED/AMBER+STRICT/AMBER/GREEN/CLEAR) in one reference, with worked examples and handling rules.",
-    "url": "https://h3ad-sec.github.io/H3AD-REF/references/admiralty-code-tlp.html",
-    "articleSection": "References",
+    "headline": "KQL vs XQL vs SPL Syntax Guide",
+    "description": "Query structure, field selection, filtering operators, aggregation, joins, and sorting compared side by side across KQL (Microsoft Sentinel/Defender), XQL (Cortex XDR/XSIAM), and SPL (Splunk), plus the case-sensitivity and default-join gotchas that trip analysts switching between them.",
+    "url": "https://h3ad-sec.github.io/H3AD-REF/cheatsheets/kql-xql-spl-syntax.html",
     "isPartOf": {
       "@type": "CollectionPage",
       "name": "H3AD-REF",
@@ -191,6 +190,12 @@
     #hr-guide .data-flow-card pre .type { color: var(--purple); }
     #hr-guide .data-flow-card pre .danger { color: var(--red); }
 
+    #hr-guide .lang-block { margin-top: 20px; }
+    #hr-guide .lang-block:first-child { margin-top: 0; }
+    #hr-guide .lang-label { font-family: 'Share Tech Mono', monospace; font-size: 10.5px; font-weight: 700; letter-spacing: 0.12em;
+      color: var(--cyan); margin-bottom: 7px; text-transform: uppercase; }
+    #hr-guide .lang-label .lang-sub { color: var(--text-dim); font-weight: 400; letter-spacing: 0.04em; text-transform: none; }
+
     #hr-guide .details-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 18px; margin-top: 22px; }
     @media(max-width:768px) { #hr-guide .details-grid { grid-template-columns: 1fr; } }
 
@@ -222,17 +227,6 @@
     #hr-guide .detail-card.border-purple { border-left: 3px solid var(--purple); }
     #hr-guide .detail-card.border-teal { border-left: 3px solid var(--teal); }
     #hr-guide .detail-card.border-rose { border-left: 3px solid var(--rose); }
-
-    /* ── Table (this page's own addition, tokens borrowed from the #hr-guide scope above) ── */
-    #hr-guide .hr-table-wrap { overflow-x: auto; margin-top: 18px; border: 1px solid var(--border); border-radius: 10px; }
-    #hr-guide table.hr-table { width: 100%; border-collapse: collapse; background: var(--bg-card); font-family: 'Exo 2', sans-serif; font-size: 13.5px; min-width: 640px; }
-    #hr-guide table.hr-table thead th { text-align: left; font-family: 'Share Tech Mono', monospace; font-size: 10.5px; letter-spacing: 0.08em;
-      text-transform: uppercase; color: var(--cyan); background: rgba(6, 182, 212, 0.06); padding: 12px 16px; border-bottom: 1px solid var(--border); white-space: nowrap; }
-    #hr-guide table.hr-table td { padding: 11px 16px; border-bottom: 1px solid var(--border); color: var(--text-dim); vertical-align: top; line-height: 1.5; }
-    #hr-guide table.hr-table tbody tr:last-child td { border-bottom: none; }
-    #hr-guide table.hr-table tbody tr:hover td { background: var(--bg-card-hover); }
-    #hr-guide table.hr-table td.hr-port { font-family: 'Share Tech Mono', monospace; color: var(--text-bright); font-weight: 600; white-space: nowrap; }
-    #hr-guide table.hr-table td.hr-proto { color: var(--text); font-weight: 500; white-space: nowrap; }
 
     .back-link { margin-top: 3rem; }
     .back-link a { color: var(--muted); font-size: 0.72rem; border-bottom: 1px solid var(--border-dim); transition: color 0.15s, border-color 0.15s; }
@@ -275,7 +269,6 @@
       .xv-pill-tagline { display: none; }
       .xv-nav-pill { margin-left: 6px; padding-left: 6px; }
       #hr-guide .data-flow-card, #hr-guide .detail-card { padding: 15px; }
-      #hr-guide table.hr-table td, #hr-guide table.hr-table thead th { padding: 9px 10px; }
     }
   </style>
 </head>
@@ -421,195 +414,258 @@
 
   <main>
     <div class="page">
-      <div class="yg-crumb"><a href="https://h3ad-sec.github.io/H3AD-REF/">H3AD-REF</a> / <a href="https://h3ad-sec.github.io/H3AD-REF/#references">REFERENCES</a> / ADMIRALTY CODE & TLP</div>
-      <h1 class="yg-hero-title">Rate The Source.<br><span>Label The Sharing.</span></h1>
-      <p class="yg-hero-sub">Two classification systems that show up in almost every intel report you'll write or read: the Admiralty Code for grading a source and the information it handed you, and the Traffic Light Protocol for marking how far that information is allowed to travel. Static definitions, worked examples, no ambiguity about what a letter, number, or color actually permits. Every indicator on the <a href="https://h3ad-sec.github.io/H3AD-REF/references/ioc-ioa-reference.html">IOC vs IOA</a> reference should carry a grade from this page before it gets actioned.</p>
+      <div class="yg-crumb"><a href="https://h3ad-sec.github.io/H3AD-REF/">H3AD-REF</a> / <a href="https://h3ad-sec.github.io/H3AD-REF/#cheatsheets">CHEATSHEETS</a> / KQL XQL SPL SYNTAX</div>
+      <h1 class="yg-hero-title">KQL. XQL. SPL.<br><span>Same Query, Three Accents.</span></h1>
+      <p class="yg-hero-sub">A side-by-side reference for the query you run every shift, translated across Kusto (Microsoft Sentinel / Defender), XQL (Cortex XDR / XSIAM), and SPL (Splunk): filtering, projection, aggregation, joins, and sorting the same event log three different ways. No query runner here, just the syntax and the default behaviors that trip an analyst switching platforms mid-shift. For ready-to-run queries in these same languages, see <a href="https://h3ad-sec.github.io/TRACERULES/" target="_blank" rel="noopener">TRACERULES</a>.</p>
 
       <div class="hr-toolbar">
-        <input class="hr-search-input" id="hrSearch" type="text" placeholder="Search this reference... ( / )" oninput="hrFilter()" autocomplete="off" spellcheck="false" />
+        <input class="hr-search-input" id="hrSearch" type="text" placeholder="Search this guide... ( / )" oninput="hrFilter()" autocomplete="off" spellcheck="false" />
         <div class="hr-toc">
-          <button class="hr-toc-pill" onclick="hrJump('hr-sec-admiralty')">ADMIRALTY CODE</button>
-          <button class="hr-toc-pill" onclick="hrJump('hr-sec-practice')">APPLYING IT</button>
-          <button class="hr-toc-pill" onclick="hrJump('hr-sec-tlp')">TLP 2.0</button>
-          <button class="hr-toc-pill" onclick="hrJump('hr-sec-usage')">DAILY USE</button>
+          <button class="hr-toc-pill" onclick="hrJump('hr-sec-structure')">QUERY STRUCTURE</button>
+          <button class="hr-toc-pill" onclick="hrJump('hr-sec-fields')">FIELD SELECTION</button>
+          <button class="hr-toc-pill" onclick="hrJump('hr-sec-filtering')">FILTERING & OPERATORS</button>
+          <button class="hr-toc-pill" onclick="hrJump('hr-sec-aggregation')">AGGREGATION</button>
+          <button class="hr-toc-pill" onclick="hrJump('hr-sec-joins')">JOINS</button>
+          <button class="hr-toc-pill" onclick="hrJump('hr-sec-sorting')">SORTING & LIMITING</button>
+          <button class="hr-toc-pill" onclick="hrJump('hr-sec-gotchas')">GOTCHAS</button>
         </div>
         <div class="hr-count" id="hrCount"></div>
       </div>
 
       <div id="hr-guide">
 
-        <!-- ==================== ADMIRALTY CODE ==================== -->
-        <div class="section-header" id="hr-sec-admiralty">
-          <h2>The <span>Admiralty Code</span></h2>
-          <p class="section-desc">A two-character grade, one letter and one number, first used by British naval intelligence and now standard across NATO, law enforcement fusion centers, and CTI shops. The letter rates the source. The number rates the specific piece of information in front of you. They are scored separately, then combined, such as <code style="font-family:'Share Tech Mono',monospace;font-size:11.5px;background:rgba(6,182,212,0.08);color:#06b6d4;padding:2px 6px;border-radius:3px;">B2</code> or <code style="font-family:'Share Tech Mono',monospace;font-size:11.5px;background:rgba(6,182,212,0.08);color:#06b6d4;padding:2px 6px;border-radius:3px;">F6</code>.</p>
+        <!-- ==================== QUERY STRUCTURE ==================== -->
+        <div class="section-header" id="hr-sec-structure">
+          <h2>Query <span>Structure</span></h2>
+          <p class="section-desc">Every query starts by naming a data source, then narrows it. The three languages disagree hard on how explicit that first step has to be.</p>
         </div>
-        <div class="details-grid">
-          <div class="detail-card border-cyan"><span class="tag strings">SCALE</span>
-            <h3>Source Reliability (A–F)</h3>
-            <div class="hr-table-wrap">
-              <table class="hr-table">
-                <thead>
-                  <tr><th>Grade</th><th>Label</th><th>Description</th></tr>
-                </thead>
-                <tbody>
-                  <tr><td class="hr-port">A</td><td class="hr-proto">Completely reliable</td><td>No doubt of authenticity, trustworthiness, or competency; history of complete reliability.</td></tr>
-                  <tr><td class="hr-port">B</td><td class="hr-proto">Usually reliable</td><td>Minor doubt about authenticity, trustworthiness, or competency; history of valid information most of the time.</td></tr>
-                  <tr><td class="hr-port">C</td><td class="hr-proto">Fairly reliable</td><td>Doubt of authenticity, trustworthiness, or competency, but has provided valid information in the past.</td></tr>
-                  <tr><td class="hr-port">D</td><td class="hr-proto">Not usually reliable</td><td>Significant doubt about authenticity, trustworthiness, or competency, but has provided valid information in the past.</td></tr>
-                  <tr><td class="hr-port">E</td><td class="hr-proto">Unreliable</td><td>Lacking in authenticity, trustworthiness, and competency; history of invalid information.</td></tr>
-                  <tr><td class="hr-port">F</td><td class="hr-proto">Reliability cannot be judged</td><td>No basis exists for evaluating the reliability of the source.</td></tr>
-                </tbody>
-              </table>
-            </div>
+        <div class="data-flow-card">
+          <h4>Filter Process-Creation Events For powershell.exe</h4>
+
+          <div class="lang-block">
+            <div class="lang-label">KQL <span class="lang-sub">— Microsoft Sentinel / Defender</span></div>
+            <pre><span class="key">DeviceProcessEvents</span>
+<span class="key">| where</span> <span class="val">FileName == "powershell.exe"</span>
+<span class="comment">// table name first, then pipe — the query only ever narrows from that starting table</span></pre>
           </div>
-          <div class="detail-card border-purple"><span class="tag condition">SCALE</span>
-            <h3>Information Credibility (1–6)</h3>
-            <div class="hr-table-wrap">
-              <table class="hr-table">
-                <thead>
-                  <tr><th>Grade</th><th>Label</th><th>Description</th></tr>
-                </thead>
-                <tbody>
-                  <tr><td class="hr-port">1</td><td class="hr-proto">Confirmed</td><td>Confirmed by other independent sources; logical in itself; consistent with other information on the subject.</td></tr>
-                  <tr><td class="hr-port">2</td><td class="hr-proto">Probably true</td><td>Not confirmed; logical in itself; consistent with other information on the subject.</td></tr>
-                  <tr><td class="hr-port">3</td><td class="hr-proto">Possibly true</td><td>Not confirmed; reasonably logical in itself; agrees with some other information on the subject.</td></tr>
-                  <tr><td class="hr-port">4</td><td class="hr-proto">Doubtful</td><td>Not confirmed; possible but not logical in itself; no other information on the subject.</td></tr>
-                  <tr><td class="hr-port">5</td><td class="hr-proto">Improbable</td><td>Not confirmed; not logical in itself; contradicted by other information on the subject.</td></tr>
-                  <tr><td class="hr-port">6</td><td class="hr-proto">Cannot be judged</td><td>No basis exists for evaluating the validity of the information.</td></tr>
-                </tbody>
-              </table>
-            </div>
+
+          <div class="lang-block">
+            <div class="lang-label">XQL <span class="lang-sub">— Cortex XDR / XSIAM</span></div>
+            <pre><span class="key">dataset</span> = <span class="val">xdr_data</span>
+<span class="key">| filter</span> <span class="val">event_type = ENUM.PROCESS and action_process_image_name = "powershell.exe"</span>
+<span class="comment">// dataset is its own stage and always comes first — xdr_data is the default correlated dataset</span></pre>
           </div>
-        </div>
-        <div class="details-grid">
-          <div class="detail-card border-cyan"><span class="tag practice">WORKED EXAMPLE</span>
-            <h3>B2 — A Trusted Feed, Not Yet Corroborated</h3>
-            <div class="card-sub">The grade you'll write down most often in practice</div>
-            <div class="card-body">A commercial threat feed with a solid track record reports a new C2 domain tied to a known actor. The feed itself has been right often enough to earn <strong>B</strong>, usually reliable. This specific domain hasn't been confirmed by a second independent source yet, but it's logical and fits the actor's known infrastructure pattern, so the information gets <strong>2</strong>, probably true. Combined grade: <strong>B2</strong>. Actionable, worth blocking, still flagged as unconfirmed in the write-up.</div>
-          </div>
-          <div class="detail-card border-red"><span class="tag pitfall">WORKED EXAMPLE</span>
-            <h3>F6 — An Unvetted Anonymous Tip</h3>
-            <div class="card-sub">The grade that means "don't act on this alone"</div>
-            <div class="card-body">An anonymous submission lands in a tip line with no prior history to judge and no way to verify who sent it: the source gets <strong>F</strong>, reliability cannot be judged. The claim inside it also has nothing to check it against, no corroboration, no known pattern to compare it to: the information gets <strong>6</strong>, cannot be judged. <strong>F6</strong> doesn't mean discard it, it means it needs independent verification before it drives any decision.</div>
+
+          <div class="lang-block">
+            <div class="lang-label">SPL <span class="lang-sub">— Splunk</span></div>
+            <pre><span class="key">index</span>=<span class="val">main</span> <span class="key">sourcetype</span>=<span class="val">sysmon</span> <span class="val">EventCode=1 Image="*\powershell.exe"</span>
+<span class="comment">// no explicit "search" keyword needed — SPL assumes search as the implied first pipeline stage</span></pre>
           </div>
         </div>
 
         <div class="separator"></div>
 
-        <!-- ==================== APPLYING IT IN PRACTICE ==================== -->
-        <div class="section-header" id="hr-sec-practice">
-          <h2>Applying It <span class="green">In Practice</span></h2>
-          <p class="section-desc">The scale is simple. Using it correctly over time, across a team, is where most of the actual discipline lives. See SANS's <a href="https://www.sans.org/blog/enhance-your-cyber-threat-intelligence-with-the-admiralty-system" target="_blank" rel="noopener">Enhance Your Cyber Threat Intelligence With The Admiralty System</a> for the source this section draws from.</p>
+        <!-- ==================== FIELD SELECTION ==================== -->
+        <div class="section-header" id="hr-sec-fields">
+          <h2>Field <span class="orange">Selection</span></h2>
+          <p class="section-desc">Same job, different verb — and in Splunk, two verbs that look interchangeable but aren't.</p>
+        </div>
+        <div class="data-flow-card">
+          <h4>Keep Only The Fields That Matter</h4>
+
+          <div class="lang-block">
+            <div class="lang-label">KQL</div>
+            <pre>DeviceProcessEvents
+| where FileName == "powershell.exe"
+<span class="key">| project</span> <span class="val">TimeGenerated, DeviceName, FileName, ProcessCommandLine</span>
+<span class="comment">// project also reorders and can rename inline: project NewName = OldName</span></pre>
+          </div>
+
+          <div class="lang-block">
+            <div class="lang-label">XQL</div>
+            <pre>dataset = xdr_data
+| filter event_type = ENUM.PROCESS and action_process_image_name = "powershell.exe"
+<span class="key">| fields</span> <span class="val">agent_hostname, action_process_image_name, action_process_image_command_line</span>
+<span class="comment">// fields narrows the result set the same way project does — supports "as" for aliasing</span></pre>
+          </div>
+
+          <div class="lang-block">
+            <div class="lang-label">SPL</div>
+            <pre>index=main sourcetype=sysmon EventCode=1 Image="*\powershell.exe"
+<span class="key">| table</span> <span class="val">_time, host, Image, CommandLine</span>
+<span class="comment">// table formats output for display; fields keeps/drops columns without reformatting —
+// the two commands are not interchangeable, table is heavier and meant for the final stage</span></pre>
+          </div>
+        </div>
+
+        <div class="separator"></div>
+
+        <!-- ==================== FILTERING & COMPARISON OPERATORS ==================== -->
+        <div class="section-header" id="hr-sec-filtering">
+          <h2>Filtering <span class="purple">& Comparison</span></h2>
+          <p class="section-desc">The highest-value section on this page — operator names diverge the most here, and the case-sensitivity defaults diverge in the direction most analysts don't expect. See the gotchas section below for the specifics.</p>
+        </div>
+        <div class="data-flow-card">
+          <h4>Equals, Substring, Regex, IN, Time Range</h4>
+
+          <div class="lang-block">
+            <div class="lang-label">KQL</div>
+            <pre><span class="key">| where</span> FileName == "powershell.exe"              <span class="comment">// case-sensitive equals</span>
+<span class="key">| where</span> FileName =~ "PowerShell.exe"              <span class="comment">// case-insensitive equals</span>
+<span class="key">| where</span> ProcessCommandLine contains "-enc"       <span class="comment">// case-insensitive substring</span>
+<span class="key">| where</span> ProcessCommandLine matches regex @"-[Ee]nc\w*"
+<span class="key">| where</span> FileName in ("powershell.exe","pwsh.exe") <span class="comment">// case-sensitive IN</span>
+<span class="key">| where</span> TimeGenerated &gt; ago(24h)                 <span class="comment">// relative time range, must be explicit</span></pre>
+          </div>
+
+          <div class="lang-block">
+            <div class="lang-label">XQL</div>
+            <pre><span class="key">filter</span> action_process_image_name = "powershell.exe"
+<span class="key">filter</span> action_process_image_command_line contains "-enc"
+<span class="key">filter</span> action_process_image_command_line ~= "-[Ee]nc\w*"   <span class="comment">// ~= is the regex-match operator</span>
+<span class="key">filter</span> action_process_image_name in ("powershell.exe","pwsh.exe")</pre>
+          </div>
+
+          <div class="lang-block">
+            <div class="lang-label">SPL</div>
+            <pre>Image="powershell.exe"                       <span class="comment">// equals; wildcards work directly: Image="*\powershell.exe"</span>
+<span class="key">| where</span> match(CommandLine, "-[Ee]nc\\w*")   <span class="comment">// regex via the match() eval function</span>
+<span class="key">| regex</span> CommandLine="-[Ee]nc\\w*"          <span class="comment">// regex via the dedicated regex command</span>
+<span class="key">| where</span> Image IN ("powershell.exe", "pwsh.exe")
+earliest=-24h latest=now                     <span class="comment">// time range as search-time modifiers, not a piped filter</span></pre>
+          </div>
+
+          <p style="margin-top:14px; font-size:13px; color:var(--text-dim); line-height:1.65;">Time-range handling is the one place all three diverge structurally, not just syntactically: KQL needs an explicit <code>ago()</code> comparison inside <code>where</code> or the query is unbounded; SPL's <code>earliest</code>/<code>latest</code> prune the index before the pipeline runs at all; XQL is typically time-boxed through the query's <code>timeframe</code> parameter or the UI time picker rather than an inline filter clause — confirm the exact inline syntax against your own Cortex XQL reference before relying on it.</p>
+        </div>
+
+        <div class="separator"></div>
+
+        <!-- ==================== AGGREGATION & GROUPING ==================== -->
+        <div class="section-header" id="hr-sec-aggregation">
+          <h2>Aggregation <span class="green">& Grouping</span></h2>
+          <p class="section-desc">Count events per value of a field — the one operation every SIEM makes fast, worded three different ways.</p>
+        </div>
+        <div class="data-flow-card">
+          <h4>Count Matching Events, Grouped By Host</h4>
+
+          <div class="lang-block">
+            <div class="lang-label">KQL</div>
+            <pre>DeviceProcessEvents
+| where FileName == "powershell.exe"
+<span class="key">| summarize</span> <span class="val">Count = count() by DeviceName</span></pre>
+          </div>
+
+          <div class="lang-block">
+            <div class="lang-label">XQL</div>
+            <pre>dataset = xdr_data
+| filter event_type = ENUM.PROCESS and action_process_image_name = "powershell.exe"
+<span class="key">| comp</span> <span class="val">count() as event_count by agent_hostname</span></pre>
+          </div>
+
+          <div class="lang-block">
+            <div class="lang-label">SPL</div>
+            <pre>index=main sourcetype=sysmon EventCode=1 Image="*\powershell.exe"
+<span class="key">| stats</span> <span class="val">count by host</span></pre>
+          </div>
+        </div>
+
+        <div class="separator"></div>
+
+        <!-- ==================== JOINS ==================== -->
+        <div class="section-header" id="hr-sec-joins">
+          <h2>Joins</h2>
+          <p class="section-desc">One example each — enough to recognize the shape when it shows up in a real query, not a full join reference.</p>
+        </div>
+        <div class="data-flow-card">
+          <h4>Correlate The Process Event With A Network Event</h4>
+
+          <div class="lang-block">
+            <div class="lang-label">KQL</div>
+            <pre>DeviceProcessEvents
+| where FileName == "powershell.exe"
+<span class="key">| join kind=inner</span> <span class="val">(DeviceNetworkEvents) on DeviceId</span>
+<span class="comment">// kind must be stated explicitly — see the gotchas section for why that matters</span></pre>
+          </div>
+
+          <div class="lang-block">
+            <div class="lang-label">XQL</div>
+            <pre>dataset = xdr_data | filter event_type = ENUM.PROCESS and action_process_image_name = "powershell.exe"
+<span class="key">| join type = inner</span> <span class="val">((dataset = xdr_data | filter event_type = ENUM.NETWORK) as net_evt agent_id = net_evt.agent_id)</span>
+<span class="comment">// the right side is itself a full XQL query, aliased with "as" and matched on a boolean expression</span></pre>
+          </div>
+
+          <div class="lang-block">
+            <div class="lang-label">SPL</div>
+            <pre>index=main sourcetype=sysmon EventCode=1 Image="*\powershell.exe"
+<span class="key">| join type=inner</span> <span class="val">host [search index=main sourcetype=sysmon EventCode=3]</span>
+<span class="comment">// the bracketed clause is a subsearch — join runs it independently, then stitches results
+// together on the shared field named before the bracket</span></pre>
+          </div>
+        </div>
+
+        <div class="separator"></div>
+
+        <!-- ==================== SORTING & LIMITING ==================== -->
+        <div class="section-header" id="hr-sec-sorting">
+          <h2>Sorting <span class="teal">& Limiting</span></h2>
+          <p class="section-desc">Newest first, top N only — the pattern that closes almost every hunting query.</p>
+        </div>
+        <div class="data-flow-card">
+          <h4>Newest 10 Matching Events</h4>
+
+          <div class="lang-block">
+            <div class="lang-label">KQL</div>
+            <pre>DeviceProcessEvents
+| where FileName == "powershell.exe"
+<span class="key">| sort by</span> <span class="val">TimeGenerated desc</span>
+<span class="key">| take</span> <span class="val">10</span>
+<span class="comment">// top 10 by TimeGenerated desc does the sort and the limit in a single operator</span></pre>
+          </div>
+
+          <div class="lang-block">
+            <div class="lang-label">XQL</div>
+            <pre>dataset = xdr_data | filter event_type = ENUM.PROCESS and action_process_image_name = "powershell.exe"
+<span class="key">| sort</span> <span class="val">desc _time</span>
+<span class="key">| limit</span> <span class="val">10</span>
+<span class="comment">// limit caps the result set — if omitted, XQL defaults to a very high ceiling, not "all"</span></pre>
+          </div>
+
+          <div class="lang-block">
+            <div class="lang-label">SPL</div>
+            <pre>index=main sourcetype=sysmon EventCode=1 Image="*\powershell.exe"
+<span class="key">| sort</span> <span class="val">-_time</span>
+<span class="key">| head</span> <span class="val">10</span>
+<span class="comment">// the leading "-" means descending; sort with no sign defaults to ascending</span></pre>
+          </div>
+        </div>
+
+        <div class="separator"></div>
+
+        <!-- ==================== CROSS-LANGUAGE GOTCHAS ==================== -->
+        <div class="section-header" id="hr-sec-gotchas">
+          <h2>Cross-Language <span class="red">Gotchas</span></h2>
+          <p class="section-desc">Defaults that read fine, pass a quick test, and then behave differently than the analyst expected the first time it actually matters.</p>
         </div>
         <div class="details-grid">
-          <div class="detail-card border-green"><span class="tag practice">PRACTICE</span>
-            <h3>Grade The Source And The Claim Independently</h3>
-            <div class="card-sub">Don't let one number infect the other</div>
-            <div class="card-body">A source's letter grade and a claim's number grade are scored separately on purpose. A generally reliable source can still hand you an unconfirmed claim, and an unreliable source can occasionally be right. Grading them together produces a false sense of confidence, or a false dismissal, in either direction.</div>
-          </div>
-          <div class="detail-card border-teal"><span class="tag practice">PRACTICE</span>
-            <h3>Ratings Are Not Static</h3>
-            <div class="card-sub">A source's track record changes, sometimes fast</div>
-            <div class="card-body">A newly identified threat actor's reporting can move from an <strong>F6</strong> to a <strong>B2</strong> in a matter of days as corroboration accumulates. A source rated <strong>A</strong> on one subject is not automatically <strong>A</strong> on an unrelated one; reliability is per-topic, not a permanent label on the source itself.</div>
-          </div>
-          <div class="detail-card border-purple"><span class="tag practice">PRACTICE</span>
-            <h3>Don't Customize The Scale</h3>
-            <div class="card-sub">Consistency is what makes it shareable</div>
-            <div class="card-body">The Admiralty System is meant to mean the same thing everywhere it's used. Adjusting the criteria per team or per organization breaks compatibility the moment that intelligence gets shared externally. Define how a grade should change your team's response internally, without changing what the grade itself means.</div>
+          <div class="detail-card border-red"><span class="tag pitfall">PITFALL</span>
+            <h3>KQL's Case-Sensitivity Runs Backwards</h3>
+            <div class="card-sub">The operator that looks strict (==) is the case-sensitive one — most string operators aren't</div>
+            <div class="card-body"><code>==</code> and <code>in</code> are case-sensitive by default in KQL. <code>contains</code>, <code>has</code>, <code>startswith</code>, <code>endswith</code> and their relatives are case-<strong>in</strong>sensitive by default, and only become case-sensitive with the <code>_cs</code> suffix (<code>contains_cs</code>, <code>has_cs</code>...). An analyst assuming the reverse gets a query that silently under-matches instead of erroring.</div>
           </div>
           <div class="detail-card border-orange"><span class="tag pitfall">PITFALL</span>
-            <h3>An A1 Is Still Not A Guarantee</h3>
-            <div class="card-sub">The highest grade reduces risk, it doesn't eliminate it</div>
-            <div class="card-body">Even a source and claim graded <strong>A1</strong> can be wrong. Treat a top grade as license to act with confidence, not as a reason to skip verification entirely when the stakes are high enough to justify a second check.</div>
+            <h3>KQL Join Defaults To innerunique, Not inner</h3>
+            <div class="card-sub">Omitting kind= doesn't fall back to a standard SQL-style inner join</div>
+            <div class="card-body">If <code>kind</code> is left off entirely, KQL's <code>join</code> operator defaults to <code>innerunique</code>, which deduplicates the left table down to one row per join key before matching — not the inner join most analysts expect coming from SQL. Rows that should have matched can silently disappear. Write <code>kind=inner</code> explicitly whenever that's the behavior actually wanted.</div>
           </div>
-        </div>
-
-        <div class="separator"></div>
-
-        <!-- ==================== TLP 2.0 ==================== -->
-        <div class="section-header" id="hr-sec-tlp">
-          <h2>Traffic Light <span class="orange">Protocol (TLP 2.0)</span></h2>
-          <p class="section-desc">TLP marks how far a piece of shared information is allowed to travel, not how sensitive it is on its own. Five levels as of TLP 2.0 (FIRST.org, current standard): TLP:RED, TLP:AMBER+STRICT, TLP:AMBER, TLP:GREEN, TLP:CLEAR. TLP:CLEAR replaced the older TLP:WHITE, and AMBER+STRICT was added to give AMBER a tighter option.</p>
-        </div>
-        <div class="hr-table-wrap">
-          <table class="hr-table">
-            <thead>
-              <tr><th>Level</th><th>Badge</th><th>Who Can See It</th><th>Typical Use Case</th></tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td class="hr-proto">TLP:RED</td>
-                <td><span class="tag pitfall">RED</span></td>
-                <td>Named recipients only, in the exchange it was shared in. No further disclosure.</td>
-                <td>Active-compromise specifics shared live with an incident bridge, before containment is confirmed.</td>
-              </tr>
-              <tr>
-                <td class="hr-proto">TLP:AMBER+STRICT</td>
-                <td><span class="tag condition">AMBER+STRICT</span></td>
-                <td>The recipient's own organization only. No client or partner sharing.</td>
-                <td>Vendor-shared indicators under a contract that forbids re-sharing beyond your org.</td>
-              </tr>
-              <tr>
-                <td class="hr-proto">TLP:AMBER</td>
-                <td><span class="tag condition">AMBER</span></td>
-                <td>The recipient's organization and its clients, need-to-know basis only.</td>
-                <td>An MSSP advisory that needs to reach the client's own security team to be actioned.</td>
-              </tr>
-              <tr>
-                <td class="hr-proto">TLP:GREEN</td>
-                <td><span class="tag practice">GREEN</span></td>
-                <td>Peers and partner organizations within the community, never public channels.</td>
-                <td>ISAC bulletin or sector threat-sharing group post.</td>
-              </tr>
-              <tr>
-                <td class="hr-proto">TLP:CLEAR</td>
-                <td><span class="tag strings">CLEAR</span></td>
-                <td>No restriction, subject to standard copyright.</td>
-                <td>A published blog post, public CVE writeup, or conference talk.</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-        <div class="details-grid">
-          <div class="detail-card border-red"><span class="tag pitfall">HANDLING</span>
-            <h3>TLP:RED Stays In The Room</h3>
-            <div class="card-sub">No forwarding, no paraphrasing into a broader channel</div>
-            <div class="card-body">TLP:RED means the named recipients and no one else, not even a summarized version dropped into a wider ticket or channel. If information can't be effectively acted on without real risk to privacy, reputation, or operations if it leaks, it's RED, full stop.</div>
+          <div class="detail-card border-purple"><span class="tag pitfall">PITFALL</span>
+            <h3>SPL's Case Sensitivity Splits By Command</h3>
+            <div class="card-sub">The same value can match case-insensitively in one stage and case-sensitively two lines later</div>
+            <div class="card-body"><code>search</code> matches field values case-insensitively, but <code>stats</code> and <code>sort</code> treat those same values as case-sensitive — two events differing only in case can land in separate <code>stats</code> groups even though the <code>search</code> stage that found them treated them as identical. Field <strong>names</strong> themselves are always case-sensitive, in every command, with no exceptions.</div>
           </div>
-          <div class="detail-card border-orange"><span class="tag condition">HANDLING</span>
-            <h3>AMBER vs. AMBER+STRICT</h3>
-            <div class="card-sub">The distinction that trips people up most</div>
-            <div class="card-body">Plain TLP:AMBER allows sharing with your own organization <strong>and</strong> its clients, on a need-to-know basis. TLP:AMBER+STRICT removes the client clause entirely: it's restricted to the recipient's own organization only. When a vendor or partner marks something AMBER+STRICT, forwarding it to a client, even one who needs to know, is a violation of the marking.</div>
-          </div>
-          <div class="detail-card border-cyan"><span class="tag strings">HANDLING</span>
-            <h3>TLP:CLEAR Has No Gate</h3>
-            <div class="card-sub">The only level meant for public release</div>
-            <div class="card-body">TLP:CLEAR is for information that carries minimal or no foreseeable risk of misuse and is meant for public release. It can be shared without restriction, subject to ordinary copyright, which is exactly why it's the wrong marking for anything still under active investigation.</div>
-          </div>
-        </div>
-
-        <div class="separator"></div>
-
-        <!-- ==================== DAILY USE ==================== -->
-        <div class="section-header" id="hr-sec-usage">
-          <h2>Where This Shows Up <span class="green">In Daily SOC/CTI Work</span></h2>
-          <p class="section-desc">Neither system is academic. Both get written down, every day, on the reports and feeds that leave your desk.</p>
-        </div>
-        <div class="details-grid">
-          <div class="detail-card border-green"><span class="tag practice">CTI</span>
-            <h3>Rating An Intel Report Before Dissemination</h3>
-            <div class="card-sub">The Admiralty grade an analyst attaches before it goes out</div>
-            <div class="card-body">A finished intel product gets an Admiralty grade on every claim inside it, source letter plus information number, so the reader downstream knows exactly how much weight to put on each line without having to ask the analyst who wrote it.</div>
-          </div>
-          <div class="detail-card border-purple"><span class="tag practice">FEED HYGIENE</span>
-            <h3>Labeling A Shared IOC Feed</h3>
-            <div class="card-sub">TLP travels with the indicators, not just the report</div>
-            <div class="card-body">An IOC feed shared with a partner or an ISAC carries a TLP marking on the feed itself, and every consumer downstream is bound by it. Re-exporting AMBER indicators into a public feed is a policy breach even if the indicators themselves look harmless.</div>
-          </div>
-          <div class="detail-card border-teal"><span class="tag practice">IR</span>
-            <h3>Handling Instructions On An Incident Report</h3>
-            <div class="card-sub">Where TLP and Admiralty sit side by side</div>
-            <div class="card-body">A post-incident report commonly carries both: a TLP marking at the top setting who's allowed to read it, and Admiralty grades on the individual findings inside setting how much confidence to put in each one.</div>
+          <div class="detail-card border-cyan"><span class="tag pitfall">PITFALL</span>
+            <h3>Implicit Search vs Explicit Source</h3>
+            <div class="card-sub">SPL assumes a starting point; KQL and XQL both require naming one</div>
+            <div class="card-body">SPL treats the start of a pipeline as an implied <code>search</code> command, so <code>index=main sourcetype=x field=y</code> works with no keyword at all, and <code>earliest</code>/<code>latest</code> prune the index before the pipeline runs. KQL and XQL both require an explicit source first — a table name, or <code>dataset =</code> — and time-boxing is a query-body concern from there: KQL needs an explicit <code>where ... &gt; ago()</code> clause or the result set is unbounded by design. XQL time-boxing is normally set through the query's timeframe parameter or the UI time picker rather than an inline filter operator — this is the one corner of this page not fully confirmed from public docs, so verify it against your own tenant before relying on it.</div>
           </div>
         </div>
 
@@ -620,8 +676,8 @@
   </main>
 
   <footer>
-    <span class="footer-left">H3AD-SEC © 2026 &nbsp;|&nbsp; H3AD-REF / REFERENCES</span>
-    <span class="footer-right">ADMIRALTY CODE & TLP QUICK REFERENCE</span>
+    <span class="footer-left">H3AD-SEC © 2026 &nbsp;|&nbsp; H3AD-REF / CHEATSHEETS</span>
+    <span class="footer-right">KQL / XQL / SPL SYNTAX GUIDE</span>
     <div class="footer-credit-row">
       <a class="footer-credit-pill" href="https://www.linkedin.com/in/hrushikesh-badgujar/" target="_blank" rel="noopener" title="Connect on LinkedIn">
         <span class="credit-tool"><span class="xv-pill-accent">H3AD</span><span class="xv-pill-text">-REF</span></span>
@@ -650,19 +706,8 @@
         card.classList.toggle('hr-hidden', !match);
         if (match) shown++;
       });
-      var rows = Array.prototype.slice.call(document.querySelectorAll('#hr-guide table.hr-table tbody tr'));
-      var rowsShown = 0;
-      rows.forEach(function (row) {
-        var hay = row.textContent.toLowerCase();
-        var match = !term || hay.indexOf(term) !== -1;
-        row.classList.toggle('hr-hidden', !match);
-        row.style.display = match ? '' : 'none';
-        if (match) rowsShown++;
-      });
       var count = document.getElementById('hrCount');
-      var total = hrCards.length + rows.length;
-      var totalShown = shown + rowsShown;
-      count.innerHTML = term ? ('<span>' + totalShown + '</span> of ' + total + ' entries') : '';
+      count.innerHTML = term ? ('<span>' + shown + '</span> of ' + hrCards.length + ' cards') : '';
       document.querySelectorAll('#hr-guide .details-grid').forEach(function (grid) {
         var visible = Array.prototype.slice.call(grid.querySelectorAll('.detail-card')).some(function (c) { return !c.classList.contains('hr-hidden'); });
         grid.style.display = (term && !visible) ? 'none' : '';
